@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+</head>
+<body>
+
+<table>
+    <thead>
+        <th>id</th>
+        <th>用户名称</th>
+        <th>年龄</th>
+        <th>性别</th>
+    </thead>
+    <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.sex}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
