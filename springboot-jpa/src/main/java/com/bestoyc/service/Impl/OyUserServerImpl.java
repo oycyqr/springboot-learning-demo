@@ -28,7 +28,22 @@ public class OyUserServerImpl implements OyUserService {
     }
 
     @Override
-    public OyUser getUserById(String userId) {
+    public OyUser getUserById(Integer userId) {
         return oyUserRepository.getOne(userId);
+    }
+
+    @Override
+    public OyUser addUser(OyUser user) {
+        return oyUserRepository.save(user);
+    }
+
+    @Override
+    public OyUser updateUser(OyUser user) {
+        return oyUserRepository.save(user);
+    }
+
+    @Override
+    public void delUser(Integer userId) {
+        oyUserRepository.deleteById(userId);
     }
 }

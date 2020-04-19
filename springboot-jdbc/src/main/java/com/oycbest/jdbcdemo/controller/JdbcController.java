@@ -25,19 +25,26 @@ public class JdbcController {
     @Resource
     private JdbcTemplate jdbcTemplate;
 
+
+    /**
+     * 获取用户列表，返回json
+     *
+     * @return
+     */
     @RequestMapping("/user")
     @ResponseBody
-    public List<User> list(ModelMap map) {
+    public List<User> list() {
         String sql = "SELECT * FROM user";
         List<User> userList = jdbcTemplate.query(sql, new RowMapper<User>() {
             User user = null;
+
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
                 user = new User();
-                user.setId(rs.getString("id"));
+                user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
                 user.setSex(rs.getString("sex"));
-                user.setAge(rs.getString("age"));
+                user.setAge(rs.getInt("age"));
                 return user;
             }
         });
@@ -48,18 +55,25 @@ public class JdbcController {
 
     }
 
+    /**
+     * 获取用户列表，返回具体页面
+     *
+     * @param map
+     * @return
+     */
     @RequestMapping("/userList")
     public String userList(ModelMap map) {
         String sql = "SELECT * FROM user";
         List<User> userList = jdbcTemplate.query(sql, new RowMapper<User>() {
             User user = null;
+
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
                 user = new User();
-                user.setId(rs.getString("id"));
+                user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
                 user.setSex(rs.getString("sex"));
-                user.setAge(rs.getString("age"));
+                user.setAge(rs.getInt("age"));
                 return user;
             }
         });

@@ -1,8 +1,8 @@
 package com.bestoyc.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -12,13 +12,16 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "user")
-public class OyUser{
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+public class OyUser implements Serializable {
+    private static final long serialVersionUID = 339460670228746794L;
+
     /**
      * 用户id
      */
     @Id
-    private String id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     /**
      * 用户名称
      */
@@ -34,11 +37,11 @@ public class OyUser{
      */
     private String sex;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

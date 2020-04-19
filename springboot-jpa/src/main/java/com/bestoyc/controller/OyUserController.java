@@ -4,10 +4,7 @@ import com.bestoyc.entity.OyUser;
 import com.bestoyc.service.OyUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -35,7 +32,7 @@ public class OyUserController {
      */
     @GetMapping("{id}")
     @ResponseBody
-    public OyUser selectOne(@PathVariable("id") String id) {
+    public OyUser selectOne(@PathVariable("id") Integer id) {
         return oyUserService.getUserById(id);
     }
 
@@ -43,10 +40,37 @@ public class OyUserController {
      * 查询用户列表
      * @return 用户列表
      */
-    @RequestMapping("list")
+    @GetMapping("list")
     public String list(ModelMap model){
         List<OyUser> users = oyUserService.getUserList();
         model.addAttribute("users",users);
         return "user";
+    }
+
+    /**
+     * 新增用户
+     */
+    @PostMapping
+    @ResponseBody
+    public OyUser addUser(OyUser user){
+        return oyUserService.addUser(user);
+    }
+
+    /**
+     * 修改用户
+     */
+    @PutMapping
+    @ResponseBody
+    public OyUser updateUser(OyUser user){
+        return oyUserService.updateUser(user);
+    }
+
+    /**
+     * 删除用户
+     */
+    @DeleteMapping("{userId}")
+    @ResponseBody
+    public void delUser(@PathVariable("userId") Integer userId){
+        oyUserService.delUser(userId);
     }
 }
