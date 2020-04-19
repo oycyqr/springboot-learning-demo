@@ -1,6 +1,7 @@
 package com.oycbest.springbootfilter.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -8,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author oyc
  * @Date 2020/4/19 9:57 下午
  */
-@RestController("filter")
+@RestController
+@RequestMapping("filter")
 public class FilterController {
 
     @GetMapping
