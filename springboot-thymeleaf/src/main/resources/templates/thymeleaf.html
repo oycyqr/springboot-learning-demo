@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>thymeleaf 测试程序</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header">...</div>
+<h2>1.text</h2>
+
+<h1 th:text="${title}"></h1>
+
+<h2>2.循环</h2>
+<ul th:each="list : ${lists}">
+    <li th:text="${list}"></li>
+</ul>
+
+<h2>3.实体</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.name}">a</td>
+    </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${user}">
+        <td th:text="*{id}">1</td>
+        <td th:text="*{name}">a</td>
+    </tr>
+    </tbody>
+</table>
+
+
+<h2>4.将后台传入的数据拼接到url中</h2>
+<a href="info.html" th:href="@{/user/info(id=${user.id})}">参数拼接</a>
+<a href="info.html" th:href="@{/user/info(id=${user.id},name=${user.name})}">多参数拼接</a>
+<a href="info.html" th:href="@{/user/info/{uid}(uid=${user.id})}">restful风格</a>
+<a href="info.html" th:href="@{/user/info/{uid}/abc(uid=${user.id})}">restful风格</a>
+
+<div th:replace="~{fragments/footer :: footer}">...</div>
+</body>
+</html>
