@@ -2,6 +2,7 @@ package com.oycbest.springbootredis.controller;
 
 import com.oycbest.springbootredis.entity.OyUser;
 import com.oycbest.springbootredis.service.OyUserService;
+import com.oycbest.springbootredis.util.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,6 +28,8 @@ public class OyUserController {
 
     @Resource
     private RedisTemplate redisTemplate;
+    @Resource
+    private RedisUtil redisUtil;
 
 
     /**
@@ -34,8 +37,31 @@ public class OyUserController {
      */
     @GetMapping("/test/redis")
     public String testRedis() {
-        redisTemplate.opsForValue().set("userName","ouyang");
+        redisTemplate.opsForValue().set("userName", "ouyang");
         return (String) redisTemplate.opsForValue().get("userName");
+    }
+
+    /**
+     * 测试redis1
+     */
+    @GetMapping("/test/redis1")
+    public String testRedis1() {
+        redisUtil.set("user", "ouyangcheng");
+
+        String userStr = (String) redisUtil.get("user");
+        System.out.println("get UserStr From Redis:" + userStr);
+        OyUser user = new OyUser(1, "oyc", "18", "male");
+        redisUtil.hset("oyc","user", user);
+        redisUtil.lSet("oyc1", user);
+
+        System.out.println(user.toString());
+
+        List<Object> userList = redisUtil.lGet("oyc1",0,-1);
+        Object obj = redisUtil.hget("oyc","user");
+        OyUser user1 = (OyUser) obj;
+        System.out.println(user1.toString());
+
+        return (String) redisTemplate.opsForValue().get("user");
     }
 
 
@@ -52,10 +78,11 @@ public class OyUserController {
 
     /**
      * 查询用户列表
+     *
      * @return 用户列表
      */
     @GetMapping("list")
-    public List<OyUser> list(ModelMap model){
+    public List<OyUser> list(ModelMap model) {
         return oyUserService.getUserList();
     }
 
@@ -63,7 +90,7 @@ public class OyUserController {
      * 新增用户
      */
     @PostMapping
-    public OyUser addUser(OyUser user){
+    public OyUser addUser(OyUser user) {
         return oyUserService.addUser(user);
     }
 
@@ -71,7 +98,7 @@ public class OyUserController {
      * 修改用户
      */
     @PutMapping
-    public OyUser updateUser(OyUser user){
+    public OyUser updateUser(OyUser user) {
         return oyUserService.updateUser(user);
     }
 
@@ -79,7 +106,7 @@ public class OyUserController {
      * 删除用户
      */
     @DeleteMapping("{userId}")
-    public void delUser(@PathVariable("userId") Integer userId){
+    public void delUser(@PathVariable("userId") Integer userId) {
         oyUserService.delUser(userId);
     }
 }

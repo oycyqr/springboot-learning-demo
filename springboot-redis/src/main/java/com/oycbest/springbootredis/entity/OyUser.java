@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
 public class OyUser implements Serializable {
     private static final long serialVersionUID = 339460670228746794L;
 
@@ -69,4 +69,20 @@ public class OyUser implements Serializable {
         this.sex = sex;
     }
 
+    public OyUser(Integer id, String name, String age, String sex) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "OyUser{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                ", sex='" + sex + '\'' +
+                '}';
+    }
 }
