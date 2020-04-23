@@ -19,6 +19,13 @@ public interface OyUserService {
     List<OyUser> getUserList();
 
     /**
+     * 查询用户详情
+     *
+     * @return 用户详情
+     */
+    //OyUser getUserDetail(OyUser user);
+
+    /**
      * 根据用户id获取用户详情信息
      *
      * @param userId 用户id
