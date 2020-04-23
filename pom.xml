@@ -18,6 +18,16 @@
         <java.version>1.8</java.version>
     </properties>
 
+    <modules>
+        <module>springboot-thymeleaf</module>
+        <module>springboot-actuator</module>
+        <module>springboot-filter</module>
+        <module>springboot-jpa</module>
+        <module>springboot-jdbc</module>
+        <module>springboot-log4j</module>
+        <module>springboot-redis</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
