@@ -11,6 +11,7 @@
     <groupId>com.bestoyc</groupId>
     <artifactId>springboot-jpa</artifactId>
     <version>1.0.1</version>
+    <packaging>war</packaging>
     <name>springboot-jpa</name>
     <description>Demo project for Spring Boot JPA</description>
 
@@ -24,6 +25,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!--排除内置tomcat依赖-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -59,6 +67,13 @@
             <optional>true</optional>
         </dependency>
 
+        <!--servlet-api依赖-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -73,5 +88,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

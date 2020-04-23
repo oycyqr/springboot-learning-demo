@@ -75,4 +75,11 @@ public class OyUser implements Serializable {
 		this.sex = sex;
 	}
 
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 }

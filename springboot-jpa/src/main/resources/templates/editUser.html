@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加用户</title>
+</head>
+<body>
+<h2>添加用户</h2>
+<form th:action="@{/user}" method="post">
+    <input name="id" type="text" th:value="${user.id}" hidden>
+    名称：<input name="name" type="text" th:value="${user.name}"><br>
+    年龄：<input name="age" type="Interger" th:value="${user.age}"><br>
+    性别：<input name="sex" type="text" th:value="${user.sex}"><br>
+    <button type="submit">提交</button>
+    <button type="reset">重置</button>
+</form>
+</body>
+</html>
