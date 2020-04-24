@@ -5,18 +5,36 @@
     <title>用户列表</title>
 </head>
 <body>
+<div>
+    <h2>按条件查询</h2>
+    <form th:action="@{/user/listByKeyWord}" method="get">
+        名称：<input name="name" type="text">
+        年龄：<input name="age" type="Interger">
+        性别：<input name="sex" type="text">
+        <button type="submit">提交</button>
+        <button type="reset">重置</button><br>
+    </form>
+</div>
+
+<div>
+    <a th:href="@{/user/manage/addUser}">新增用户</a>
+</div>
 <table>
     <tr>
         <th>id</td>
         <th>姓名</td>
         <th>年龄</td>
         <th>性别</td>
+        <th>操作</td>
     </tr>
 <tr th:each="user : ${users}">
     <td th:text="${user.id}"></td>
     <td th:text="${user.name}"></td>
     <td th:text="${user.age}"></td>
     <td th:text="${user.sex}"></td>
+    <td>
+        <a th:href="@{/user/manage/editUser(id=${user.id})}">修改用户</a>
+    </td>
 </tr>
 </table>
 </body>

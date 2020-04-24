@@ -1,4 +1,4 @@
-package com.bestoyc.service.Impl;
+package com.bestoyc.service.Impl ;
 
 import com.bestoyc.dao.OyUserRepository;
 import com.bestoyc.entity.OyUser;
@@ -23,8 +23,7 @@ public class OyUserServerImpl implements OyUserService {
 
     @Override
     public List<OyUser> getUserList() {
-        List<OyUser> list = oyUserRepository.findAll();
-        return list;
+		return oyUserRepository.findAll();
     }
 
     @Override
