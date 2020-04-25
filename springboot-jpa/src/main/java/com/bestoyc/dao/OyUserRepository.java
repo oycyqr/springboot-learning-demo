@@ -3,6 +3,7 @@ package com.bestoyc.dao;
 
 import com.bestoyc.entity.OyUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
@@ -11,7 +12,8 @@ import java.util.List;
  * 继承JpaRepository接口 <实体类, 主键类型> JPA根据实体类的类名去对应表名（可以使用@Entity的name属性？@Table进行修改）
  *
  */
-public interface OyUserRepository extends JpaRepository<OyUser,Integer> {
+public interface OyUserRepository extends JpaRepository<OyUser,Integer> , JpaSpecificationExecutor {
+
     /**
      * 根据姓名查找
      * @param name
