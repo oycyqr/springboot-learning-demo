@@ -1,13 +1,12 @@
 package com.bestoyc.controller;
 
-import com.bestoyc.dao.OyUserCrudRepository;
 import com.bestoyc.dao.OyUserRepository;
 import com.bestoyc.entity.OyUser;
 import com.bestoyc.service.OyUserService;
+import com.bestoyc.util.PinyinUtil;
 import com.mysql.cj.util.StringUtils;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -27,66 +26,77 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class OyUserController {
-	/**
-	 * 依赖注入，注入用户服务类
-	 */
-	@Resource
-	private OyUserService oyUserService;
+    /**
+     * 依赖注入，注入用户服务类
+     */
+    @Resource
+    private OyUserService oyUserService;
 
-	@Resource
-	private OyUserCrudRepository crudRepository;
+    /**
+     * 依赖注入，注入用户JPA接口类
+     */
+    @Resource
+    private OyUserRepository oyUserRepository;
 
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    @GetMapping("{id}")
+    @ResponseBody
+    public OyUser selectOne(@PathVariable("id") Integer id) {
+        return oyUserService.getUserById(id);
+    }
 
-	/**
-	 * 依赖注入，注入用户JPA接口类
-	 */
-	@Resource
-	private OyUserRepository oyUserRepository;
+    /**
+     * 查询用户列表
+     *
+     * @return 用户列表
+     */
+    @GetMapping
+    public String index() {
+        return "redirect:/user/list";
+    }
 
-	/**
-	 * 通过主键查询单条数据
-	 *
-	 * @param id 主键
-	 * @return 单条数据
-	 */
-	@GetMapping("{id}")
-	@ResponseBody
-	public OyUser selectOne(@PathVariable("id") Integer id) {
-		return oyUserService.getUserById(id);
-	}
+    /**
+     * 查询用户列表
+     *
+     * @return 用户列表
+     */
+    @GetMapping("list")
+    public String list(ModelMap model) {
+        List<OyUser> users = oyUserService.getUserList();
+        model.addAttribute("users", users);
+        return "user";
+    }
 
-	/**
-	 * 查询用户列表
-	 *
-	 * @return 用户列表
-	 */
-	@GetMapping
-	public String index() {
-		return "redirect:/user/list";
-	}
-	/**
-	 * 查询用户列表
-	 *
-	 * @return 用户列表
-	 */
-	@GetMapping("list")
-	public String list(ModelMap model) {
-		List<OyUser> users = oyUserService.getUserList();
-		model.addAttribute("users", users);
-		return "user";
-	}
-
-	/**
-	 * 查询用户列表
-	 *
-	 * @return 用户列表
-	 */
-	@GetMapping("listByKeyWord")
-	public String list(ModelMap model,OyUser user) {
-		//根据姓名模糊查找
-		model.addAttribute("users", crudRepository.findByNameLike("%"+user.getName()+"%"));
-		return "user";
-	}
+    /**
+     * 查询用户列表
+     *
+     * @return 用户列表
+     */
+    @GetMapping("listByKeyWord")
+    public String list(ModelMap model, OyUser user) {
+        //创建匹配器，即如何使用查询条件
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                //模糊查询匹配开头，即{username}% .withMatcher("nickName", ExampleMatcher.GenericPropertyMatchers.startsWith())
+                .withMatcher("nickName", ExampleMatcher.GenericPropertyMatchers.contains())
+                //全部模糊查询，即%{address}%
+                .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("account", ExampleMatcher.GenericPropertyMatchers.contains())
+                //忽略字段，即不管password是什么值都不加入查询条件
+                .withIgnorePaths("sex", "age")
+                // 忽略属性：id。因为是基本类型，需要忽略掉
+                .withIgnorePaths("id");
+        //创建实例
+        Example<OyUser> example = Example.of(user, matcher);
+        //查询
+        List<OyUser> userList = oyUserRepository.findAll(example);
+        model.put("users", userList);
+        return "user";
+    }
 
     /**
      * 编辑用户
@@ -103,84 +113,95 @@ public class OyUserController {
         return page;
     }
 
-	/**
-	 * 查询用户列表
-	 *
-	 * @return 用户列表
-	 */
-	@GetMapping("test")
-	@ResponseBody
-	public HashMap<String, Object> test() {
-		HashMap<String, Object> resultMap = new HashMap<>();
-		//根据姓名查找
-		resultMap.put("根据姓名查找:findByName[oyc]", crudRepository.findByName("oyc"));
-		//根据姓名模糊查找
-		resultMap.put("根据姓名模糊查找:findByNameLike[oyc]", crudRepository.findByNameLike("%oyc%"));
-		//根据性别查找
-		resultMap.put("根据性别查找:findBySex[male]", crudRepository.findBySex("male"));
-		//根据年龄区间查找
-		resultMap.put("根据年龄区间查找（小于12岁）:findByAgeLessThan[12]", crudRepository.findByAgeLessThan(12));
-		resultMap.put("根据年龄区间查找:findByAgeBetween[1,18]", crudRepository.findByAgeBetween(1, 18));
-		resultMap.put("根据年龄区间排序查找:findByAgeBetweenOrderByAge[1,18]", crudRepository.findByAgeBetweenOrderByAge(1, 18));
+    /**
+     * 查询用户列表
+     *
+     * @return 用户列表
+     */
+    @GetMapping("test")
+    @ResponseBody
+    public HashMap<String, Object> test() {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        //根据姓名查找
+        resultMap.put("根据姓名查找:findByName[oyc]", oyUserRepository.findByName("oyc"));
+        //根据姓名模糊查找
+        resultMap.put("根据姓名模糊查找:findByNameLike[oyc]", oyUserRepository.findByNameLike("%oyc%"));
+        //根据性别查找
+        resultMap.put("根据性别查找:findBySex[male]", oyUserRepository.findBySex("male"));
+        //根据年龄区间查找
+        resultMap.put("根据年龄区间查找（小于12岁）:findByAgeLessThan[12]", oyUserRepository.findByAgeLessThan(12));
+        resultMap.put("根据年龄区间查找:findByAgeBetween[1,18]", oyUserRepository.findByAgeBetween(1, 18));
+        resultMap.put("根据年龄区间排序查找:findByAgeBetweenOrderByAge[1,18]", oyUserRepository.findByAgeBetweenOrderByAge(1, 18));
 
-		resultMap.put("根据创建时间排序查找:findOrderByCreateTime", crudRepository.findByNameLikeOrderByCreateTime("%%"));
+        resultMap.put("根据创建时间排序查找:findOrderByCreateTime", oyUserRepository.findByNameLikeOrderByCreateTime("%%"));
 
-		//分页查找
-		Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
-		Pageable pageable = PageRequest.of(0, 3, sort);
-		resultMap.put("分页查找(1,5):findAll-sort", oyUserRepository.findAll(sort));
-		resultMap.put("分页查找(1,5):findAll-page-sort", oyUserRepository.findAll(pageable));
-		return resultMap;
-	}
+        //分页查找
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+        Pageable pageable = PageRequest.of(0, 3, sort);
+        resultMap.put("分页查找(1,5):findAll-sort", oyUserRepository.findAll(sort));
+        resultMap.put("分页查找(1,5):findAll-page-sort", oyUserRepository.findAll(pageable));
 
-	/**
-	 * 查询用户列表
-	 *
-	 * @return 用户列表
-	 */
-	@GetMapping("findByName")
-	@ResponseBody
-	public List<OyUser> findByName(OyUser user) {
-		return crudRepository.findByName(user.getName());
-	}
+        //设置账号
+        List<OyUser> userList = oyUserRepository.findAll();
+        for (OyUser user : userList) {
+            user.setAccount(PinyinUtil.getPinyin(user.getName()).split(",")[0]);
+        }
+        oyUserRepository.saveAll(userList);
+        return resultMap;
+    }
 
-	/**
-	 * 查询用户列表
-	 *
-	 * @return 用户列表
-	 */
-	@GetMapping("findBySex")
-	@ResponseBody
-	public List<OyUser> findBySex(OyUser user) {
-		return crudRepository.findBySex(user.getSex());
-	}
+    /**
+     * 查询用户列表
+     *
+     * @return 用户列表
+     */
+    @GetMapping("findByName")
+    @ResponseBody
+    public ResponseEntity findByName(OyUser user) {
+        List<OyUser> userList = oyUserRepository.findByName(user.getName());
+        return ResponseEntity.ok().body(userList);
+    }
 
-	/**
-	 * 新增用户
-	 */
-	@PostMapping
-	public String addUser(OyUser user) {
+    /**
+     * 查询用户列表
+     *
+     * @return 用户列表
+     */
+    @GetMapping("findBySex")
+    @ResponseBody
+    public ResponseEntity findBySex(OyUser user) {
+        List<OyUser> userList = oyUserRepository.findBySex(user.getSex());
+        return ResponseEntity.ok().body(userList);
+    }
+
+    /**
+     * 新增用户
+     */
+    @PostMapping
+    public String addUser(OyUser user) {
         if (user.getId() != null) {
             user.setCreateTime(new Date());
         }
-		return "redirect:/user/list";
-	}
+        return "redirect:/user/list";
+    }
 
-	/**
-	 * 修改用户
-	 */
-	@PutMapping
-	@ResponseBody
-	public OyUser updateUser(OyUser user) {
-		return oyUserService.updateUser(user);
-	}
+    /**
+     * 修改用户
+     */
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity updateUser(OyUser user) {
+        OyUser oyUser = oyUserService.updateUser(user);
+        return ResponseEntity.ok().body(oyUser);
+    }
 
-	/**
-	 * 删除用户
-	 */
-	@DeleteMapping("{userId}")
-	@ResponseBody
-	public void delUser(@PathVariable("userId") Integer userId) {
-		oyUserService.delUser(userId);
-	}
+    /**
+     * 删除用户
+     */
+    @DeleteMapping("{userId}")
+    @ResponseBody
+    public ResponseEntity delUser(@PathVariable("userId") Integer userId) {
+        oyUserService.delUser(userId);
+        return ResponseEntity.ok().body(true);
+    }
 }

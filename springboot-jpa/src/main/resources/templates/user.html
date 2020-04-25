@@ -9,6 +9,8 @@
     <h2>按条件查询</h2>
     <form th:action="@{/user/listByKeyWord}" method="get">
         名称：<input name="name" type="text">
+        昵称：<input name="nickName" type="text">
+        账号：<input name="account" type="text">
         年龄：<input name="age" type="Interger">
         性别：<input name="sex" type="text">
         <button type="submit">提交</button>
@@ -22,14 +24,18 @@
 <table>
     <tr>
         <th>id</td>
+        <th>账号</td>
         <th>姓名</td>
+        <th>昵称</td>
         <th>年龄</td>
         <th>性别</td>
         <th>操作</td>
     </tr>
 <tr th:each="user : ${users}">
     <td th:text="${user.id}"></td>
+    <td th:text="${user.account}"></td>
     <td th:text="${user.name}"></td>
+    <td th:text="${user.nickName}"></td>
     <td th:text="${user.age}"></td>
     <td th:text="${user.sex}"></td>
     <td>

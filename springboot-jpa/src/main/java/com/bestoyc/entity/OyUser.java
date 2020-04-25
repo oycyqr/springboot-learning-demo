@@ -30,6 +30,16 @@ public class OyUser implements Serializable {
 	private String name;
 
 	/**
+	 * 账号
+	 */
+	private String account;
+	/**
+	 * 昵称
+	 */
+	@Column(name = "nick_name")
+	private String nickName;
+
+	/**
 	 * 户年龄
 	 */
 	private Integer age;
@@ -59,6 +69,22 @@ public class OyUser implements Serializable {
 		this.name = name;
 	}
 
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
 	public Integer getAge() {
 		return age;
 	}
@@ -81,5 +107,18 @@ public class OyUser implements Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	@Override
+	public String toString() {
+		return "OyUser{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", account='" + account + '\'' +
+				", nickName='" + nickName + '\'' +
+				", age=" + age +
+				", sex='" + sex + '\'' +
+				", createTime=" + createTime +
+				'}';
 	}
 }
