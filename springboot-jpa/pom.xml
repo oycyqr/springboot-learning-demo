@@ -74,6 +74,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+
         <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>

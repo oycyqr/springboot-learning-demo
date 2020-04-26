@@ -26,6 +26,8 @@
         <module>springboot-jdbc</module>
         <module>springboot-log4j2</module>
         <module>springboot-redis</module>
+        <module>springboot-hutools</module>
+        <module>springboot-exception</module>
     </modules>
 
     <dependencies>
