@@ -71,4 +71,11 @@ public interface OyUserRepository extends JpaRepository<OyUser,Integer> , JpaSpe
      * @return
      */
     List<OyUser> findByNameLikeOrderByCreateTime(String name);
+
+    /**
+     * 根据按创建时间排序查找
+     * @param name
+     * @return
+     */
+    List<OyUser> findAllByOrderByCreateTime();
 }

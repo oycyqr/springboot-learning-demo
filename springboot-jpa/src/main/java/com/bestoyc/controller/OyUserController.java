@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.expression.Lists;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -229,7 +228,8 @@ public String listByKeyWord2(ModelMap model, OyUser oyUser) {
         resultMap.put("根据年龄区间查找:findByAgeBetween[1,18]", oyUserRepository.findByAgeBetween(1, 18));
         resultMap.put("根据年龄区间排序查找:findByAgeBetweenOrderByAge[1,18]", oyUserRepository.findByAgeBetweenOrderByAge(1, 18));
 
-        resultMap.put("根据创建时间排序查找:findOrderByCreateTime", oyUserRepository.findByNameLikeOrderByCreateTime("%%"));
+        resultMap.put("根据创建时间排序查找:findByNameLikeOrderByCreateTime", oyUserRepository.findByNameLikeOrderByCreateTime("%%"));
+        resultMap.put("根据创建时间排序查找:findAllByOrderByCreateTime", oyUserRepository.findAllByOrderByCreateTime());
 
         //分页查找
         Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
