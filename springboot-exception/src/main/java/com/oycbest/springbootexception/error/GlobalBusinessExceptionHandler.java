@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Ay
  * @date 2017/12/3
  */
-@ControllerAdvice(basePackages = {"com.bestoyc.springbootexception",})
+@ControllerAdvice(basePackages = {"com.oycbest.springbootexception",})
 public class GlobalBusinessExceptionHandler {
 
     /**

@@ -28,6 +28,7 @@
         <module>springboot-redis</module>
         <module>springboot-hutools</module>
         <module>springboot-exception</module>
+        <module>springboot-ssm</module>
     </modules>
 
     <dependencies>
