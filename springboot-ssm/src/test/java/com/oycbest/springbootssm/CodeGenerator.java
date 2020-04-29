@@ -61,11 +61,11 @@ public class CodeGenerator {
         mpg.setGlobalConfig(gc);
 
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://148.70.187.110:3306/oyc?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://*****:3306/oyc?useUnicode=true&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("oyc");
-        dsc.setPassword("oyc@123456");
+        dsc.setUsername("*****");
+        dsc.setPassword("******");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -116,12 +116,6 @@ public class CodeGenerator {
 
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
-
-        // 配置自定义输出模板
-        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        // templateConfig.setEntity("templates/entity2.java");
-        // templateConfig.setService();
-        // templateConfig.setController();
 
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
