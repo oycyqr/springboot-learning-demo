@@ -51,6 +51,7 @@ public class SsmBlogListController {
     public IPage<SsmBlogList> page(Page page) {
         return ssmBlogListService.page(page);
     }
+
     /**
      * 列表数据
      *
@@ -80,13 +81,7 @@ public class SsmBlogListController {
      */
     @PutMapping
     public Boolean saveOrUpdate(SsmBlogList ssmBlogList) {
-        if (ssmBlogList.getId() != null) {
-            UpdateWrapper<SsmBlogList> wrapper = new UpdateWrapper<SsmBlogList>();
-            wrapper.setEntity(ssmBlogList);
-            return ssmBlogListService.update(wrapper);
-        } else {
-            return ssmBlogListService.save(ssmBlogList);
-        }
+        return ssmBlogListService.saveOrUpdate(ssmBlogList);
     }
 
     /**

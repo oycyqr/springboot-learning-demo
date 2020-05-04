@@ -27,7 +27,8 @@ public class SsmBlogController {
      * 服务对象
      */
     @Resource
-    private SsmBlogMapper ssmBlogMapper;/**
+    private SsmBlogMapper ssmBlogMapper;
+    /**
      * 服务对象
      */
     @Resource
@@ -38,12 +39,13 @@ public class SsmBlogController {
      */
     @RequestMapping("/list")
     @ResponseBody
-    public ResponseEntity list(Page page,SsmBlog blog) {
+    public ResponseEntity list(Page page, SsmBlog blog) {
         //ssmBlogMapper.queryAllByLimit(1,1);
         QueryWrapper<SsmBlog> wrapper = new QueryWrapper<>();
         wrapper.setEntity(blog);
         return ResponseEntity.ok().body(ssmBlogService.page(page, wrapper));
     }
+
     /**
      * 分页查询数据
      *
@@ -84,12 +86,8 @@ public class SsmBlogController {
      * @return 实例对象
      */
     @PutMapping
-    public SsmBlog saveOrUpdate(SsmBlog ssmBlog) {
-        if (ssmBlog.getId() != null) {
-            return ssmBlogService.update(ssmBlog);
-        } else {
-            return ssmBlogService.insert(ssmBlog);
-        }
+    public Boolean saveOrUpdate(SsmBlog ssmBlog) {
+        return ssmBlogService.saveOrUpdate(ssmBlog);
     }
 
     /**

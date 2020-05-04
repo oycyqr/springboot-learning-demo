@@ -23,13 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description:redis配置类
+ * @Description: redis配置类
  * @Author oyc
  * @Date 2020/4/22 11:50 下午
  */
 @Configuration
 @EnableCaching //开启注解
 public class RedisConfig extends CachingConfigurerSupport {
+
 
     /**
      * retemplate相关配置
@@ -123,17 +124,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         return redisTemplate.opsForZSet();
     }
 
-    /**
-     * 在redis.windows.conf  添加 notify-keyspace-events Egx
-     * redis操作  --解决报异常 Error creating bean with name 'enableRedisKeyspaceNotificationsInitializer'
-     * @return
-     */
-    /*@Bean
-    public static ConfigureRedisAction configureRedisAction() {
-        return ConfigureRedisAction.NO_OP;
-    }*/
-
-
     /**************** 注解缓存失效时间配置 *******************/
     /**
      * springboot2.x 设置redis缓存失效时间(注解)：
@@ -176,24 +166,5 @@ public class RedisConfig extends CachingConfigurerSupport {
 
         return redisCacheConfiguration;
     }
-
-/*    @Bean
-    public KeyGenerator wiselyKeyGenerator() {
-        return new KeyGenerator() {
-            @Override
-            public Object generate(Object target, Method method, Object... params) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(target.getClass().getName());
-                sb.append("." + method.getName());
-                if (params == null || params.length == 0 || params[0] == null) {
-                    return null;
-                }
-                String join = String.join("&", Arrays.stream(params).map(Object::toString).collect(Collectors.toList()));
-                String format = String.format("%s{%s}", sb.toString(), join);
-                //log.info("缓存key：" + format);
-                return format;
-            }
-        };
-    }*/
 
 }
