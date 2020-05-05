@@ -37,7 +37,7 @@
 	<version>2.9.2</version>
 </dependency>
 
-##2.2 添加swagger配置类
+## 2.2 添加swagger配置类
 
 创建SwaggerConfig.java类
 
@@ -154,14 +154,4 @@ public class SwaggerController {
 ## 2.4 查看&测试接口
 
 如果没有引入安全框架或设置路径拦截机制，可以直接访问 http://127.0.0.1:8080/[项目名称]/swagger-ui.html查看接口。
-
-接口列表：
-
-
-
-测试接口：
-
-
-
-源码地址：
 
