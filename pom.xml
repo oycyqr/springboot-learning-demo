@@ -30,6 +30,7 @@
         <module>springboot-exception</module>
         <module>springboot-ssm</module>
         <module>springboot-elasticsearch</module>
+        <module>springboot-swagger</module>
     </modules>
 
     <dependencies>
