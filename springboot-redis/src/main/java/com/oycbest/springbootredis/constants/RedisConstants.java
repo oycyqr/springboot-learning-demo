@@ -10,7 +10,9 @@ public final class RedisConstants {
 
     static final String _PREFIX = "ars:";
 
-    //缓存组
+    /**
+     * 缓存组
+     */
     public static final class EntityCacheKey {
         public static final String QUERY = _PREFIX + "query";
         public static final String MANAGE = _PREFIX + "manage";
@@ -22,7 +24,9 @@ public final class RedisConstants {
         public static final String TASK = _PREFIX + "task";
     }
 
-    //临时缓存 key
+    /**
+     * 临时缓存 key
+     */
     //public static final String TEMP_REGION_IMPORT_KEY = _PREFIX+"temp:region:import";
 
 }

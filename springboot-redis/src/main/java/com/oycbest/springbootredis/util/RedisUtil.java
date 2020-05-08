@@ -1,9 +1,10 @@
 package com.oycbest.springbootredis.util;
 
-import com.oycbest.springbootredis.constants.Status;
+import com.oycbest.springbootredis.constants.ExpireEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -13,7 +14,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description:redisTemplate封装
+ * @Description: redisTemplate封装
+ * Redis支持五种数据类型：string（字符串），hash（哈希），list（列表），set（集合）及zset(sorted set：有序集合)。
  * @Author oyc
  * @Date 2020/4/22 11:29 下午
  */
@@ -27,6 +29,8 @@ public class RedisUtil {
     public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
+
+    //==========================基本操作===============================
 
     /**
      * 指定缓存失效时间
@@ -77,7 +81,6 @@ public class RedisUtil {
      *
      * @param key 可以传一个值 或多个
      */
-    @SuppressWarnings("unchecked")
     public void del(String... key) {
         if (key != null && key.length > 0) {
             if (key.length == 1) {
@@ -86,6 +89,26 @@ public class RedisUtil {
                 redisTemplate.delete(CollectionUtils.arrayToList(key));
             }
         }
+    }
+
+    /**
+     * 模糊查询获取key值
+     *
+     * @param pattern
+     * @return
+     */
+    public Set keys(String pattern) {
+        return redisTemplate.keys(pattern);
+    }
+
+    /**
+     * 使用Redis的消息队列
+     *
+     * @param channel
+     * @param message 消息内容
+     */
+    public void convertAndSend(String channel, Object message) {
+        redisTemplate.convertAndSend(channel, message);
     }
 
     //============================String=============================
@@ -167,7 +190,47 @@ public class RedisUtil {
         return redisTemplate.opsForValue().increment(key, -delta);
     }
 
-    //================================Map=================================
+    //================================hash=================================
+
+    /**
+     * 向一张hash表中放入数据,如果不存在将创建
+     *
+     * @param key   键
+     * @param item  项
+     * @param value 值
+     * @return true 成功 false失败
+     */
+    public boolean hset(String key, String item, Object value) {
+        try {
+            redisTemplate.opsForHash().put(key, item, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 向一张hash表中放入数据,如果不存在将创建
+     *
+     * @param key   键
+     * @param item  项
+     * @param value 值
+     * @param time  时间(秒)  注意:如果已存在的hash表有时间,这里将会替换原有的时间
+     * @return true 成功 false失败
+     */
+    public boolean hset(String key, String item, Object value, long time) {
+        try {
+            redisTemplate.opsForHash().put(key, item, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     /**
      * HashGet
@@ -178,6 +241,16 @@ public class RedisUtil {
      */
     public Object hget(String key, String item) {
         return redisTemplate.opsForHash().get(key, item);
+    }
+
+    /**
+     * 删除hash表中的值
+     *
+     * @param key  键 不能为null
+     * @param item 项 可以使多个 不能为null
+     */
+    public void hdel(String key, Object... item) {
+        redisTemplate.opsForHash().delete(key, item);
     }
 
     /**
@@ -229,56 +302,6 @@ public class RedisUtil {
     }
 
     /**
-     * 向一张hash表中放入数据,如果不存在将创建
-     *
-     * @param key   键
-     * @param item  项
-     * @param value 值
-     * @return true 成功 false失败
-     */
-    public boolean hset(String key, String item, Object value) {
-        try {
-            redisTemplate.opsForHash().put(key, item, value);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 向一张hash表中放入数据,如果不存在将创建
-     *
-     * @param key   键
-     * @param item  项
-     * @param value 值
-     * @param time  时间(秒)  注意:如果已存在的hash表有时间,这里将会替换原有的时间
-     * @return true 成功 false失败
-     */
-    public boolean hset(String key, String item, Object value, long time) {
-        try {
-            redisTemplate.opsForHash().put(key, item, value);
-            if (time > 0) {
-                expire(key, time);
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 删除hash表中的值
-     *
-     * @param key  键 不能为null
-     * @param item 项 可以使多个 不能为null
-     */
-    public void hdel(String key, Object... item) {
-        redisTemplate.opsForHash().delete(key, item);
-    }
-
-    /**
      * 判断hash表中是否有该项的值
      *
      * @param key  键 不能为null
@@ -313,8 +336,8 @@ public class RedisUtil {
         return redisTemplate.opsForHash().increment(key, item, -by);
     }
 
-    //============================set=============================
 
+    //============================set=============================
     /**
      * 根据key获取Set中的所有值
      *
@@ -414,8 +437,9 @@ public class RedisUtil {
             return 0;
         }
     }
-    //===============================list=================================
 
+
+    //===============================list=================================
     /**
      * 获取list缓存的内容
      *
@@ -576,27 +600,6 @@ public class RedisUtil {
         }
     }
 
-    /**
-     * 模糊查询获取key值
-     *
-     * @param pattern
-     * @return
-     */
-    public Set keys(String pattern) {
-        return redisTemplate.keys(pattern);
-    }
-
-    /**
-     * 使用Redis的消息队列
-     *
-     * @param channel
-     * @param message 消息内容
-     */
-    public void convertAndSend(String channel, Object message) {
-        redisTemplate.convertAndSend(channel, message);
-    }
-
-
     //=========BoundListOperations 用法 start============
 
     /**
@@ -606,7 +609,7 @@ public class RedisUtil {
      * @param expireEnum 有效期的枚举类
      * @param values     待添加的数据
      */
-    public void addToListRight(String listKey, Status.ExpireEnum expireEnum, Object... values) {
+    public void addToListRight(String listKey, ExpireEnum expireEnum, Object... values) {
         //绑定操作
         BoundListOperations<String, Object> boundValueOperations = redisTemplate.boundListOps(listKey);
         //插入数据
@@ -642,5 +645,4 @@ public class RedisUtil {
     }
 
     //=========BoundListOperations 用法 End============
-
 }
