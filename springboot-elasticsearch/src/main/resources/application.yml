@@ -1,7 +1,7 @@
-  spring:
-    data:
-      elasticsearch:
-        cluster-name: elasticsearch-cluster
-        cluster-nodes: 127.0.0.1:9300
-        repositories:
-          enabled: true
+spring:
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.0.105:9300
+      repositories:
+        enabled: true

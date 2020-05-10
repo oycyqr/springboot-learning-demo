@@ -1,8 +1,10 @@
 package com.oycbest.springbootelasticsearch.es;
+
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @Author: oyc
@@ -10,24 +12,39 @@ import org.springframework.data.elasticsearch.annotations.Field;
  * @Description:
  */
 @Data
-@Document(indexName = "poms", type = "content")
-public class ESDocument {
+@Document(indexName = "blog", type = "blog")
+public class ESBlog {
 
-	@Id
-	private String id;
+    @Id
+    private String id;
 
-	@Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart")
-	private String name;
 
-	private String projectId;
+    //@Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart")
+    // 使用分词器
+    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+    private String title;
 
-	public ESDocument(String id, String name, String projectId) {
-		this.id = id;
-		this.name = name;
-		this.projectId = projectId;
+    //@Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart")
+    @Field(type = FieldType.Keyword)
+    private String author;
+
+    //@Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart")
+    @Field(type = FieldType.Keyword)
+    private String content;
+
+    private String create_time;
+    private String update_time;
+
+	public ESBlog() {
 	}
-	public ESDocument() {
 
+	public ESBlog(String id, String title, String author, String content, String create_time, String update_time) {
+		this.id = id;
+		this.title = title;
+		this.author = author;
+		this.content = content;
+		this.create_time = create_time;
+		this.update_time = update_time;
 	}
 }
 /**
@@ -50,5 +67,4 @@ public class ESDocument {
  * index：是否索引，布尔类型，默认是true
  * store：是否存储，布尔类型，默认是false
  * analyzer：分词器名称，这里的ik_max_word即使用ik分词器
- *
  */

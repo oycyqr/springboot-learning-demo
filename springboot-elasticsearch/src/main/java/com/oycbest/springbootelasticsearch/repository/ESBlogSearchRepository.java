@@ -1,6 +1,6 @@
 package com.oycbest.springbootelasticsearch.repository;
 
-import com.oycbest.springbootelasticsearch.es.ESDocument;
+import com.oycbest.springbootelasticsearch.es.ESBlog;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @Description:
  */
 @Repository
-public interface DocumentSearchRepository extends ElasticsearchRepository<ESDocument,String> {
+public interface ESBlogSearchRepository extends ElasticsearchRepository<ESBlog,String> {
 }

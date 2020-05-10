@@ -1,7 +1,7 @@
 package com.oycbest.springbootelasticsearch;
 
-import com.oycbest.springbootelasticsearch.es.ESDocument;
-import com.oycbest.springbootelasticsearch.service.DocumentSearchService;
+import com.oycbest.springbootelasticsearch.es.ESBlog;
+import com.oycbest.springbootelasticsearch.service.ESBlogSearchService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +20,23 @@ import java.util.UUID;
 public class EsTests {
 
 	@Autowired
-	private DocumentSearchService documentSearchService;
+	private ESBlogSearchService ESBlogSearchService;
 
 	@Test
 	public void save() {
-		documentSearchService.save(new ESDocument(UUID.randomUUID().toString(),"name1","1"));
+		ESBlogSearchService.save(new ESBlog(UUID.randomUUID().toString(),"name1","1","1","1","1"));
 	}
 	@Test
 	public void getById(){
-		documentSearchService.getById("98c717e2-0e17-4887-86f6-e9cd347f97f7");
+		ESBlogSearchService.getById("98c717e2-0e17-4887-86f6-e9cd347f97f7");
 	}
-	@Test
+	/*@Test
 	public void getByName(){
-		documentSearchService.getByName("name1","1");
-	}
+		ESBlogSearchService.getByName("name1");
+	}*/
 	@Test
 	public void delete(){
-		documentSearchService.delete("98c717e2-0e17-4887-86f6-e9cd347f97f7");
+		ESBlogSearchService.delete("98c717e2-0e17-4887-86f6-e9cd347f97f7");
 	}
 
 }
