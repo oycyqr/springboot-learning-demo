@@ -3,6 +3,7 @@ package com.oycbest.springbootredis.controller;
 import com.oycbest.springbootredis.entity.OyUser;
 import com.oycbest.springbootredis.service.OyUserService;
 import com.oycbest.springbootredis.util.RedisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +29,18 @@ public class OyUserController {
 
     @Resource
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate1;
+
+
     @Resource
     private RedisUtil redisUtil;
-
 
     /**
      * 测试redis
      */
-    @GetMapping("/test/redis")
+    @GetMapping("/redis/redis")
     public String testRedis() {
         redisTemplate.opsForValue().set("userName", "ouyang");
         return (String) redisTemplate.opsForValue().get("userName");

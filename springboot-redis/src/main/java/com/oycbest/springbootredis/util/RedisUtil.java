@@ -1,10 +1,8 @@
 package com.oycbest.springbootredis.util;
 
-import com.oycbest.springbootredis.constants.ExpireEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -16,10 +14,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @Description: redisTemplate封装
  * Redis支持五种数据类型：string（字符串），hash（哈希），list（列表），set（集合）及zset(sorted set：有序集合)。
- * @Author oyc
- * @Date 2020/4/22 11:29 下午
+ * @Author: oyc
+ * @Since 2020年5月12日 23:41:08
  */
-
 @Component
 public class RedisUtil {
 
@@ -599,50 +596,4 @@ public class RedisUtil {
             return 0;
         }
     }
-
-    //=========BoundListOperations 用法 start============
-
-    /**
-     * 将数据添加到Redis的list中（从右边添加）
-     *
-     * @param listKey
-     * @param expireEnum 有效期的枚举类
-     * @param values     待添加的数据
-     */
-    public void addToListRight(String listKey, ExpireEnum expireEnum, Object... values) {
-        //绑定操作
-        BoundListOperations<String, Object> boundValueOperations = redisTemplate.boundListOps(listKey);
-        //插入数据
-        boundValueOperations.rightPushAll(values);
-        //设置过期时间
-        boundValueOperations.expire(expireEnum.getTime(), expireEnum.getTimeUnit());
-    }
-
-    /**
-     * 根据起始结束序号遍历Redis中的list
-     *
-     * @param listKey
-     * @param start   起始序号
-     * @param end     结束序号
-     * @return
-     */
-    public List<Object> rangeList(String listKey, long start, long end) {
-        //绑定操作
-        BoundListOperations<String, Object> boundValueOperations = redisTemplate.boundListOps(listKey);
-        //查询数据
-        return boundValueOperations.range(start, end);
-    }
-
-    /**
-     * 弹出右边的值 --- 并且移除这个值
-     *
-     * @param listKey
-     */
-    public Object rifhtPop(String listKey) {
-        //绑定操作
-        BoundListOperations<String, Object> boundValueOperations = redisTemplate.boundListOps(listKey);
-        return boundValueOperations.rightPop();
-    }
-
-    //=========BoundListOperations 用法 End============
 }
