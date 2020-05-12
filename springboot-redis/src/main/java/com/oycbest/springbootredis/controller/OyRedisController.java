@@ -1,5 +1,6 @@
 package com.oycbest.springbootredis.controller;
 
+import com.oycbest.springbootredis.entity.OyUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,13 +32,23 @@ public class OyRedisController {
         return (String) redisTemplate.opsForValue().get(key);
     }
 
+    /**
+     * 测试redis string add
+     */
+    @GetMapping("/object/add")
+    public Object addObjectKeyValue(@RequestParam(value = "key", defaultValue = "key1") String key) {
+        OyUser user = new OyUser(1, "宋江", "18", "male");
+        redisTemplate.opsForValue().set(key, user);
+        return redisTemplate.opsForValue().get(key);
+    }
+
 
     /**
      * 测试redis string get
      */
     @GetMapping("/string/get")
-    public String getStringByKey(@RequestParam(value = "key", defaultValue = "key1") String key) {
-        return (String) redisTemplate.opsForValue().get(key);
+    public Object getStringByKey(@RequestParam(value = "key", defaultValue = "key1") String key) {
+        return redisTemplate.opsForValue().get(key);
     }
 
 }
