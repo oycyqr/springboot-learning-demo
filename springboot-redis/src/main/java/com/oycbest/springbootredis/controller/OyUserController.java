@@ -28,18 +28,50 @@ public class OyUserController {
 
     @Resource
     private RedisTemplate redisTemplate;
+
     @Resource
     private RedisUtil redisUtil;
 
+    public static final String USER_KEY_ONE_PREFIX = "oyUser:";
+    public static final String USER_KEY_ALL_PREFIX = "oyUserList:";
+    public static final String USER_KEY_HASH_PREFIX = "oyUserHash:";
+
 
     /**
-     * 测试redis
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
      */
-    @GetMapping("/test/redis")
-    public String testRedis() {
-        redisTemplate.opsForValue().set("userName", "ouyang");
-        return (String) redisTemplate.opsForValue().get("userName");
+    @GetMapping("{id}")
+    public Object selectOne(@PathVariable("id") Integer id) {
+        // 先从缓存中查询用户，找不到再从数据库查询
+        Object user = redisTemplate.opsForHash().get(USER_KEY_HASH_PREFIX, USER_KEY_ONE_PREFIX + id);
+        if (user == null) {
+            // 从数据库查询并记录到缓存
+            user = oyUserService.getUserById(id);
+            redisTemplate.opsForHash().put(USER_KEY_HASH_PREFIX, USER_KEY_ONE_PREFIX + id, user);
+        }
+        return user;
     }
+
+    /**
+     * 查询用户列表
+     *
+     * @return 用户列表
+     */
+    @GetMapping("list")
+    public List<OyUser> list() {
+        // 先从缓存中查询用户，找不到再从数据库查询
+        List<OyUser> list = redisTemplate.opsForList().range(USER_KEY_ALL_PREFIX, 0, -1);
+        if (list == null || list.isEmpty()) {
+            // 从数据库查询并记录到缓存
+            list = oyUserService.getUserList();
+            redisTemplate.opsForList().leftPushAll(USER_KEY_ALL_PREFIX, list);
+        }
+        return list;
+    }
+
 
     /**
      * 测试redis1
@@ -130,36 +162,6 @@ public class OyUserController {
             System.out.println(zSuer.toString());
         }
         return (String) redisTemplate.opsForValue().get("user");
-    }
-
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("{id}")
-    public OyUser selectOne(@PathVariable("id") Integer id) {
-        OyUser user;
-        Object o = redisUtil.get("user"+id);
-        if (o != null) {
-            return (OyUser) o;
-        } else {
-            user = oyUserService.getUserById(id);
-            redisUtil.set("user"+id, user);
-        }
-        return user;
-    }
-
-    /**
-     * 查询用户列表
-     *
-     * @return 用户列表
-     */
-    @GetMapping("list")
-    public List<OyUser> list(ModelMap model) {
-        return oyUserService.getUserList();
     }
 
     /**
