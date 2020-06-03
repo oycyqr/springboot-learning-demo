@@ -21,6 +21,7 @@
         <druid.version>1.1.9</druid.version>
         <mybatis-plus.version>3.1.1</mybatis-plus.version>
         <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
+        <shiro-spring.version>1.4.0</shiro-spring.version>
     </properties>
 
     <dependencies>
@@ -67,6 +68,12 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <!--shiro-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro-spring.version}</version>
         </dependency>
 
         <dependency>

@@ -1,7 +1,6 @@
 package com.oycbest.ssmblog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.oycbest.ssmblog.domain.User;
 import com.oycbest.ssmblog.vo.UserRolerVo;
 import org.apache.ibatis.annotations.Param;
 

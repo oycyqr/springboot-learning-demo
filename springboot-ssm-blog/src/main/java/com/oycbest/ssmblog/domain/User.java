@@ -1,10 +1,10 @@
 package com.oycbest.ssmblog.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Date;
 
 /**
  * (SsmUser)实体类
@@ -50,8 +50,9 @@ public class User implements Serializable {
      */
     private String sex;
     /**
-     * 创建时间
+     * 创建时间 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
 }

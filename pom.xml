@@ -32,6 +32,7 @@
         <module>springboot-elasticsearch</module>
         <module>springboot-swagger</module>
         <module>springboot-shiro</module>
+        <module>springboot-ssm-blog</module>
     </modules>
 
     <dependencies>
