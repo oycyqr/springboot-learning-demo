@@ -1,9 +1,7 @@
-package com.oycbest.springbootssm.service;
+package com.oycbest.ssmblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.oycbest.springbootssm.domain.SsmBlog;
-import com.oycbest.springbootssm.domain.SsmBlogList;
-import java.util.List;
+import com.oycbest.ssmblog.domain.SsmBlogList;
 
 /**
  * (SsmBlogList)表服务接口

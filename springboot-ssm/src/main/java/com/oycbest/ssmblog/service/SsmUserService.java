@@ -1,6 +1,6 @@
-package com.oycbest.springbootssm.service;
+package com.oycbest.ssmblog.service;
 
-import com.oycbest.springbootssm.domain.SsmUser;
+import com.oycbest.ssmblog.domain.SsmUser;
 import java.util.List;
 
 /**

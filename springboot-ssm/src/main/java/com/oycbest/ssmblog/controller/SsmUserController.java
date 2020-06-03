@@ -1,7 +1,7 @@
-package com.oycbest.springbootssm.controller;
+package com.oycbest.ssmblog.controller;
 
-import com.oycbest.springbootssm.domain.SsmUser;
-import com.oycbest.springbootssm.service.SsmUserService;
+import com.oycbest.ssmblog.domain.SsmUser;
+import com.oycbest.ssmblog.service.SsmUserService;
 import org.springframework.web.bind.annotation.*;
 import org.apache.ibatis.annotations.Delete;
 
@@ -22,7 +22,7 @@ public class SsmUserController {
      */
     @Resource
     private SsmUserService ssmUserService;
-    
+
     /**
      * 通过主键查询单条数据
      *
@@ -42,7 +42,7 @@ public class SsmUserController {
     public List<SsmUser> all() {
         return ssmUserService.queryAll();
     }
-    
+
     /**
      * 列表数据
      *
@@ -52,7 +52,7 @@ public class SsmUserController {
     public List<SsmUser> list() {
         return ssmUserService.queryAllByLimit(1,10);
     }
-    
+
     /**
     * 修改数据
     *
@@ -63,7 +63,7 @@ public class SsmUserController {
     public SsmUser save(SsmUser ssmUser) {
         return ssmUserService.insert(ssmUser);
     }
-    
+
     /**
      * 新增或修改数据
      *
@@ -78,7 +78,7 @@ public class SsmUserController {
             return ssmUserService.insert(ssmUser);
         }
     }
-    
+
     /**
      * 通过主键删除数据
      *

@@ -1,13 +1,9 @@
-package com.oycbest.springbootssm.service;
+package com.oycbest.ssmblog.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.oycbest.springbootssm.domain.SsmBlog;
-import javafx.scene.control.Pagination;
-
-import java.util.List;
+import com.oycbest.ssmblog.domain.SsmBlog;
 
 /**
  * (SsmBlog)表服务接口

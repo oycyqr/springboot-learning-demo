@@ -1,8 +1,10 @@
 package com.oycbest.shirodemo.config;
 
+import com.oycbest.shirodemo.domain.Permission;
 import com.oycbest.shirodemo.domain.Role;
-import com.oycbest.shirodemo.domain.User;
-import com.oycbest.shirodemo.service.UserService;
+import com.oycbest.shirodemo.service.UserRoleVoService;
+import com.oycbest.shirodemo.vo.RolePermissinVo;
+import com.oycbest.shirodemo.vo.UserRolerVo;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -21,23 +23,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CustomRealm extends AuthorizingRealm {
 
 	@Autowired
-	private UserService userService;
+	private UserRoleVoService userRoleVoService;
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 		//获取登录用户名
 		String name = (String) principalCollection.getPrimaryPrincipal();
 		//根据用户名去数据库查询用户信息
-		User user = userService.queryByAccount(name);
+		UserRolerVo user = userRoleVoService.queryByAccount(name);
 		// 添加角色和权限
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-		for (Role role: user.getRoles()) {
+		for (RolePermissinVo role: user.getRoles()) {
 			//添加角色
 			simpleAuthorizationInfo.addRole(role.getRoleName());
-			/*//添加权限
-			for (Permissions permissions : role.getPermissions()) {
-				simpleAuthorizationInfo.addStringPermission(permissions.getPermissionsName());
-			}*/
+			//添加权限
+			for (Permission permission : role.getPerms()) {
+				simpleAuthorizationInfo.addStringPermission(permission.getPerms());
+			}
 		}
 		return simpleAuthorizationInfo;
 	}
@@ -50,7 +52,7 @@ public class CustomRealm extends AuthorizingRealm {
 		}
 		//获取用户信息
 		String name = authenticationToken.getPrincipal().toString();
-		User user = userService.queryByAccount(name);
+		UserRolerVo user = userRoleVoService.queryByAccount(name);
 		if (user == null) {
 			//这里返回后会报出对应异常
 			return null;

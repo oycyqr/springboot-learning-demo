@@ -1,4 +1,4 @@
-package com.oycbest.springbootssm.domain;
+package com.oycbest.ssmblog.domain;
 
 import java.util.Date;
 import java.io.Serializable;

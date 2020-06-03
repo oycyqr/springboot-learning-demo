@@ -1,6 +1,6 @@
-package com.oycbest.springbootssm.mapper;
+package com.oycbest.ssmblog.mapper;
 
-import com.oycbest.springbootssm.domain.SsmUser;
+import com.oycbest.ssmblog.domain.SsmUser;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 

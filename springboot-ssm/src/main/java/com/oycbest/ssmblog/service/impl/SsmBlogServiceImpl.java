@@ -1,12 +1,12 @@
-package com.oycbest.springbootssm.service.impl;
+package com.oycbest.ssmblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.oycbest.springbootssm.domain.SsmBlog;
-import com.oycbest.springbootssm.mapper.SsmBlogMapper;
-import com.oycbest.springbootssm.service.SsmBlogService;
+import com.oycbest.ssmblog.domain.SsmBlog;
+import com.oycbest.ssmblog.mapper.SsmBlogMapper;
+import com.oycbest.ssmblog.service.SsmBlogService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

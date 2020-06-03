@@ -1,7 +1,7 @@
-package com.oycbest.springbootssm.mapper;
+package com.oycbest.ssmblog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.oycbest.springbootssm.domain.SsmBlog;
+import com.oycbest.ssmblog.domain.SsmBlog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

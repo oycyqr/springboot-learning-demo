@@ -1,8 +1,8 @@
-package com.oycbest.springbootssm.service.impl;
+package com.oycbest.ssmblog.service.impl;
 
-import com.oycbest.springbootssm.domain.SsmUser;
-import com.oycbest.springbootssm.mapper.SsmUserMapper;
-import com.oycbest.springbootssm.service.SsmUserService;
+import com.oycbest.ssmblog.domain.SsmUser;
+import com.oycbest.ssmblog.mapper.SsmUserMapper;
+import com.oycbest.ssmblog.service.SsmUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -1,4 +1,4 @@
-package com.oycbest.springbootssm.domain;
+package com.oycbest.ssmblog.domain;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class SsmUser implements Serializable {
     private static final long serialVersionUID = 331645245830355567L;
-    
+
     private Integer id;
     /**
     * 用户名称

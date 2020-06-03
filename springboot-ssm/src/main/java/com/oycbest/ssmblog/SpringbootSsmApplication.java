@@ -1,9 +1,7 @@
-package com.oycbest.springbootssm;
+package com.oycbest.ssmblog;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication
 public class SpringbootSsmApplication {

@@ -1,4 +1,4 @@
-package com.oycbest.springbootssm.config;
+package com.oycbest.ssmblog.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @Configuration
 //扫描的mapper文件路径
-@MapperScan(value = "com.oycbest.springbootssm.mapper")
+@MapperScan(value = "com.oycbest.ssmblog.mapper")
 public class MybatisPlusConfig {
 
     /**

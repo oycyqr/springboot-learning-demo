@@ -1,21 +1,22 @@
-package com.oycbest.shirodemo.domain;
+package com.oycbest.shirodemo.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.oycbest.shirodemo.domain.Permission;
+import com.oycbest.shirodemo.domain.Role;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 /**
- * (SsmUser)实体类
- *
- * @author oyc
- * @since 2020-04-28 23:21:50
+ * @Description:
+ * @Author oyc
+ * @Date 2020/6/3 12:04 上午
  */
 @Data
-public class User implements Serializable {
-    private static final long serialVersionUID = 331645245830355567L;
-
+public class UserRolerVo implements Serializable {
+    private static final long serialVersionUID = 4858725020512019646L;
     private Integer id;
     /**
      * 用户名称
@@ -50,9 +51,12 @@ public class User implements Serializable {
      */
     private String sex;
     /**
-     * 创建时间 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+     * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-
+    /**
+     * 角色
+     */
+    private Set<RolePermissinVo> roles;
 }

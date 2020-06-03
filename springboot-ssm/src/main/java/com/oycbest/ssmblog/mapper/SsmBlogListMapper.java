@@ -1,7 +1,7 @@
-package com.oycbest.springbootssm.mapper;
+package com.oycbest.ssmblog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.oycbest.springbootssm.domain.SsmBlogList;
+import com.oycbest.ssmblog.domain.SsmBlogList;
 
 /**
  * (SsmBlogList)表数据库访问层

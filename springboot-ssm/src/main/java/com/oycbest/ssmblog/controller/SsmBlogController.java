@@ -1,18 +1,16 @@
-package com.oycbest.springbootssm.controller;
+package com.oycbest.ssmblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.oycbest.springbootssm.domain.SsmBlog;
-import com.oycbest.springbootssm.mapper.SsmBlogMapper;
-import com.oycbest.springbootssm.service.SsmBlogService;
+import com.oycbest.ssmblog.domain.SsmBlog;
+import com.oycbest.ssmblog.mapper.SsmBlogMapper;
+import com.oycbest.ssmblog.service.SsmBlogService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * (SsmBlog)表控制层
