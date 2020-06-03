@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oycbest.ssmblog.mapper.UserRoleVoMapper">
+
+    <resultMap type="com.oycbest.ssmblog.vo.UserRolerVo" id="SsmUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="account" column="account" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="salt" column="sale" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="constellation" column="constellation" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <collection  property="roles"   javaType="java.util.Set" resultMap="RoleMap" />
+    </resultMap>
+
+    <resultMap type="com.oycbest.ssmblog.domain.Role" id="RoleMap">
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="userSql">
+        select u.*,r.role_id,r.role_name,r.role_key from user u
+        left join user_role ur on u.id=ur.user_id
+        left join role r on ur.role_id = r.role_id
+    </sql>
+
+    <select id="queryByAccount" resultMap="SsmUserMap">
+        <include refid="userSql"/>
+        where u.account = #{account}
+    </select>
+
+</mapper>

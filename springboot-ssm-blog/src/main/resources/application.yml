@@ -1,0 +1,68 @@
+spring:
+  datasource:
+    url: jdbc:mysql://***:3306/oyc?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: oyc
+    password: ***
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  ###  数据源类别
+    type: com.alibaba.druid.pool.DruidDataSource
+  ### 初始化大小，最小，最大
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+  ### 配置获取连接等待超时的时间，单位是毫秒
+    maxWait: 60000
+  ### 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+  ### 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+  ### 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+  ### 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+  ### 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  # 合并多个DruidDataSource的监控数据
+  #   useGlobalDataSourceStat: true
+
+  # MyBatis配置
+  # 搜索指定包别名
+  # mybatis:
+  #  type-aliases-package: com.oycbest.ssmdemo.mapper
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  #  mapper-locations: classpath:mapper/*.xml
+  # 加载全局的配置文件
+  #  configLocation: classpath:mapper/mybatis-config.xml
+
+
+  #mybatis-plus
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.oycbest.springbootssm.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+  global-config:
+    db-config:
+      id-type: auto
+  #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: not_empty
+  #驼峰下划线转换
+      column-underline: true
+  #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+  #刷新mapper 调试神器
+  refresh: false
+
+
