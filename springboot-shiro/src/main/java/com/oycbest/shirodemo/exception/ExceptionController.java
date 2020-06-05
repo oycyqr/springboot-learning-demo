@@ -3,12 +3,15 @@ package com.oycbest.shirodemo.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: oyc
@@ -23,7 +26,22 @@ public class ExceptionController {
     @ExceptionHandler(AuthorizationException.class)
     public ResponseEntity ErrorHandler401(AuthorizationException e) {
         log.error("没有通过权限验证！", e);
-		return new ResponseEntity("没有通过权限验证!", HttpStatus.FORBIDDEN);
+		//e.printStackTrace();
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("status", "400");
+		//获取错误中中括号的内容
+		String message = e.getMessage();
+		String msg=message.substring(message.indexOf("[")+1,message.indexOf("]"));
+		//判断是角色错误还是权限错误
+		if (message.contains("role")) {
+			result.put("msg", "对不起，您没有" + msg + "角色");
+		} else if (message.contains("permission")) {
+			result.put("msg", "对不起，您没有" + msg + "权限");
+		} else {
+			result.put("msg", "对不起，您的权限有误");
+		}
+		//return new ResponseEntity("没有通过权限验证!"result, HttpStatus.FORBIDDEN);
+		return new ResponseEntity(result, HttpStatus.FORBIDDEN);
     }
 
     /**
