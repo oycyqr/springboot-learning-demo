@@ -1,7 +1,6 @@
 package com.oycbest.shirodemo.config;
 
 import com.oycbest.shirodemo.domain.Permission;
-import com.oycbest.shirodemo.domain.Role;
 import com.oycbest.shirodemo.service.UserRoleVoService;
 import com.oycbest.shirodemo.vo.RolePermissinVo;
 import com.oycbest.shirodemo.vo.UserRolerVo;
@@ -35,10 +34,12 @@ public class CustomRealm extends AuthorizingRealm {
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 		for (RolePermissinVo role: user.getRoles()) {
 			//添加角色
-			simpleAuthorizationInfo.addRole(role.getRoleName());
+			simpleAuthorizationInfo.addRole(role.getRoleKey());
 			//添加权限
 			for (Permission permission : role.getPerms()) {
-				simpleAuthorizationInfo.addStringPermission(permission.getPerms());
+				if (permission != null && permission.getPerms() !=null && permission.getPerms()!=""){
+					simpleAuthorizationInfo.addStringPermission(permission.getPerms());
+				}
 			}
 		}
 		return simpleAuthorizationInfo;
@@ -58,8 +59,7 @@ public class CustomRealm extends AuthorizingRealm {
 			return null;
 		} else {
 			//这里验证authenticationToken和simpleAuthenticationInfo的信息
-			SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword(), getName());
-			return simpleAuthenticationInfo;
+			return new SimpleAuthenticationInfo(name, user.getPassword(), getName());
 		}
 	}
 }

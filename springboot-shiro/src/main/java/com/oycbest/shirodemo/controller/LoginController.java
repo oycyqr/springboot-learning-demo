@@ -6,6 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,8 @@ public class LoginController {
 		try {
 			//进行验证，这里可以捕获异常，然后返回对应信息
 			subject.login(usernamePasswordToken);
-//            subject.checkRole("admin");
-//            subject.checkPermissions("query", "add");
+            //subject.checkRole("admin");
+            //subject.checkPermissions("query", "add");
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
 			return Result.error("账号或密码错误！");
@@ -41,22 +42,47 @@ public class LoginController {
 	}
 
 	/**
-	 * 注解验角色和权限
+	 * 注解检验角色-admin
 	 */
 	@RequiresRoles("admin")
-	//@RequiresPermissions("add")
-	@RequestMapping("/admin")
-	public String index() {
-		return "admin!";
+	@RequestMapping("role/admin")
+	public Result roleAdmin() {
+		return Result.ok("当前登录用户拥有admin角色");
 	}
 
 	/**
-	 * 注解验角色和权限
+	 * 注解检验角色-admin
 	 */
 	@RequiresRoles("user")
-	//@RequiresPermissions("add")
-	@RequestMapping("/user")
-	public String user() {
-		return "user!";
+	@RequestMapping("role/user")
+	public Result roleUser() {
+		return Result.ok("当前登录用户拥有user角色");
+	}
+
+	/**
+	 * 注解检验权限 -- user:add
+	 */
+	@RequiresPermissions("user:add")
+	@RequestMapping("perm/userAdd")
+	public Result userAdd() {
+		return Result.ok("当前登录用户拥有user:add权限");
+	}
+
+	/**
+	 * 注解检验权限 -- user:add
+	 */
+	@RequiresPermissions("user:view")
+	@RequestMapping("perm/userView")
+	public Result userView() {
+		return Result.ok("当前登录用户拥有user:view权限");
+	}
+	/**
+	 * 注解检验权限 --admin user:add
+	 */
+	@RequiresRoles("admin")
+	@RequiresPermissions("user:add")
+	@RequestMapping("role/perm/userAdd")
+	public Result rolePermserAdd() {
+		return Result.ok("当前登录用户拥有admin角色和user:add权限");
 	}
 }
