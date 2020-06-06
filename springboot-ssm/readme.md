@@ -1,5 +1,6 @@
 # 一、什么是MyBatis-Plus
 Mybatis是作为一个半自动的持久层ORM框架一直以其可以直接在XML中通过SQL语句操作数据库的灵活可控稳居持久层框架前列。但正其操作都要通过SQL语句进行，就必须写大量的xml文件，很是麻烦。而我们今天要介绍的Mybatis-Plus就是为了解决这些问题的。
+
 Mybatis-Plus是一个 Mybatis 的增强工具，在 Mybatis 的基础上只做增强不做改变，为简化开发、提高效率而生（官方定义）。它已经封装好了一些crud方法，单表的增删改查可以不用在xml中写 sql 语句了，直接调用这些方法就行，就类似于JPA，使用 MyBatis-Plus 可以减少大量的开发时间。
 # 二、使用Mybatis-Plus
 ## 2.1 添加依赖
