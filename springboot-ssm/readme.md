@@ -105,6 +105,7 @@ public class MybatisPlusConfig {
 ```
 ## 2.3 编写代码
 让service、mapper分别继承Mybatis-Plus定义好的基础实现
+
 （1） mapper
 ```
 /**
