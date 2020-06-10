@@ -13,7 +13,7 @@ import java.util.Set;
  * @Date 2020/6/3 12:04 上午
  */
 @Data
-public class UserRolerVo implements Serializable {
+public class UserRoleVo implements Serializable {
     private static final long serialVersionUID = 4858725020512019646L;
     private Integer id;
     /**

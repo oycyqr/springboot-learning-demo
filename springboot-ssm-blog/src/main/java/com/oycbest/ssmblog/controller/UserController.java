@@ -6,7 +6,7 @@ import com.oycbest.ssmblog.domain.BlogList;
 import com.oycbest.ssmblog.domain.User;
 import com.oycbest.ssmblog.service.UserRoleVoService;
 import com.oycbest.ssmblog.service.UserService;
-import com.oycbest.ssmblog.vo.UserRolerVo;
+import com.oycbest.ssmblog.vo.UserRoleVo;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -107,7 +107,7 @@ public class UserController {
 	 * @return 对象列表
 	 */
 	@GetMapping("account/{account}")
-	public UserRolerVo userRoleVo(@PathVariable("account") String account) {
+	public UserRoleVo userRoleVo(@PathVariable("account") String account) {
 		return userRoleVoService.queryByAccount(account);
 	}
 }

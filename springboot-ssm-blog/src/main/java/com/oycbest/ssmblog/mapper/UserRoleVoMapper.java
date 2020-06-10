@@ -1,7 +1,7 @@
 package com.oycbest.ssmblog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.oycbest.ssmblog.vo.UserRolerVo;
+import com.oycbest.ssmblog.vo.UserRoleVo;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * @author oyc
  * @since 2020-04-28 23:21:52
  */
-public interface UserRoleVoMapper extends BaseMapper<UserRolerVo> {
+public interface UserRoleVoMapper extends BaseMapper<UserRoleVo> {
 
     /**
      * 通过账号查询用户信息
@@ -18,5 +18,5 @@ public interface UserRoleVoMapper extends BaseMapper<UserRolerVo> {
      * @param account 账号
      * @return 对象列表
      */
-    UserRolerVo queryByAccount(@Param("account") String account);
+    UserRoleVo queryByAccount(@Param("account") String account);
 }

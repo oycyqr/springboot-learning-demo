@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oycbest.ssmblog.mapper.UserRoleVoMapper">
 
-    <resultMap type="com.oycbest.ssmblog.vo.UserRolerVo" id="SsmUserMap">
+    <resultMap type="com.oycbest.ssmblog.vo.UserRoleVo" id="SsmUserMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="account" column="account" jdbcType="VARCHAR"/>

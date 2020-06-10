@@ -86,11 +86,25 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>Maven.com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.54</version>
         </dependency>
+
+        <!--JWT-->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.5.11</version>
+        </dependency>
+
     </dependencies>
 
     <build>
