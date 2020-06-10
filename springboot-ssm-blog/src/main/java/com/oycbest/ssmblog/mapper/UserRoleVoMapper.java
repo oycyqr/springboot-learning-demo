@@ -19,5 +19,4 @@ public interface UserRoleVoMapper extends BaseMapper<UserRolerVo> {
      * @return 对象列表
      */
     UserRolerVo queryByAccount(@Param("account") String account);
-
 }

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @Author: oyc
  * @Date: 2020-06-03 9:39
- * @Description:
+ * @Description: JWT
  */
 @RestController
 public class TestWebController {

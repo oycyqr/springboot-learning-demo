@@ -14,18 +14,28 @@
         <result property="sex" column="sex" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <collection  property="roles"   javaType="java.util.Set" resultMap="RoleMap" />
+
     </resultMap>
 
-    <resultMap type="com.oycbest.ssmblog.domain.Role" id="RoleMap">
+    <resultMap type="com.oycbest.ssmblog.vo.RolePermissinVo" id="RoleMap">
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
         <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
         <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
+        <collection  property="perms"   javaType="java.util.Set" resultMap="PermissionMap" />
+    </resultMap>
+
+    <resultMap type="com.oycbest.ssmblog.domain.Permission" id="PermissionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="perms" column="perms" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="userSql">
-        select u.*,r.role_id,r.role_name,r.role_key from user u
+        select u.*,r.role_id,r.role_name,r.role_key,p.perms
+        from user u
         left join user_role ur on u.id=ur.user_id
         left join role r on ur.role_id = r.role_id
+        left join role_permission rp on rp.role_id = r.role_id
+        left join permission p on rp.permission_id = p.id
     </sql>
 
     <select id="queryByAccount" resultMap="SsmUserMap">

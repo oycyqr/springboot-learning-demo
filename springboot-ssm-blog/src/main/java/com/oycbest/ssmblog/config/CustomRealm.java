@@ -1,7 +1,8 @@
 package com.oycbest.ssmblog.config;
 
-import com.oycbest.ssmblog.domain.Role;
+import com.oycbest.ssmblog.domain.Permission;
 import com.oycbest.ssmblog.service.UserRoleVoService;
+import com.oycbest.ssmblog.vo.RolePermissinVo;
 import com.oycbest.ssmblog.vo.UserRolerVo;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @Author: oyc
  * @Date: 2020-06-02 16:12
- * @Description:
+ * @Description: 自定义shiro认证器
  */
 public class CustomRealm extends AuthorizingRealm {
 
@@ -31,13 +32,15 @@ public class CustomRealm extends AuthorizingRealm {
 		UserRolerVo user = userRoleVoService.queryByAccount(name);
 		// 添加角色和权限
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-		for (Role role: user.getRoles()) {
+		for (RolePermissinVo role : user.getRoles()) {
 			//添加角色
-			simpleAuthorizationInfo.addRole(role.getRoleName());
-			/*//添加权限
-			for (Permissions permissions : role.getPermissions()) {
-				simpleAuthorizationInfo.addStringPermission(permissions.getPermissionsName());
-			}*/
+			simpleAuthorizationInfo.addRole(role.getRoleKey());
+			//添加权限
+			for (Permission permission : role.getPerms()) {
+				if (permission != null && permission.getPerms() != null && permission.getPerms() != "") {
+					simpleAuthorizationInfo.addStringPermission(permission.getPerms());
+				}
+			}
 		}
 		return simpleAuthorizationInfo;
 	}
@@ -56,8 +59,7 @@ public class CustomRealm extends AuthorizingRealm {
 			return null;
 		} else {
 			//这里验证authenticationToken和simpleAuthenticationInfo的信息
-			SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword(), getName());
-			return simpleAuthenticationInfo;
+			return new SimpleAuthenticationInfo(name, user.getPassword(), getName());
 		}
 	}
 }

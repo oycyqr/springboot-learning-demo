@@ -3,6 +3,7 @@ package com.oycbest.ssmblog.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,10 +25,12 @@ public class User implements Serializable {
     /**
      * 账号
      */
+    @NotBlank(message = "账号不能为空")
     private String account;
     /**
      * 密码
      */
+    @NotBlank(message = "密码不能为空")
     private String password;
     /**
      * 盐

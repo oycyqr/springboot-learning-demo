@@ -1,7 +1,6 @@
 package com.oycbest.ssmblog.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.oycbest.ssmblog.domain.Role;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -57,5 +56,5 @@ public class UserRolerVo implements Serializable {
     /**
      * 角色
      */
-    private Set<Role> roles;
+    private Set<RolePermissinVo> roles;
 }
