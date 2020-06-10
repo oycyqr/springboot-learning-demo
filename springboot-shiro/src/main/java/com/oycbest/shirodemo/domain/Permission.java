@@ -26,7 +26,7 @@ public class Permission implements Serializable {
     /**
     * 创建时间
     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:MM:SS",timezone = "GM+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
     /**
     * 创建人
@@ -35,6 +35,6 @@ public class Permission implements Serializable {
     /**
     * 修改时间
     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:MM:SS",timezone = "GM+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
 }

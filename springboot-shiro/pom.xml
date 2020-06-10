@@ -24,6 +24,7 @@
         <mybatis-plus-stater.version>3.1.2</mybatis-plus-stater.version>
         <shiro-spring.version>1.4.0</shiro-spring.version>
         <lombok.version>1.16.18</lombok.version>
+        <fastjson.version>1.2.70</fastjson.version>
         <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
     </properties>
 
@@ -75,6 +76,14 @@
             <artifactId>shiro-spring</artifactId>
             <version>${shiro-spring.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -85,11 +94,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>Maven.com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.54</version>
         </dependency>
     </dependencies>
 
