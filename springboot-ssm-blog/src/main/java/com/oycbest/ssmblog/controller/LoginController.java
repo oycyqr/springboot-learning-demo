@@ -5,6 +5,7 @@ import com.oycbest.ssmblog.constant.ShiroConstant;
 import com.oycbest.ssmblog.domain.User;
 import com.oycbest.ssmblog.service.UserRoleVoService;
 import com.oycbest.ssmblog.util.JwtUtil;
+import com.oycbest.ssmblog.util.PasswordUtil;
 import com.oycbest.ssmblog.vo.Result;
 import com.oycbest.ssmblog.vo.UserRoleVo;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +38,14 @@ public class LoginController {
 			return Result.build(200, "用户不存在！", JwtUtil.sign(user.getAccount(), user.getPassword()));
 		}
 		// 2. 校验用户名或密码是否正确
-		String passwordEncode = userRoleVo.getPassword();// PasswordUtil.encrypt(userRoleVo.getAccount(), userRoleVo.getPassword(), userRoleVo.getSalt());
-		if (!passwordEncode.equals(user.getPassword())) {
+		String passwordEncode = PasswordUtil.encryptPassword(userRoleVo.getAccount(), user.getPassword(), userRoleVo.getSalt());
+		if (!passwordEncode.equals(userRoleVo.getPassword())) {
 			//throw new UnauthorizedException();
 			return Result.build(500, "用户名或密码错误", JwtUtil.sign(user.getPassword(), user.getPassword()));
 		}
 		return Result.build(200, "用户名: " + user.getAccount() + ",登录成功！", userInfo(userRoleVo));
 	}
+
 	/**
 	 * 用户信息
 	 *
@@ -65,6 +67,7 @@ public class LoginController {
 
 	/**
 	 * 退出登录
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -73,13 +76,13 @@ public class LoginController {
 	public Result logout(HttpServletRequest request, HttpServletResponse response) {
 		//用户退出逻辑
 		String token = request.getHeader(ShiroConstant.X_ACCESS_TOKEN);
-		if(StringUtils.isEmpty(token)) {
+		if (StringUtils.isEmpty(token)) {
 			return Result.error("退出登录失败！");
 		}
 		String username = JwtUtil.getUsername(token);
 		//LoginUser sysUser = sysBaseAPI.getUserByName(username);
-		if(username!=null) {
-			log.info(" 用户名:  "+username+",退出成功！ ");
+		if (username != null) {
+			log.info(" 用户名:  " + username + ",退出成功！ ");
 			//清空用户登录Token缓存
 			//redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
 			//清空用户登录Shiro权限缓存
@@ -89,7 +92,7 @@ public class LoginController {
 			//调用shiro的logout
 			SecurityUtils.getSubject().logout();
 			return Result.ok("退出登录成功！");
-		}else {
+		} else {
 			return Result.error("Token无效!");
 		}
 	}

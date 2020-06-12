@@ -54,6 +54,10 @@ public class UserRoleVo implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
     /**
+     * 用户状态（1：可用，0：不可用）
+     */
+    private Integer status;
+    /**
      * 角色
      */
     private Set<RolePermissinVo> roles;

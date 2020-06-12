@@ -26,6 +26,7 @@ public class CustomRealm extends AuthorizingRealm {
 
 	@Autowired
 	private UserRoleVoService userRoleVoService;
+
 	/**
 	 * 必须重写此方法，不然无法支持JWT
 	 */
@@ -33,6 +34,7 @@ public class CustomRealm extends AuthorizingRealm {
 	public boolean supports(AuthenticationToken token) {
 		return token instanceof JwtToken;
 	}
+
 	/**
 	 * 权限信息认证(包括角色以及权限)是用户访问controller的时候才进行验证(redis存储的此处权限信息)
 	 * 触发检测用户权限时才会调用此方法，例如checkRole,checkPermission
@@ -103,9 +105,9 @@ public class CustomRealm extends AuthorizingRealm {
 			throw new AuthenticationException("用户不存在!");
 		}
 		// 判断用户状态
-		/*if (user.getStatus() != 1) {
+		if (user.getStatus() != 1) {
 			throw new AuthenticationException("账号已被锁定,请联系管理员!");
-		}*/
+		}
 		// 校验token是否超时失效 & 或者账号密码是否错误
 		if (!jwtTokenRefresh(token, username, user.getPassword())) {
 			throw new AuthenticationException("Token失效，请重新登录!");

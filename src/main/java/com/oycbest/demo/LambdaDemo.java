@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
  */
 public class LambdaDemo {
 	public static void main(String[] args) {
-		String[] StrArr = {"宋江", "卢俊义", "吴用", "公孙胜", "关胜", "林冲", "秦明", "呼延灼", "武松", "李逵", "史进", "穆弘", "雷横", "李俊", "阮小二", "张横", "阮小五", "张顺", "宋清", "乐和", "龚旺", "丁得孙", "穆春", "曹正", "宋万"};
-		List<String> userList = Arrays.asList(StrArr);
+		String[] strArr = {"宋江", "卢俊义", "吴用", "公孙胜", "关胜", "林冲", "秦明", "呼延灼", "武松", "李逵", "史进", "穆弘", "雷横", "李俊", "阮小二", "张横", "阮小五", "张顺", "宋清", "乐和", "龚旺", "丁得孙", "穆春", "曹正", "宋万"};
+		List<String> userList = Arrays.asList(strArr);
 		List<String> userList1;
 
 		// 以前的循环方式

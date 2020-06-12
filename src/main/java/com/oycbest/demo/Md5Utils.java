@@ -7,6 +7,7 @@ import java.security.MessageDigest;
 
 /**
  * Md5加密方法
+ * @author oyc
  */
 public class Md5Utils {
 	private static final Logger log = LoggerFactory.getLogger(Md5Utils.class);
@@ -25,7 +26,7 @@ public class Md5Utils {
 		return null;
 	}
 
-	private static final String toHex(byte hash[]) {
+	private static final String toHex(byte[] hash) {
 		if (hash == null) {
 			return null;
 		}

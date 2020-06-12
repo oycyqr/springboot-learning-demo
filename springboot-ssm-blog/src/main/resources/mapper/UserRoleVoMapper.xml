@@ -12,6 +12,8 @@
         <result property="constellation" column="constellation" jdbcType="VARCHAR"/>
         <result property="age" column="age" jdbcType="VARCHAR"/>
         <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <collection  property="roles"   javaType="java.util.Set" resultMap="RoleMap" />
 
