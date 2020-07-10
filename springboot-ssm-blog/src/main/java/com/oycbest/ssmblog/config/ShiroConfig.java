@@ -40,20 +40,21 @@ public class ShiroConfig {
 		//过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了
 		//authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
 		filterChainDefinitionMap.put("/static/**", "anon");
-		filterChainDefinitionMap.put("/**", "authc");
+		filterChainDefinitionMap.put("/**", "anon");
+		filterChainDefinitionMap.put("/111*", "authc");
 		//未登录，重定向到登录页面，前后端分离，不需要 shiroFilterFactoryBean.setLoginUrl("/login")
 		//用户未登录不进行跳转，而是自定义返回json数据.获取filters
 		Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
 		//将自定义 的FormAuthenticationFilter注入shiroFilter中
 		filters.put("authc", new ShiroLoginFilter());
-		filterChainDefinitionMap.put("/**", "authc,user");
+		filterChainDefinitionMap.put("/111*", "authc,user");
 
 		// 添加自己的过滤器并且取名为jwt
 		Map<String, Filter> filterMap = new HashMap<String, Filter>(1);
 		filterMap.put("jwt", new JwtFilter());
 		shiroFilterFactoryBean.setFilters(filterMap);
 		// <!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边
-		filterChainDefinitionMap.put("/**", "jwt");
+		filterChainDefinitionMap.put("/111**", "jwt");
 
 		// 未授权界面返回JSON
 		shiroFilterFactoryBean.setUnauthorizedUrl("/sys/common/403");

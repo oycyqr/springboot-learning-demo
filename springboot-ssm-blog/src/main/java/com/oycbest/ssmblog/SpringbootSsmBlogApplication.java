@@ -2,16 +2,17 @@ package com.oycbest.ssmblog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 /**
- * @author ouyangcheng
+ * http://127.0.0.1:8888/blog/login?account=admin&password=123456
+ *
+ *
  */
+
 /**
  * @description:
  * @author: oyc
  * @date: 2020/7/10 9:37
  */
-
 @SpringBootApplication
 public class SpringbootSsmBlogApplication {
 
