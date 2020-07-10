@@ -3,8 +3,8 @@ package com.oycbest.ssmblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.oycbest.ssmblog.domain.BlogArticle;
-import com.oycbest.ssmblog.service.BlogArticleService;
+import com.oycbest.ssmblog.domain.BlogComment;
+import com.oycbest.ssmblog.service.BlogCommentService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,23 +18,23 @@ import javax.annotation.Resource;
  * @since 2020-04-28 23:36:00
  */
 @RestController
-@RequestMapping("blog/article")
+@RequestMapping("blog/comment")
 public class BlogCommentController {
     /**
      * 服务对象
      */
     @Resource
-    private BlogArticleService blogArticleService;
+    private BlogCommentService blogCommentService;
 
     /**
-     * 所有用户列表
+     * 所有文章评论列表
      */
     @RequestMapping("/list")
     @ResponseBody
-    public ResponseEntity list(Page page, BlogArticle blog) {
-        QueryWrapper<BlogArticle> wrapper = new QueryWrapper<>();
-        wrapper.setEntity(blog);
-        return ResponseEntity.ok().body(blogArticleService.page(page, wrapper));
+    public ResponseEntity list(Page page, BlogComment blogComment) {
+        QueryWrapper<BlogComment> wrapper = new QueryWrapper<>();
+        wrapper.setEntity(blogComment);
+        return ResponseEntity.ok().body(blogCommentService.page(page, wrapper));
     }
 
     /**
@@ -43,8 +43,8 @@ public class BlogCommentController {
      * @return 列表分页数据
      */
     @GetMapping("page")
-    public IPage<BlogArticle> page(Page page) {
-        return blogArticleService.page(page);
+    public IPage<BlogComment> page(Page page) {
+        return blogCommentService.page(page);
     }
 
 
@@ -54,31 +54,31 @@ public class BlogCommentController {
      * @param id 主键￿
      */
     @GetMapping("{id}")
-    public BlogArticle selectOne(@PathVariable("id") Integer id) {
-        return blogArticleService.getById(id);
+    public BlogComment selectOne(@PathVariable("id") Integer id) {
+        return blogCommentService.getById(id);
     }
 
 
     /**
      * 修改数据
      *
-     * @param blogArticle 实例对象
+     * @param blogComment 实例对象
      * @return 实例对象
      */
     @PostMapping
-    public Boolean save(BlogArticle blogArticle) {
-        return blogArticleService.save(blogArticle);
+    public Boolean save(BlogComment blogComment) {
+        return blogCommentService.save(blogComment);
     }
 
     /**
      * 新增或修改数据
      *
-     * @param blogArticle 实例对象
+     * @param blogComment 实例对象
      * @return 实例对象
      */
     @PutMapping
-    public Boolean saveOrUpdate(BlogArticle blogArticle) {
-        return blogArticleService.saveOrUpdate(blogArticle);
+    public Boolean saveOrUpdate(BlogComment blogComment) {
+        return blogCommentService.saveOrUpdate(blogComment);
     }
 
     /**
@@ -89,7 +89,7 @@ public class BlogCommentController {
      */
     @Delete("{id}")
     public Boolean delete(@PathVariable("id") Long id) {
-        return blogArticleService.removeById(id);
+        return blogCommentService.removeById(id);
     }
 
 }

@@ -7,11 +7,11 @@ import com.oycbest.ssmblog.service.BlogArticleService;
 import org.springframework.stereotype.Service;
 
 /**
- * (SsmBlogList)表服务实现类
+ * (BlogArticle)表服务实现类
  *
  * @author oyc
  * @since 2020-04-29 22:47:13
  */
-@Service("blogListService")
+@Service("blogArticleService")
 public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogArticle> implements BlogArticleService {
 }

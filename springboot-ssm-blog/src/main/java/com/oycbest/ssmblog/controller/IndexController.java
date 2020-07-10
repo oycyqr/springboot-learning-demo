@@ -35,11 +35,13 @@ public class IndexController {
     }
 
     /**
-     * 详情页面
-     *
-     * @param id
-     * @return
+     * @Description:
+     * @author oyc
+     * @date: 2020/7/10 9:49
+     * 
+     * @return: 
      */
+    
     @GetMapping("detail/{id}")
     public String delete(@PathVariable("id") Integer id) {
         return "/admin/detail";

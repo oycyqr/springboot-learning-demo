@@ -6,6 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author ouyangcheng
  */
+/**
+ * @description:
+ * @author: oyc
+ * @date: 2020/7/10 9:37
+ */
+
 @SpringBootApplication
 public class SpringbootSsmBlogApplication {
 

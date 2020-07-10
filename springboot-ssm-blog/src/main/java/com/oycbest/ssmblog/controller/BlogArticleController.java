@@ -27,13 +27,13 @@ public class BlogArticleController {
     private BlogArticleService blogArticleService;
 
     /**
-     * 所有用户列表
+     * 所有文章列表
      */
     @RequestMapping("/list")
     @ResponseBody
-    public ResponseEntity list(Page page, BlogArticle blog) {
+    public ResponseEntity list(Page page, BlogArticle article) {
         QueryWrapper<BlogArticle> wrapper = new QueryWrapper<>();
-        wrapper.setEntity(blog);
+        wrapper.setEntity(article);
         return ResponseEntity.ok().body(blogArticleService.page(page, wrapper));
     }
 

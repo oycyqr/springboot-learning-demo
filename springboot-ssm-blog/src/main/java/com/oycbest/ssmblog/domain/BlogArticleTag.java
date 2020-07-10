@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * 文章标签表
+ * @author oyc
  */
 @Getter
 @Setter

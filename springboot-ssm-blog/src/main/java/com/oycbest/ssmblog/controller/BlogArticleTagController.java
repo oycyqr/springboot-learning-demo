@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * @since 2020-04-28 23:36:00
  */
 @RestController
-@RequestMapping("blog/article")
+@RequestMapping("blog/article/tag")
 public class BlogArticleTagController {
     /**
      * 服务对象
@@ -27,7 +27,7 @@ public class BlogArticleTagController {
     private BlogArticleTagService articleTagService;
 
     /**
-     * 所有用户列表
+     * 所有文章标签列表
      */
     @RequestMapping("/list")
     @ResponseBody

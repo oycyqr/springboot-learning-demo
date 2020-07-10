@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.oycbest.ssmblog.domain.Blog;
 
 /**
- * (SsmBlog)表数据库访问层
+ * (Blog)表数据库访问层
  *
  * @author oyc
  * @since 2020-04-28 23:36:00

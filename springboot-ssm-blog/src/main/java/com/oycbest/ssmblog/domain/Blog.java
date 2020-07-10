@@ -7,7 +7,7 @@ import java.util.Date;
 import java.io.Serializable;
 
 /**
- * (SsmBlog)实体类
+ * (Blog)实体类
  *
  * @author oyc
  * @since 2020-04-28 23:36:00

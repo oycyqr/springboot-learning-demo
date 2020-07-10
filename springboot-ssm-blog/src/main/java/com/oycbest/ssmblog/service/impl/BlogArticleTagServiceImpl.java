@@ -12,6 +12,6 @@ import org.springframework.stereotype.Service;
  * @author oyc
  * @since 2020-04-29 22:47:13
  */
-@Service("blogListService")
+@Service("blogArticleTagService")
 public class BlogArticleTagServiceImpl extends ServiceImpl<BlogArticleTagMapper, BlogArticleTag> implements BlogArticleTagService {
 }

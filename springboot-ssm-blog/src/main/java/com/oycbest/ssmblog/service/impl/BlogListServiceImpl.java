@@ -7,7 +7,7 @@ import com.oycbest.ssmblog.service.BlogListService;
 import org.springframework.stereotype.Service;
 
 /**
- * (SsmBlogList)表服务实现类
+ * (BlogList)表服务实现类
  *
  * @author oyc
  * @since 2020-04-29 22:47:13
