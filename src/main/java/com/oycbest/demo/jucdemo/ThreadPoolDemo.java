@@ -1,6 +1,7 @@
-package com.oycbest.demo;
+package com.oycbest.demo.jucdemo;
 
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: oyc
@@ -24,8 +25,17 @@ public class ThreadPoolDemo {
 				1L, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>(3), Executors.defaultThreadFactory(), new ThreadPoolExecutor.DiscardPolicy());
 		for (int i = 0; i < 10; i++) {
-			singleThreadPool.execute(()-> System.out.println("demo2:"+Thread.currentThread().getName()));
+			//singleThreadPool.execute(()-> System.out.println("demo2:"+Thread.currentThread().getName()));
 		}
-		singleThreadPool.shutdown();
+		//singleThreadPool.shutdown();
+
+
+		ExecutorService executor = new ThreadPoolExecutor(
+				1,3,5,TimeUnit.MINUTES,
+				new LinkedBlockingDeque<>(10),Executors.defaultThreadFactory(),new ThreadPoolExecutor.AbortPolicy());
+		Future<?> submit = executor.submit(() -> System.out.println(123));
+		System.out.println(submit.isDone());
+		executor.shutdown();
+		System.out.println(submit.isDone());
 	}
 }
