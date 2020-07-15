@@ -51,7 +51,6 @@ class MyCache {
     public synchronized void put(String key, Object value) {
         writeLock.lock();
         try {
-
             System.out.println(Thread.currentThread().getName() + "------ 开始写入********");
             try {
                 TimeUnit.MILLISECONDS.sleep(300);
