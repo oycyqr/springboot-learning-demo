@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>WebSocket Demo</h2>
+<label>请输入要发送的内容：
+    <textarea id="msg"></textarea>
+</label>
+<button onclick="sendMsg()">发送</button>
+<br>
+<p id="receive-msg"></p>
+</body>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+    // 初始化一个 WebSocket 对象
+    var ws = new WebSocket("ws://localhost:8080/websocket");
+
+    // 建立 web socket 连接成功触发事件
+    ws.onopen = function () {
+        // 使用 send() 方法发送数据
+        ws.send("可以开始发送数据...");
+        console.log("数据发送中...");
+    };
+
+    // 接收服务端数据时触发事件
+    ws.onmessage = function (evt) {
+        var received_msg = "数据已接收:" + evt.data;
+        console.log(+received_msg);
+        $("#receive-msg").html($("#receive-msg").html() + "<p>" + received_msg + "</p>");
+    };
+
+    // 断开 web socket 连接成功触发事件
+    ws.onclose = function () {
+        console.log("连接已关闭...");
+    };
+
+    function sendMsg() {
+        console.log("发送消息...");
+        var msg =  $("#msg").val();
+        ws.send(msg);
+        $("#receive-msg").html($("#receive-msg").html() + "<p>发送消息:" + msg + "</p>");
+        $("#msg").val("");
+    }
+</script>
+</html>
