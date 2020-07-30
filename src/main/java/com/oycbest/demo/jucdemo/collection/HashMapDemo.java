@@ -13,9 +13,8 @@ public class HashMapDemo {
 
     public static void main(String[] args) {
         System.out.println("*********************HashMapDemo*********************");
-        concurrentHashMap.put("1","one");
         concurrentHashMap.put("2","two");
-        concurrentHashMap.put("3","three");
+        concurrentHashMap.put("3","three"); // cas + synchronized
         concurrentHashMap.get("3");
     }
 }

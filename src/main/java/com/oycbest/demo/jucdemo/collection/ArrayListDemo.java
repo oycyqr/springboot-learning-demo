@@ -1,6 +1,9 @@
 package com.oycbest.demo.jucdemo.collection;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -31,6 +34,31 @@ public class ArrayListDemo {
         });
         for (int i = 0; i < arrayList.size(); i++) {
             System.out.println(arrayList.get(i));
+        }
+        String[] str = {"aa","bb","cc"};
+        List<String> arrayList1 = Arrays.asList(str);
+
+        try {
+            for (String s : arrayList1) {
+                if(s.equalsIgnoreCase("bb")){
+                    arrayList1.remove(s);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<String> arrayList2 = new ArrayList(arrayList1);
+        try {
+            for (String s : arrayList2) {
+                if(s.equalsIgnoreCase("bb")){
+                    arrayList2.remove(s);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < arrayList2.size(); i++) {
+            System.out.println(arrayList2.get(i));
         }
     }
 
