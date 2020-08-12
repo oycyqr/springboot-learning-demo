@@ -51,6 +51,7 @@ public class ShiroLoginFilter extends FormAuthenticationFilter {
 		httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
 		httpServletResponse.setCharacterEncoding("UTF-8");
 		httpServletResponse.setContentType("application/json");
+		System.out.println("ShiroLoginFilter onAccessDenied");
 		Result result = Result.unAuth();
 		httpServletResponse.getWriter().write(result.toString());
 		return false;

@@ -33,6 +33,7 @@
         <module>springboot-swagger</module>
         <module>springboot-shiro</module>
         <module>springboot-ssm-blog</module>
+        <module>springboot-websocket</module>
     </modules>
 
     <dependencies>
@@ -57,6 +58,10 @@
             <artifactId>hutool-all</artifactId>
             <version>5.3.2</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
 
