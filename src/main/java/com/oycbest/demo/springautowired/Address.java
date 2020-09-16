@@ -1,5 +1,6 @@
 package com.oycbest.demo.springautowired;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
  * @date: 2020/8/20 14:33
  */
 @Component
+@Scope("prototype")
 public class Address {
     private String city;
 
