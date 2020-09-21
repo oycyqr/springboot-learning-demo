@@ -1,6 +1,7 @@
 package com.oycbest.springbootredis;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -9,9 +10,10 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @date: 2020/9/16 10:47
  */
 @SpringBootTest
-public class JedisDemo {
+public class JedisDemoTest {
 
-    private static RedisTemplate redisTemplate = new RedisTemplate();
+    @Autowired
+    private static RedisTemplate redisTemplate;
 
     @Test
     public  void poolTest() {
