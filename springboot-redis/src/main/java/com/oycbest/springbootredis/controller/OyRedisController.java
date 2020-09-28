@@ -19,7 +19,6 @@ public class OyRedisController {
     /**
      * 依赖注入，注入redisTemplate
      */
-
     @Autowired
     private RedisTemplate redisTemplate;
 
