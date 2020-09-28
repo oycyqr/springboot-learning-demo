@@ -138,4 +138,37 @@ public class OyRedisTestController {
 
         return members;
     }
+
+    @RequestMapping("zset")
+    public Object zSetTest(@RequestParam(value = "key", required = false) String key) {
+        //key = !StringUtils.isEmpty(key) ? KEY_HASH_PREFIX + key : KEY_HASH_PREFIX + "k1";
+        ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+        zSetOperations.add(key, 1, 10);
+        zSetOperations.add(key, 4, 40);
+        zSetOperations.add(key, 2, 20);
+        zSetOperations.add(key, 2, 25);
+        zSetOperations.add(key, 8, 80);
+        zSetOperations.add(key, 3, 30);
+        zSetOperations.add(key, 9, 90);
+        zSetOperations.add(key, 10, 100);
+        Set range = zSetOperations.range(key, 0, -1);
+
+        System.out.print("\nset range:");
+        range.stream().forEach(k -> System.out.print(k + " "));
+
+        Set set = zSetOperations.rangeByScore(key, 85, 300);
+        System.out.print("\nset rangeByScore(85,300):");
+        set.forEach(k -> System.out.print(k + " "));
+
+        System.out.println("\nset rangeByScore(85,300) count:" + zSetOperations.count(key, 85, 300));
+
+        zSetOperations.remove(key, 7);
+        System.out.print("\nafter remove 7:");
+        zSetOperations.range(key, 0, -1).forEach(k -> System.out.print(k + " "));
+
+        System.out.println("\n9 score:" + zSetOperations.score(key, 9));
+
+
+        return range;
+    }
 }
