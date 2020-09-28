@@ -33,6 +33,19 @@ public class RedisConfig extends CachingConfigurerSupport {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         // 配置连接工厂
         template.setConnectionFactory(factory);
+        // 设置key的序列化器
+        template.setKeySerializer(new StringRedisSerializer());
+        // 设置value的序列化器
+        //使用Jackson 2，将对象序列化为JSON
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        //json转对象类，不设置默认的会将json转成hashmap
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        template.setValueSerializer(jackson2JsonRedisSerializer);
+
+        /*
         // 序列化和反序列化redis的value值（默认使用JDK的序列化方式）
         Jackson2JsonRedisSerializer jacksonSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper om = new ObjectMapper();
@@ -51,7 +64,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         // 设置hash key 和value序列化模式
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(jacksonSerializer);
-        template.afterPropertiesSet();
+        template.afterPropertiesSet();*/
         return template;
     }
 }

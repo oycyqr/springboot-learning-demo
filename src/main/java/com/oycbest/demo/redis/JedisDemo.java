@@ -17,8 +17,8 @@ public class JedisDemo {
 
     public static void main(String[] args) {
         System.out.println("Jedis Demo");
-        Jedis jedis = new Jedis("192.168.14.95",6379,3000);
-        jedis.auth("123456");
+        Jedis jedis = new Jedis("146.56.192.87",6379,3000);
+        jedis.auth("oy12345678");
         Set<String> keys = jedis.keys("*");
         keys.stream().forEach(k -> System.out.println(k));
         System.out.println("匹配以 user 为前缀的 key");
@@ -77,6 +77,7 @@ public class JedisDemo {
         jedis.mset("key1","value1","key2","value2","key3","value3","key4","value4");
         System.out.println(jedis.get("key1"));
         System.out.println(jedis.mget("key1","key2","key3"));
+
         //List
         System.out.println("\n*************************List*************************");
         jedis.lpush("mylist","v1","v2","v3","v4");
@@ -91,6 +92,7 @@ public class JedisDemo {
         for (int i = 0; i < mylist.size(); i++) {
             System.out.print(jedis.rpop("mylist")+" ");
         }
+
         //Hash
         System.out.println("\n\n*************************Hash*************************");
         jedis.hset("myHash1","username","ouyang");
@@ -113,6 +115,8 @@ public class JedisDemo {
         jedis.sadd("set","set0003");
         jedis.sadd("set","set0004");
         jedis.sadd("set","set0003");
+        Long set11 = jedis.setrange("set1", 0,"set4");
+        System.out.println("set11:"+set11);
         Set<String> set = jedis.smembers("set");
         set.stream().forEach(s -> System.out.print(s+" "));
 
@@ -155,7 +159,7 @@ public class JedisDemo {
                     poolConfig.setMaxWaitMillis(100 * 1000);
                     poolConfig.setTestOnBorrow(true);
 
-                    jedisPool = new JedisPool(poolConfig, "192.168.14.95", 6379,3000, "123456", false);
+                    jedisPool = new JedisPool(poolConfig, "146.56.192.87", 6379,3000, "oy12345678", false);
                 }
             }
         }

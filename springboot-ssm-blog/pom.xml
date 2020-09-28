@@ -86,6 +86,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.70</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!--JWT-->
         <dependency>
             <groupId>com.auth0</groupId>

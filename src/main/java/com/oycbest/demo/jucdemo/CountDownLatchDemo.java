@@ -1,7 +1,6 @@
 package com.oycbest.demo.jucdemo;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @Description:

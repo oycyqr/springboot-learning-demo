@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties(ignoreUnknown = true,value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class OyUser implements Serializable {
     private static final long serialVersionUID = 339460670228746794L;
 
