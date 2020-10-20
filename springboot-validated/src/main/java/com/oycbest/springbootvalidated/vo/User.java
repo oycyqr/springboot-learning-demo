@@ -23,7 +23,6 @@ public class User implements Serializable {
     private String email;
 
     @NotNull(message = "电话号码不能为空")
-    @NotEmpty(message = "电话号码不能为空")
     private String phoneNumber;
 
     public User(@NotNull(message = "用户名不能为空") String userName, int age) {
