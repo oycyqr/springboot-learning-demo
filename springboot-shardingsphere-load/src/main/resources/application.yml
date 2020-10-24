@@ -1,0 +1,82 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /share
+
+#### spring  ####
+spring:
+  # 因为Druid数据源和默认的数据源冲突，添加此配置
+  main:
+    allow-bean-definition-overriding: true
+  # 配置说明地址 https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot/#%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87
+  shardingsphere:
+    # 数据库
+    datasource:
+      # 数据库的别名
+      names: ds0,ds1
+      # 主库1 ,master数据库
+      ds0:
+        ###  数据源类别
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/shardingsphere?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+        username: root
+        password: 123456
+      # 从库1 ,slave数据库
+      ds1:
+        ###  数据源类别
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/shardingsphere1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+        username: root
+        password: 123456
+
+    # *** 数据库分库分表配置 start
+    masterslave:
+      # 查询时的负载均衡算法，目前有2种算法，round_robin（轮询）和random（随机），
+      # 算法接口是io.shardingjdbc.core.api.algorithm.masterslave.MasterSlaveLoadBalanceAlgorithm。
+      # 实现类有RandomMasterSlaveLoadBalanceAlgorithm 和 RoundRobinMasterSlaveLoadBalanceAlgorithm。
+      load-balance-algorithm-type: random
+      name: dataSource
+      # 主数据源名称
+      master-data-source-name: ds0
+      # 从数据源名称，多个用逗号隔开
+      slave-data-source-names: ds0,ds1
+    # *** 数据库分库分表配置 end
+
+    props:
+      # 打印SQL
+      sql.show: true
+      check:
+        table:
+          metadata: true
+          # 是否在启动时检查分表元数据一致性
+          enabled: true
+      query:
+        with:
+          cipher:
+            column: true
+#### mybatis-plus ###
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.oycbest.springbootshardingsphere.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+  global-config:
+    db-config:
+      id-type: auto
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+  #刷新mapper 调试神器
+  refresh: false
