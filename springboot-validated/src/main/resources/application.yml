@@ -6,9 +6,9 @@ server:
 spring:
   redis:
     database: 3 # Redis数据库索引（默认为0）
-    host: 146.56.192.87 # Redis服务器地址
+    host: 127.0.0.1 # Redis服务器地址
     port: 6379 # Redis服务器连接端口
-    password: oy12345678 # Redis服务器连接密码（默认为空）
+    password:  # Redis服务器连接密码（默认为空）
     timeout: 20000  # 连接超时时间（毫秒）
     jedis:
       pool:
