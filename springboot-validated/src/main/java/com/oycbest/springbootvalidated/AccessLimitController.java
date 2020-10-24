@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +24,10 @@ public class AccessLimitController {
      * 限流测试
      */
     @GetMapping
+    @ResponseBody
     @AccessLimit(maxCount = 3,second = 60)
     public String limit(HttpServletRequest request) {
         logger.error("Access Limit Test");
         return "限流测试";
     }
-
 }

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
@@ -63,6 +64,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
 
                 if (count >= maxCount) {
                     logger.warn("请求过于频繁请稍后再试");
+                    render(response,"请求过于频繁请稍后再试");
                     return false;
                 }
             }
@@ -73,4 +75,12 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
         }
         return true;
     }
+    private void render(HttpServletResponse response, String msg)throws Exception {
+        response.setContentType("application/json;charset=UTF-8");
+        OutputStream out = response.getOutputStream();
+        out.write(msg.getBytes("UTF-8"));
+        out.flush();
+        out.close();
+    }
+
 }
