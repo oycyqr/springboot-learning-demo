@@ -1,0 +1,18 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /validated
+
+spring:
+  redis:
+    database: 3 # Redis数据库索引（默认为0）
+    host: 146.56.192.87 # Redis服务器地址
+    port: 6379 # Redis服务器连接端口
+    password: oy12345678 # Redis服务器连接密码（默认为空）
+    timeout: 20000  # 连接超时时间（毫秒）
+    jedis:
+      pool:
+        max-active: 200         # 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 20         # 连接池中的最大空闲连接
+        min-idle: 0         # 连接池中的最小空闲连接
+        max-wait: -1       # 连接池最大阻塞等待时间（使用负值表示没有限制）
