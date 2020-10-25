@@ -1,1 +1,1 @@
-## shardingsphere sharing-jdc 数据脱敏
+## shardingsphere sharing-jdc 数据分片（分库分表）
