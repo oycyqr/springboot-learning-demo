@@ -65,12 +65,12 @@
             <version>${mybatis-plus-stater.version}</version>
         </dependency>
 
-        <!--shardingsphere数据分片、脱敏工具-->
-        <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-            <version>4.1.0</version>
-        </dependency>
+<!--shardingsphere数据分片、脱敏工具-->
+<dependency>
+    <groupId>org.apache.shardingsphere</groupId>
+    <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+    <version>4.1.0</version>
+</dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
