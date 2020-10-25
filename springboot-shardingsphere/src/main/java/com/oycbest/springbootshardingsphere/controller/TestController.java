@@ -2,6 +2,7 @@ package com.oycbest.springbootshardingsphere.controller;
 
 import com.oycbest.springbootshardingsphere.domain.User;
 import com.oycbest.springbootshardingsphere.mapper.UserMapper;
+import com.oycbest.springbootshardingsphere.util.SnowflakeId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,7 @@ public class TestController {
     @PostMapping
     public User save(User user) {
         logger.info("********save User");
+        user.setUserId(SnowflakeId.getId());
         int insert = userMapper.insert(user);
         return user;
     }
