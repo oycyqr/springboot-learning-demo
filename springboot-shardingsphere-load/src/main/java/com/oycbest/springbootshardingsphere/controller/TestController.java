@@ -2,6 +2,7 @@ package com.oycbest.springbootshardingsphere.controller;
 
 import com.oycbest.springbootshardingsphere.domain.User;
 import com.oycbest.springbootshardingsphere.mapper.UserMapper;
+import org.apache.shardingsphere.api.hint.HintManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,11 +32,22 @@ public class TestController {
 
     /**
      * 用户列表
-     * @return
      */
     @RequestMapping
     public List<User> userList() {
         logger.info("********TestController userList()");
+        List<User> users = userMapper.selectList(null);
+        return users;
+    }
+
+    /**
+     * 用户列表,强制路由主库
+     */
+    @RequestMapping("ds0")
+    public List<User> userListDs0() {
+        // 强制路由主库
+        HintManager.getInstance().setMasterRouteOnly();
+        logger.info("********TestController userListDs0():强制路由主库");
         List<User> users = userMapper.selectList(null);
         return users;
     }
