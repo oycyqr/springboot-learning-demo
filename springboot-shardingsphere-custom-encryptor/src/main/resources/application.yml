@@ -1,0 +1,136 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /share
+
+#### spring  ####
+spring:
+  # 配置说明地址 http://shardingsphere.apache.org/document/legacy/3.x/document/cn/manual/sharding-proxy/configuration/
+  shardingsphere:
+    # 数据库
+    datasource:
+#      # 数据库的别名
+      names: ds0
+#      # 主库1
+      ds0:
+        ###  数据源类别
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/shardingsphere?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+        username: root
+        password: 123456
+        ### 初始化大小，最小，最大
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        ### 配置获取连接等待超时的时间，单位是毫秒
+        maxWait: 60000
+        ### 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        timeBetweenEvictionRunsMillis: 60000
+        ### 配置一个连接在池中最小生存的时间，单位是毫秒
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        ### 打开PSCache，并且指定每个连接上PSCache的大小
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        ### 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+        filters: stat,wall,log4j
+        ### 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    sharding:
+      # 数据脱敏规则配置---start
+      encrypt-rule:
+        encryptors:
+          encryptor_MD5:
+            type: MD5
+          encryptor_aes:
+            # 加密、解密器的名字，内置的为MD5，aes
+            type: aes
+            props:
+              aes.key.value: 123456
+          encryptor_sha256:
+            # 加密、解密器的名字，内置的为MD5，aes.
+            # 可以自定义，实现
+            # com.example.mybatis.demomybatis.shardingsphere.encrypt
+            # 或者
+            # org.apache.shardingsphere.encrypt.strategy.spi.QueryAssistedEncryptor
+            # 这两个接口即可
+            type: SHA256
+          encryptor_sha256random:
+            type: SHA256_RANDOM
+        tables:
+          # tables
+          user:
+            columns:
+              # 逻辑列,就是写SQL里面的列，因为实体类的名字和数据库的加密列一致，所以这里都是name
+              password:
+                # 原文列
+                plainColumn: password
+                # 密文列，用来存储密文数据
+                cipherColumn: md5_password
+                # 加密器名字
+                encryptor: encryptor_MD5
+              password1:
+                # 原文列
+                plainColumn: password1
+                # 密文列，用来存储密文数据
+                cipherColumn: aes_password
+                # 加密器名字
+                encryptor: encryptor_aes
+              password2:
+                # 原文列
+                plainColumn: password2
+                # 密文列，用来存储密文数据
+                cipherColumn: sha256_password
+                # 加密器名字
+                encryptor: encryptor_sha256
+              password3:
+                # 原文列
+                plainColumn: password3
+                # 密文列，用来存储密文数据
+                cipherColumn: sha256_random_password
+                # 加密器名字
+                encryptor: encryptor_sha256random
+                # 辅助查询列
+                assistedQueryColumn: random
+
+      # 数据脱敏规则配置---end
+    props:
+      # 打印SQL
+      sql.show: true
+      check:
+        table:
+          metadata: true
+          # 是否在启动时检查分表元数据一致性
+          enabled: true
+      query:
+        with:
+          cipher:
+            column: true
+#### mybatis-plus ###
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.oycbest.springbootshardingsphere.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+  global-config:
+    db-config:
+      id-type: auto
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+  #刷新mapper 调试神器
+  refresh: false
