@@ -46,8 +46,6 @@ spring:
         encryptors:
           encryptor_MD5:
             type: MD5
-            props:
-              md5.key.value: 123456
           encryptor_aes:
             # 加密、解密器的名字，内置的为MD5，aes.
             # 可以自定义，实现
