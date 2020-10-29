@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author oyc
  */
 @SpringBootApplication
-public class SpringbootShardingSphereLoadFromServerApplication {
+public class SpringbootShardingSphereZkApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootShardingSphereLoadFromServerApplication.class, args);
+        SpringApplication.run(SpringbootShardingSphereZkApplication.class, args);
     }
 
 }
