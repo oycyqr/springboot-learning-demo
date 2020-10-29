@@ -1,0 +1,9 @@
+server:
+    port: 8888
+    servlet:
+        context-path: /zk
+
+zookeeper:
+    address: 146.56.192.87:2181
+    timeout: 4000
+
