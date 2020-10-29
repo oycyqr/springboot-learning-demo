@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.oycest</groupId>
-    <artifactId>springboot-shardingsphere-reload</artifactId>
+    <artifactId>springboot-shardingsphere-load</artifactId>
     <version>1.0.1</version>
-    <name>springboot-shardingsphere-reload</name>
+    <name>springboot-shardingsphere-load</name>
     <description>ShardingSphere数据负载均衡</description>
 
     <properties>

@@ -1,0 +1,48 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /split
+
+
+#省略数据源、数据分片、读写分离和数据脱敏配置
+
+spring:
+  shardingsphere:
+    orchestration:
+      name: zhili1 #治理实例名称
+      overwrite: false #本地配置是否覆盖注册中心配置。如果可覆盖，每次启动都以本地配置为准
+      registry:
+        type: zookeeper #配置中心类型。如：zookeeper
+        server-lists: 146.56.192.87:2181 #连接注册中心服务器的列表。包括IP地址和端口号。多个地址用逗号分隔。如: host1:2181,host2:2181
+        namespace: orchestration #注册中心的命名空间
+        digest: 123456 #连接注册中心的权限令牌。缺省为不需要权限验证
+        operation-timeout-milliseconds: 500 #操作超时的毫秒数，默认500毫秒
+        max-retries: 3 #连接失败后的最大重试次数，默认3次
+        retry-interval-milliseconds: 500 #重试间隔毫秒数，默认500毫秒
+        time-to-live-seconds: 60 #临时节点存活秒数，默认60秒
+        props:  #配置中心其它属性
+
+#### mybatis-plus ###
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.oycbest.springbootshardingsphere.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+  global-config:
+    db-config:
+      id-type: auto
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+  #刷新mapper 调试神器
+  refresh: false

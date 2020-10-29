@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -91,4 +93,10 @@ public class GlobalExceptionHandler {
         return returnVO;
 
     }*/
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
+        // 注意哦，这里返回类型是自定义响应体
+        return objectError.getDefaultMessage();
+    }
 }

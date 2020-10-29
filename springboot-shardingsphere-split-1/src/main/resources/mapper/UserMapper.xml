@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="me.gacl.mapping.classMapper"就是me.gacl.mapping(包名)+classMapper(classMapper.xml文件去除后缀)
+ -->
+<mapper namespace="com.oycbest.springbootshardingsphere.mapper.UserMapper">
+
+
+    <select id="getUserAddressList" resultType="Map">
+        SELECT u.account,
+               u.password,
+               u.name,
+               u.age,
+               u.sex,
+               u.create_time,
+               u.address_id,
+               a.address
+        FROM user u
+                 left join address a ON u.address_id = a.address_id
+    </select>
+
+</mapper>

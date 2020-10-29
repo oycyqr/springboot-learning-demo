@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.oycest</groupId>
-    <artifactId>springboot-shardingsphere-custom-encryptor</artifactId>
+    <artifactId>springboot-shardingsphere-loadfromserver</artifactId>
     <version>1.0.1</version>
-    <name>springboot-shardingsphere-custom-encryptor</name>
-    <description>ShardingSphere数据脱敏</description>
+    <name>springboot-shardingsphere-loadfromserver</name>
+    <description>ShardingSphere数据分库分表</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -66,12 +66,12 @@
         </dependency>
 
         <!--shardingsphere数据分片、脱敏工具-->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
             <version>4.1.0</version>
         </dependency>
-
+-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -83,12 +83,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>4.5.11</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -98,6 +92,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
 
+    </build>
 </project>

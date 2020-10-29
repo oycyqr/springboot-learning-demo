@@ -1,0 +1,110 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /split
+
+#### spring  ####
+spring:
+  main:
+    # 一个实体类对应两张表，覆盖
+    allow-bean-definition-overriding: true
+  # 配置说明地址 https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot/#%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87
+  shardingsphere:
+    # 数据库
+    datasource:
+      # 数据库的别名
+      names: ds0,ds1
+      # 主库1
+      ds0:
+        ###  数据源类别
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://146.56.192.87:3306/shardingsphere?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+        username: oyc
+        password: oyc@123123
+      # 主库1
+      ds1:
+        ###  数据源类别
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://146.56.192.87:3306/shardingsphere1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+        username: oyc
+        password: oyc@123123
+
+    # *** 数据库分库分表配置 start
+    sharding:
+      # 默认数据库
+      default-data-source-name: ds0
+      # 水平拆分的数据库（表） 配置分库 + 分表策略 行表达式分片策略
+      # 1.默认分库策略 shardingsphere-->ds0 shardingsphere1-->ds1
+#      default-database-strategy:
+#        inline:
+#          sharding-column: user_id
+#          algorithm-expression: ds$->{user_id % 2}
+      # 2.默认分表策略 user_split_0 user_split_1
+      default-table-strategy:
+        inline:
+          sharding-column: age  # 分表策略 其中user为逻辑表 分表主要取决于age行
+          algorithm-expression: user1_split_$->{age % 2}
+
+      # 数据节点
+      tables:
+        user:
+          actual-data-nodes: ds0.user1_split_$->{0..1}
+
+        address:
+          actual-data-nodes: ds0.address_$->{0..1}
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: address_$->{id % 2}
+
+        department:
+          actual-data-nodes: ds$->{1}.department
+          key-generator:
+            column: dept_id
+            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              algorithm-expression: department
+              sharding-column: dept_id
+      # binding-tables: user,address
+       #*** 数据库分库分表配置 end
+
+    props:
+      # 打印SQL
+      sql.show: true
+      check:
+        table:
+          metadata: true
+          # 是否在启动时检查分表元数据一致性
+          enabled: true
+      query:
+        with:
+          cipher:
+            column: true
+
+#### mybatis-plus ###
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.oycbest.springbootshardingsphere.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+  global-config:
+    db-config:
+      id-type: auto
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+  #刷新mapper 调试神器
+  refresh: false
