@@ -1,0 +1,11 @@
+server:
+  port: 80
+spring:
+  application:
+    name: rabbitmq
+  #配置rabbitMq 服务器
+  rabbitmq:
+    host: 146.1.1.1
+    port: 5672
+    username: oyc
+    password: 111
