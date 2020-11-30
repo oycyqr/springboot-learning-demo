@@ -1,10 +1,11 @@
 package com.oycbest.springbootshardingsphere.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oycbest.springbootshardingsphere.domain.User;
 import com.oycbest.springbootshardingsphere.mapper.UserMapper;
-import com.oycbest.springbootshardingsphere.util.SnowflakeId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +21,8 @@ import java.util.List;
  * @Version
  */
 @RestController
-@RequestMapping("test")
-public class TestController {
+@RequestMapping("user")
+public class UserController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
@@ -48,8 +49,21 @@ public class TestController {
     @PostMapping
     public User save(User user) {
         logger.info("********save User");
-        user.setUserId(SnowflakeId.getId());
-        int insert = userMapper.insert(user);
+        //user.setUserId(SnowflakeId.getId());
+        userMapper.insert(user);
         return user;
+    }
+
+    /**
+     * 查询用户
+     * @return
+     */
+    @GetMapping("list")
+    public Object getUser(User user) {
+        logger.info("********s查询用户");
+        QueryWrapper<User> queryWrapper = new QueryWrapper();
+        queryWrapper.setEntity(user);
+        queryWrapper.orderByAsc("user_id");
+        return userMapper.selectList(queryWrapper);
     }
 }

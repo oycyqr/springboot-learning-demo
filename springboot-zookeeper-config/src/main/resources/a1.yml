@@ -1,0 +1,10 @@
+spring:
+  shardingsphere:
+    orchestration:
+      spring_boot_ds_sharding:
+        orchestration-type: registry_center,config_center
+        instance-type: zookeeper
+        server-lists: localhost:2181
+        namespace: orchestration-spring-boot-sharding-test
+        props:
+          overwrite: true

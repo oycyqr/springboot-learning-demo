@@ -5,9 +5,6 @@ server:
 
 #### spring  ####
 spring:
-  # 因为Druid数据源和默认的数据源冲突，添加此配置
-  main:
-    allow-bean-definition-overriding: true
   # 配置说明地址 https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot/#%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87
   shardingsphere:
     # 数据库
@@ -20,7 +17,7 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://127.0.0.1:3306/shardingsphere?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
-        username: oyc
+        username: root
         password: 123456
       # 从库1
       ds1:
@@ -28,16 +25,14 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://127.0.0.1:3306/shardingsphere1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
-        username: oyc
+        username: root
         password: 123456
 
     # *** 数据库分库分表配置 start
     sharding:
       # 默认数据库
       default-data-source-name: ds0
-
-      # 水平拆分的数据库（表） 配置分库 + 分表策略 行表达式分片策略
-      # 1.默认分库策略 shardingsphere-->ds0 shardingsphere1-->ds1
+      # 水平拆分的数据库（表） 配置分库 + 分表策略 行表达式分片策略  1.默认分库策略 shardingsphere-->ds0 shardingsphere1-->ds1
       default-database-strategy:
         inline:
           sharding-column: user_id

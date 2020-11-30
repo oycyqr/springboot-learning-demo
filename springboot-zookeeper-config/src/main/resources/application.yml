@@ -1,0 +1,35 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /zk
+
+# 名字随便起一个 /orchestration/orchestration_ds/config/schema/sharding_db Path	/oyctest1/orchestration_ds_oyc1
+spring:
+  shardingsphere:
+    orchestration:
+      name: orchestration_ds
+      # 覆盖配置中心的配置，以本地为准
+      overwrite: true
+      registry:
+        type: zookeeper
+        # 名字随便起一个，这是我们这个集群的名称，其他的集群可以用这个也可以用自己单独的，作为资源隔离
+        namespace: /oyctest1
+        server-lists: 127.0.0.1:2181
+
+#
+#spring:
+#  shardingsphere:
+#    orchestration:
+#      spring_boot_ds_sharding:
+#        orchestration-type: registry_center,config_center
+#        instance-type: zookeeper
+#        server-lists: localhost:2181
+#        namespace: orchestration
+#        props:
+#          overwrite: true
+#spring.shardingsphere.orchestration.spring_boot_ds_sharding.orchestration-type=registry_center,config_center
+#spring.shardingsphere.orchestration.spring_boot_ds_sharding.instance-type=zookeeper
+#spring.shardingsphere.orchestration.spring_boot_ds_sharding.server-lists=localhost:2181
+#spring.shardingsphere.orchestration.spring_boot_ds_sharding.namespace=orchestration-spring-boot-sharding-test
+#spring.shardingsphere.orchestration.spring_boot_ds_sharding.props.overwrite=true
+

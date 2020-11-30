@@ -91,7 +91,7 @@ public class OyRedisTestController {
         user.put("email", email);
         user.put("adress", adress);
 
-        hashOperations.increment(key, "age", 10);
+        //hashOperations.increment(key, "age", 10);
         Set keys = hashOperations.keys(key);
         System.out.print("\nkeys:");
         keys.stream().forEach(k -> System.out.print(k + " "));

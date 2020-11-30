@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @Author: oyc
  * @Description: redis 测试控制类
@@ -28,6 +30,7 @@ public class OyRedisController {
     @GetMapping("/string/add")
     public String addStringKeyValue(@RequestParam(value = "key", defaultValue = "key1") String key, @RequestParam(value = "value", defaultValue = "redis value") String value) {
         redisTemplate.opsForValue().set(key, value);
+        redisTemplate.opsForValue().set("Tke"+key,value,60, TimeUnit.MINUTES);
         return (String) redisTemplate.opsForValue().get(key);
     }
 
@@ -48,6 +51,13 @@ public class OyRedisController {
     @GetMapping("/string/get")
     public Object getStringByKey(@RequestParam(value = "key", defaultValue = "key1") String key) {
         return redisTemplate.opsForValue().get(key);
+    }
+    /**
+     * 测试redis string get
+     */
+    @GetMapping("/list")
+    public Object list(@RequestParam(value = "key", defaultValue = "key1") String key) {
+        return redisTemplate.opsForValue();
     }
 
 }

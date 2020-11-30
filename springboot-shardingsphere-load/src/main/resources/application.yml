@@ -32,8 +32,8 @@ spring:
         ###  数据源类别
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/shardingsphere2?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
-        username: root
+        url: jdbc:mysql://146.56.192.87:3306/shardingsphere2?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+        username: oyc
         password: 123456
 
     # *** 数据库分库分表配置 start
@@ -47,7 +47,7 @@ spring:
       master-data-source-name: ds0
       # 从数据源名称，多个用逗号隔开
       slave-data-source-names: ds1,ds2
-    # *** 数据库分库分表配置 end
+      # *** 数据库分库分表配置 end
 
     props:
       # 打印SQL

@@ -1,5 +1,6 @@
 package com.oycbest.springbootshardingsphere.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,7 +20,8 @@ public class User implements Serializable {
     /**
      * 用户id
      */
-    private String userId;
+    @TableId
+    private Long userId;
 
     /**
      * 用户名称
@@ -54,6 +56,6 @@ public class User implements Serializable {
     /**
      * 地址
      */
-    private String addressId;
+//    private String addressId;
 
 }

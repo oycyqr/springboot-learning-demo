@@ -11,12 +11,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Author oyc
  * @Date 2020/4/29 7:46 下午
  */
-
 //Spring boot方式
 @EnableTransactionManagement
 @Configuration
 //扫描的mapper文件路径
-@MapperScan(value = "com.oycbest.springbootshardingsphere.mapper")
+@MapperScan(value = "com.oycbest.springbootshardingspheresplit1.mapper")
 public class MybatisPlusConfig {
 
     /**

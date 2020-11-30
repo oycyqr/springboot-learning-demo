@@ -21,7 +21,7 @@ spring:
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://146.56.192.87:3306/shardingsphere?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
         username: oyc
-        password: oyc@123123
+        password: 123123
       # 主库1
       ds1:
         ###  数据源类别
@@ -29,7 +29,7 @@ spring:
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://146.56.192.87:3306/shardingsphere1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
         username: oyc
-        password: oyc@123123
+        password: 123123
 
     # *** 数据库分库分表配置 start
     sharding:
@@ -37,20 +37,23 @@ spring:
       default-data-source-name: ds0
       # 水平拆分的数据库（表） 配置分库 + 分表策略 行表达式分片策略
       # 1.默认分库策略 shardingsphere-->ds0 shardingsphere1-->ds1
-#      default-database-strategy:
-#        inline:
-#          sharding-column: user_id
-#          algorithm-expression: ds$->{user_id % 2}
+      #      default-database-strategy:
+      #        inline:
+      #          sharding-column: user_id
+      #          algorithm-expression: ds$->{user_id % 2}
       # 2.默认分表策略 user_split_0 user_split_1
       default-table-strategy:
         inline:
-          sharding-column: age  # 分表策略 其中user为逻辑表 分表主要取决于age行
-          algorithm-expression: user1_split_$->{age % 2}
+          sharding-column: user_id  # 分表策略 其中user为逻辑表 分表主要取决于age行
+          algorithm-expression: user_split_$->{user_id % 10}
 
       # 数据节点
       tables:
         user:
-          actual-data-nodes: ds0.user1_split_$->{0..1}
+          actual-data-nodes: ds0.user_split_$->{0..9}
+          key-generator:
+            column: user_id
+            type: SNOWFLAKE
 
         address:
           actual-data-nodes: ds0.address_$->{0..1}
@@ -68,8 +71,8 @@ spring:
             inline:
               algorithm-expression: department
               sharding-column: dept_id
-      # binding-tables: user,address
-       #*** 数据库分库分表配置 end
+        # binding-tables: user,address
+        #*** 数据库分库分表配置 end
 
     props:
       # 打印SQL

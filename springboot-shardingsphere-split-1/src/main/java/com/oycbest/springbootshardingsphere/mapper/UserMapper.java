@@ -6,7 +6,7 @@ import com.oycbest.springbootshardingsphere.domain.User;
 import java.util.List;
 
 /**
- * (SsmUser)表数据库访问层
+ * User)表数据库访问层
  *
  * @author oyc
  * @since2020-10-28 23:21:52

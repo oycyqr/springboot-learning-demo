@@ -48,6 +48,7 @@ public class TestController {
         logger.info("********TestController userListDs0():强制路由主库");
 
         HintManager hintManager = HintManager.getInstance();
+        hintManager.setDatabaseShardingValue("ds0");
         List<User> users = userMapper.selectList(null);
 
         //清除分片键值，分片键值保存在ThreadLocal中，所以需要在操作结束时调用hintManager.close()来清除ThreadLocal中的内容。hintManager实现了AutoCloseable接口，可推荐使用try with resource自动关闭。

@@ -4,6 +4,6 @@ server:
         context-path: /zk
 
 zookeeper:
-    address: 146.56.192.87:2181
+    address: 127.0.0.1:2181
     timeout: 4000
 
