@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * @Author: oyc
  * @Date: 2020-04-30 9:40
- * @Description:
+ * @Description: ESBlog Repository
  */
 @Repository
 public interface ESBlogSearchRepository extends ElasticsearchRepository<ESBlog,String> {

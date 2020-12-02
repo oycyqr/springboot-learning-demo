@@ -7,7 +7,7 @@ import javax.annotation.PostConstruct;
 /**
  * @Author: oyc
  * @Date: 2020-04-30 9:36
- * @Description:
+ * @Description: ES配置类
  */
 @SpringBootConfiguration
 public class ElasticSearchConfig {

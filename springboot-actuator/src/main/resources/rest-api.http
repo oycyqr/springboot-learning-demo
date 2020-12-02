@@ -1,0 +1,95 @@
+GET http://127.0.0.1:8081/monitor?name=ouyang
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+GET http://127.0.0.1:8081/monitor/beans
+Accept: */*
+Cache-Control: no-cache
+
+###
+GET http://127.0.0.1:8081/monitor/health
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+
+
+###
+
+{"href":"http://127.0.0.1:8081/monitor","templated":false},
+GET http://127.0.0.1:8081/monitor/beans
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/caches
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/caches
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/health
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/health
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/info
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/conditions
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/configprops
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/loggers
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/loggers
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/heapdump
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/threaddump
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/scheduledtasks
+Accept: */*
+Cache-Control: no-cache
+###
+
+GET http://127.0.0.1:8081/monitor/mappings
+Accept: */*
+Cache-Control: no-cache
+###
+
+
+###
+
