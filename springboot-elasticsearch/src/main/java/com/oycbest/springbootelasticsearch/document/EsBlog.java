@@ -1,51 +1,40 @@
-package com.oycbest.springbootelasticsearch.es;
+package com.oycbest.springbootelasticsearch.document;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @Author: oyc
  * @Date: 2020-04-30 9:37
- * @Description:
+ * @Description: Blog 文档实体类
  */
 @Data
-@Document(indexName = "blog", type = "blog")
-public class ESBlog {
+@Document(indexName = "blog_index", type = "blog")
+public class EsBlog {
 
     @Id
-    private String id;
-
-
-    //@Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart")
-    // 使用分词器
-    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+    private int id;
+    /**
+     * 是否索引: 看该域是否能被搜索, index = true（默认为true）
+     * 是否分词: 表示搜索的时候是整体匹配还是单词匹配
+     * 是否存储: 是否在页面上显示
+     */
+    @Field(index = true, analyzer = "ik_smart", searchAnalyzer = "ik_smart")
     private String title;
 
-    //@Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart")
-    @Field(type = FieldType.Keyword)
-    private String author;
-
-    //@Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart")
-    @Field(type = FieldType.Keyword)
+    @Field(analyzer = "ik_smart", searchAnalyzer = "ik_smart")
     private String content;
 
-    private String create_time;
-    private String update_time;
+    public EsBlog() {
+    }
 
-	public ESBlog() {
-	}
-
-	public ESBlog(String id, String title, String author, String content, String create_time, String update_time) {
-		this.id = id;
-		this.title = title;
-		this.author = author;
-		this.content = content;
-		this.create_time = create_time;
-		this.update_time = update_time;
-	}
+    public EsBlog(int id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
 }
 /**
  * @Document 作用在类，标记实体类为文档对象，一般有两个属性
