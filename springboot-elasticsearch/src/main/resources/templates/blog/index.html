@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客</title>
+</head>
+<body>
+<h2>我的博客</h2>
+<form action="/blog/search">
+    <input name="key" id="key">
+    <button type="button" onclick="search();">查询</button>
+    <button type="button" onclick="resetSearch();">重置</button>
+</form>
+<hr/>
+<div id="blogContent" th:fragment="blogContent">
+    <div th:if="${blogContent} ne null">
+        <div th:replace="${blogContent}"></div>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript">
+    function search() {
+        $('#blogContent').load("/blog/search", {key: $("#key").val()}, function () {
+        });
+    }
+
+    function resetSearch() {
+        $("#key").val("");
+        $('#blogContent').load("/blog/search", {key: $("#key").val()}, function () {
+        });
+    }
+</script>
+</html>

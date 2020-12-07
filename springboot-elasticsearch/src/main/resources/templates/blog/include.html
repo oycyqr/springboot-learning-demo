@@ -1,0 +1,7 @@
+<div th:each="blog:${esBlogPage.getContent()}">
+    <h2 th:utext="${blog.getTitle()}"></h2>
+    <span th:utext="${blog.getContent()}"></span>
+</div>
+<hr/>
+第 <span th:text="${esBlogPage.getPageable()?.getPageNumber()+1}">1</span> 页 /
+每页显示 <span th:text="${esBlogPage.getPageable()?.getPageSize()}">10</span> 条
