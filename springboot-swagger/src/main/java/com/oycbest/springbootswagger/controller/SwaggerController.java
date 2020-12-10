@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @Description: 测试swagger controller
@@ -31,7 +30,7 @@ public class SwaggerController {
     }
 
     @GetMapping("test2")
-    @ApiIgnore
+    // @ApiIgnore 忽略
     @ApiOperation(value="test2 方法", notes="hello Swagger测试方法-test2")
     public String test2(){
         return "test2";
