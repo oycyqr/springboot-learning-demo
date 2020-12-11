@@ -28,7 +28,8 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         // 指定扫描包路径
         return new Docket(DocumentationType.SWAGGER_2) // 指定生成的文档的类型是Swagger2
-//                .pathMapping("/swagger")
+                .apiInfo(apiInfo())
+                .pathMapping("/swagger")
                 // 用来创建该API的基本信息，展示在文档的页面中（自定义展示的信息）,配置文档页面的基本信息内容
                 // 设置哪些接口暴露给Swagger展示
                 .select()
