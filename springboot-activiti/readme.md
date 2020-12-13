@@ -99,3 +99,4 @@ SequenceFlows用来连接任务，我们可以通过它将源元素和目标元�
 - ManagementService与元数据相关，在创建应用程序时通常不需要。
 - DynamicBpmnService帮助我们在不重新部署的情况下更改流程中的任何内容。
 
+源码地址：[https://github.com/oycyqr/springboot-learning-demo/tree/master/springboot-activiti](https://github.com/oycyqr/springboot-learning-demo/tree/master/springboot-activiti)
