@@ -15,5 +15,6 @@ import java.util.List;
  * @author oyc
  * @since 2020-12-16 00:02:35
  */
+@Service("blogArticleInfoService")
 public class BlogArticleInfoServiceImpl extends ServiceImpl<BlogArticleInfoMapper, BlogArticleInfo> implements BlogArticleInfoService {
 }
