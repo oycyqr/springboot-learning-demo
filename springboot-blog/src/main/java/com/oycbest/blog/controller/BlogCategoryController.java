@@ -46,13 +46,13 @@ public class BlogCategoryController {
     }
 
     /**
-    * 修改数据
-    *
-    * @param blogCategory 实例对象
-    * @return 实例对象
-    */
+     * 修改数据
+     *
+     * @param blogCategory 实例对象
+     * @return 实例对象
+     */
     @PostMapping
-    public BlogCategory save(BlogCategory blogCategory) {
+    public Boolean save(BlogCategory blogCategory) {
         return blogCategoryService.save(blogCategory);
     }
 
@@ -63,12 +63,8 @@ public class BlogCategoryController {
      * @return 实例对象
      */
     @PutMapping
-    public BlogCategory saveOrUpdate(BlogCategory blogCategory) {
-        if (blogCategory.getId() != null) {
-            return blogCategoryService.saveOrUpdate(blogCategory);
-        } else {
-            return blogCategoryService.save(blogCategory);
-        }
+    public Boolean saveOrUpdate(BlogCategory blogCategory) {
+        return blogCategoryService.saveOrUpdate(blogCategory);
     }
 
     /**
@@ -77,8 +73,8 @@ public class BlogCategoryController {
      * @param id 主键
      * @return 是否成功
      */
-     @Delete("{id}")
-    public Boolean delete(@PathVariable("id")  Integer id) {
+    @Delete("{id}")
+    public Boolean delete(@PathVariable("id") Integer id) {
         return blogCategoryService.removeById(id);
     }
 
