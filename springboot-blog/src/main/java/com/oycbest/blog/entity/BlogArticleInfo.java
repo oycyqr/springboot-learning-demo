@@ -20,12 +20,12 @@ public class BlogArticleInfo extends Model<BlogArticleInfo> {
     /**
      * 主键ID
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 用户ID
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 作者昵称

@@ -1,17 +1,18 @@
 package com.oycbest.blog.entity;
 
+import java.util.Date;
+
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+
+import lombok.Data;
 
 /**
  * 文章类别表(BlogCategory)表实体类
  *
- * @author oyc
- * @since 2020-12-16 11:29:07
+ * @author ouyang
+ * @since 2020-12-16 23:11:07
  */
 @SuppressWarnings("serial")
 @Data
@@ -21,6 +22,11 @@ public class BlogCategory extends Model<BlogCategory> {
      * 主键ID
      */
     private Integer id;
+
+    /**
+     * 用户ID
+     */
+    private Integer userId;
 
     /**
      * 类别名字
@@ -40,19 +46,17 @@ public class BlogCategory extends Model<BlogCategory> {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
      * 修改时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     /**
      * 状态
      */
-    private Object status;
+    private Integer status;
 
 
     /**

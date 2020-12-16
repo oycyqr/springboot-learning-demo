@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.oycbest.blog.entity.BlogArticle;
 import com.oycbest.blog.entity.BlogComment;
 import com.oycbest.blog.service.BlogCommentService;
 import org.springframework.web.bind.annotation.*;
@@ -80,7 +81,35 @@ public class BlogCommentController extends ApiController {
      * @return 删除结果
      */
     @DeleteMapping
-    public R delete(@RequestParam("idList") List<Long> idList) {
+    public R delete(@RequestParam("idList") List<Integer> idList) {
         return success(this.blogCommentService.removeByIds(idList));
+    }
+
+    /**
+     * 根据用户id获取评论列表
+     *
+     * @param blogId
+     * @param page
+     * @return
+     */
+    @GetMapping("blogId/{blogId}")
+    public R getCommentByBlogId(@PathVariable Integer blogId, Page<BlogComment> page) {
+        BlogComment blogComment = new BlogComment();
+        blogComment.setArticleId(blogId);
+        return success(this.blogCommentService.page(page, new QueryWrapper<>(blogComment)));
+    }
+
+    /**
+     * 根据用户id获取评论列表
+     *
+     * @param userId
+     * @param page
+     * @return
+     */
+    @GetMapping("userId/{userId}")
+    public R getCommentByUserId(@PathVariable Integer userId, Page<BlogComment> page) {
+        BlogComment blogComment = new BlogComment();
+        blogComment.setUserId(userId);
+        return success(this.blogCommentService.page(page, new QueryWrapper<>(blogComment)));
     }
 }

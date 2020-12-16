@@ -20,17 +20,17 @@ public class BlogComment extends Model<BlogComment> {
     /**
      * 主键ID
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 用户ID
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 文章ID
      */
-    private Long articleId;
+    private Integer articleId;
 
     /**
      * 评论内容
@@ -40,12 +40,12 @@ public class BlogComment extends Model<BlogComment> {
     /**
      * 父评论Id
      */
-    private Long parentId;
+    private Integer parentId;
 
     /**
      * 评论的评论用户ID
      */
-    private Long toUid;
+    private Integer toUid;
 
     /**
      * 创建时间

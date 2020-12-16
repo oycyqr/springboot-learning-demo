@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.oycbest.blog.entity.BlogArticleInfo;
 import com.oycbest.blog.entity.BlogCategory;
 import com.oycbest.blog.service.BlogCategoryService;
 import org.springframework.web.bind.annotation.*;
@@ -82,5 +83,19 @@ public class BlogCategoryController extends ApiController {
     @DeleteMapping
     public R delete(@RequestParam("idList") List<Long> idList) {
         return success(this.blogCategoryService.removeByIds(idList));
+    }
+
+    /**
+     * 根据用户id获取文章分类列表
+     *
+     * @param userId
+     * @param page
+     * @return
+     */
+    @GetMapping("userId/{userId}")
+    public R getArticleByUserId(@PathVariable Integer userId, Page<BlogCategory> page) {
+        BlogCategory blogCategory = new BlogCategory();
+        blogCategory.setUserId(userId);
+        return success(this.blogCategoryService.page(page, new QueryWrapper<>(blogCategory)));
     }
 }
