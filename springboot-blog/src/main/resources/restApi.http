@@ -1,0 +1,26 @@
+### 我的文章
+GET http://127.0.0.1:8888/blog/articleInfo/userId/1
+Accept: */*
+Cache-Control: no-cache
+
+### 我的评论
+GET http://127.0.0.1:8888/blog/comment/?userId=1
+Accept: */*
+Cache-Control: no-cache
+
+### 文章评论
+GET http://127.0.0.1:8888/blog/comment/?articleId=2
+Accept: */*
+Cache-Control: no-cache
+
+### 我的分类
+GET http://127.0.0.1:8888/blog/category/?userId=1
+Accept: */*
+Cache-Control: no-cache
+
+### 我的tag
+GET http://127.0.0.1:8888/blog/tag/?userId=1
+Accept: */*
+Cache-Control: no-cache
+
+###
