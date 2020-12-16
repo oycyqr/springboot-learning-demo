@@ -42,7 +42,8 @@ mybatis-plus:
   #实体扫描，多个package用逗号或者分号分隔
   type-aliases-package: com.oycbest.blog.entity
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+    #开启sql日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
     cache-enabled: false
   #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
