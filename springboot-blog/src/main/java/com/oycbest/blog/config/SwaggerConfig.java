@@ -47,7 +47,7 @@ public class SwaggerConfig {
         // 用ApiInfoBuilder进行定制
         return new ApiInfoBuilder()
                 // 设置标题
-                .title("描述：Spring Boot中使用Swagger2构建RESTful APIs")
+                .title("描述: Spring Boot中使用Swagger2构建RESTful APIs")
                 // 描述
                 .description("swagger 测试demo")
                 //作者信息、联系方式：Contact(String name, String url, String email)

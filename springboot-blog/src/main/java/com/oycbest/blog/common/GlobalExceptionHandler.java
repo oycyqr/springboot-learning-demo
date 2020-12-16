@@ -1,4 +1,4 @@
-package com.oycbest.blog.controller.common;
+package com.oycbest.blog.common;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import org.slf4j.Logger;
