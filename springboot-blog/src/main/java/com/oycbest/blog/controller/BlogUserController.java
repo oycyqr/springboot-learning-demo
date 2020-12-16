@@ -1,27 +1,44 @@
 package com.oycbest.blog.controller;
 
-import com.oycbest.blog.domain.BlogUser;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.oycbest.blog.entity.BlogUser;
 import com.oycbest.blog.service.BlogUserService;
 import org.springframework.web.bind.annotation.*;
-import org.apache.ibatis.annotations.Delete;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 用户表(BlogUser)表控制层
  *
  * @author oyc
- * @since 2020-12-16 00:02:35
+ * @since 2020-12-16 11:17:11
  */
 @RestController
-@RequestMapping("blogUser")
-public class BlogUserController {
+@RequestMapping("user")
+public class BlogUserController extends ApiController {
     /**
      * 服务对象
      */
     @Resource
     private BlogUserService blogUserService;
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page     分页对象
+     * @param blogUser 查询实体
+     * @return 所有数据
+     */
+    @GetMapping
+    public R selectAll(Page<BlogUser> page, BlogUser blogUser) {
+        return success(this.blogUserService.page(page, new QueryWrapper<>(blogUser)));
+    }
 
     /**
      * 通过主键查询单条数据
@@ -30,52 +47,41 @@ public class BlogUserController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    public BlogUser selectOne(@PathVariable("id") Integer id) {
-        return blogUserService.getById(id);
+    public R selectOne(@PathVariable Serializable id) {
+        return success(this.blogUserService.getById(id));
     }
-
 
     /**
-     * 列表数据
+     * 新增数据
      *
-     * @return 列表数据
+     * @param blogUser 实体对象
+     * @return 新增结果
      */
-    @GetMapping("list")
-    public List<BlogUser> list() {
-        return blogUserService.list();
+    @PostMapping
+    public R insert(@RequestBody BlogUser blogUser) {
+        return success(this.blogUserService.save(blogUser));
     }
+
 
     /**
      * 修改数据
      *
-     * @param blogUser 实例对象
-     * @return 实例对象
-     */
-    @PostMapping
-    public Boolean save(BlogUser blogUser) {
-        return blogUserService.save(blogUser);
-    }
-
-    /**
-     * 新增或修改数据
-     *
-     * @param blogUser 实例对象
-     * @return 实例对象
+     * @param blogUser 实体对象
+     * @return 修改结果
      */
     @PutMapping
-    public Boolean saveOrUpdate(BlogUser blogUser) {
-        return blogUserService.saveOrUpdate(blogUser);
+    public R update(@RequestBody BlogUser blogUser) {
+        return success(this.blogUserService.updateById(blogUser));
     }
 
     /**
-     * 通过主键删除数据
+     * 删除数据
      *
-     * @param id 主键
-     * @return 是否成功
+     * @param idList 主键结合
+     * @return 删除结果
      */
-    @Delete("{id}")
-    public Boolean delete(@PathVariable("id") Integer id) {
-        return blogUserService.removeById(id);
+    @DeleteMapping
+    public R delete(@RequestParam("idList") List<Long> idList) {
+        return success(this.blogUserService.removeByIds(idList));
     }
-
 }

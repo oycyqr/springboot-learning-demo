@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement
 @Configuration
-@MapperScan(value = "com.oycbest.blog.mapper")
+@MapperScan(value = "com.oycbest.blog.dao")
 public class MybatisPlusConfig {
 
     /**

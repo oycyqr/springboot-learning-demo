@@ -1,15 +1,14 @@
 package com.oycbest.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.oycbest.blog.domain.BlogArticle;
-import java.util.List;
+import com.oycbest.blog.entity.BlogArticle;
 
 /**
  * 文章表(BlogArticle)表服务接口
  *
  * @author oyc
- * @since 2020-12-16 00:01:13
+ * @since 2020-12-16 11:16:52
  */
-public interface BlogArticleService extends IService<BlogArticle >{
+public interface BlogArticleService extends IService<BlogArticle> {
 
 }

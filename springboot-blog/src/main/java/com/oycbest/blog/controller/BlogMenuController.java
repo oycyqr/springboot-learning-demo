@@ -1,27 +1,44 @@
 package com.oycbest.blog.controller;
 
-import com.oycbest.blog.domain.BlogMenu;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.oycbest.blog.entity.BlogMenu;
 import com.oycbest.blog.service.BlogMenuService;
 import org.springframework.web.bind.annotation.*;
-import org.apache.ibatis.annotations.Delete;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 菜单权限表(BlogMenu)表控制层
  *
  * @author oyc
- * @since 2020-12-16 00:02:35
+ * @since 2020-12-16 11:17:02
  */
 @RestController
-@RequestMapping("blogMenu")
-public class BlogMenuController {
+@RequestMapping("menu")
+public class BlogMenuController extends ApiController {
     /**
      * 服务对象
      */
     @Resource
     private BlogMenuService blogMenuService;
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page     分页对象
+     * @param blogMenu 查询实体
+     * @return 所有数据
+     */
+    @GetMapping
+    public R selectAll(Page<BlogMenu> page, BlogMenu blogMenu) {
+        return success(this.blogMenuService.page(page, new QueryWrapper<>(blogMenu)));
+    }
 
     /**
      * 通过主键查询单条数据
@@ -30,52 +47,40 @@ public class BlogMenuController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    public BlogMenu selectOne(@PathVariable("id") Integer id) {
-        return blogMenuService.getById(id);
+    public R selectOne(@PathVariable Serializable id) {
+        return success(this.blogMenuService.getById(id));
     }
 
-
     /**
-     * 列表数据
+     * 新增数据
      *
-     * @return 列表数据
+     * @param blogMenu 实体对象
+     * @return 新增结果
      */
-    @GetMapping("list")
-    public List<BlogMenu> list() {
-        return blogMenuService.list();
+    @PostMapping
+    public R insert(@RequestBody BlogMenu blogMenu) {
+        return success(this.blogMenuService.save(blogMenu));
     }
 
     /**
      * 修改数据
      *
-     * @param blogMenu 实例对象
-     * @return 实例对象
-     */
-    @PostMapping
-    public Boolean save(BlogMenu blogMenu) {
-        return blogMenuService.save(blogMenu);
-    }
-
-    /**
-     * 新增或修改数据
-     *
-     * @param blogMenu 实例对象
-     * @return 实例对象
+     * @param blogMenu 实体对象
+     * @return 修改结果
      */
     @PutMapping
-    public Boolean saveOrUpdate(BlogMenu blogMenu) {
-        return blogMenuService.saveOrUpdate(blogMenu);
+    public R update(@RequestBody BlogMenu blogMenu) {
+        return success(this.blogMenuService.updateById(blogMenu));
     }
 
     /**
-     * 通过主键删除数据
+     * 删除数据
      *
-     * @param menuId 主键
-     * @return 是否成功
+     * @param idList 主键结合
+     * @return 删除结果
      */
-    @Delete("{menuId}")
-    public Boolean delete(@PathVariable("menuId") Integer menuId) {
-        return blogMenuService.removeById(menuId);
+    @DeleteMapping
+    public R delete(@RequestParam("idList") List<Long> idList) {
+        return success(this.blogMenuService.removeByIds(idList));
     }
-
 }

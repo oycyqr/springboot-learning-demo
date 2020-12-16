@@ -1,27 +1,44 @@
 package com.oycbest.blog.controller;
 
-import com.oycbest.blog.domain.SysServiceLog;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.oycbest.blog.entity.SysServiceLog;
 import com.oycbest.blog.service.SysServiceLogService;
 import org.springframework.web.bind.annotation.*;
-import org.apache.ibatis.annotations.Delete;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * API日志表(SysServiceLog)表控制层
  *
  * @author oyc
- * @since 2020-12-16 00:02:35
+ * @since 2020-12-16 11:17:15
  */
 @RestController
 @RequestMapping("sysServiceLog")
-public class SysServiceLogController {
+public class SysServiceLogController extends ApiController {
     /**
      * 服务对象
      */
     @Resource
     private SysServiceLogService sysServiceLogService;
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page          分页对象
+     * @param sysServiceLog 查询实体
+     * @return 所有数据
+     */
+    @GetMapping
+    public R selectAll(Page<SysServiceLog> page, SysServiceLog sysServiceLog) {
+        return success(this.sysServiceLogService.page(page, new QueryWrapper<>(sysServiceLog)));
+    }
 
     /**
      * 通过主键查询单条数据
@@ -30,52 +47,40 @@ public class SysServiceLogController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    public SysServiceLog selectOne(@PathVariable("id") Integer id) {
-        return sysServiceLogService.getById(id);
+    public R selectOne(@PathVariable Serializable id) {
+        return success(this.sysServiceLogService.getById(id));
     }
 
-
     /**
-     * 列表数据
+     * 新增数据
      *
-     * @return 列表数据
+     * @param sysServiceLog 实体对象
+     * @return 新增结果
      */
-    @GetMapping("list")
-    public List<SysServiceLog> list() {
-        return sysServiceLogService.list();
+    @PostMapping
+    public R insert(@RequestBody SysServiceLog sysServiceLog) {
+        return success(this.sysServiceLogService.save(sysServiceLog));
     }
 
     /**
      * 修改数据
      *
-     * @param sysServiceLog 实例对象
-     * @return 实例对象
-     */
-    @PostMapping
-    public Boolean save(SysServiceLog sysServiceLog) {
-        return sysServiceLogService.save(sysServiceLog);
-    }
-
-    /**
-     * 新增或修改数据
-     *
-     * @param sysServiceLog 实例对象
-     * @return 实例对象
+     * @param sysServiceLog 实体对象
+     * @return 修改结果
      */
     @PutMapping
-    public Boolean saveOrUpdate(SysServiceLog sysServiceLog) {
-        return sysServiceLogService.saveOrUpdate(sysServiceLog);
+    public R update(@RequestBody SysServiceLog sysServiceLog) {
+        return success(this.sysServiceLogService.updateById(sysServiceLog));
     }
 
     /**
-     * 通过主键删除数据
+     * 删除数据
      *
-     * @param id 主键
-     * @return 是否成功
+     * @param idList 主键结合
+     * @return 删除结果
      */
-    @Delete("{id}")
-    public Boolean delete(@PathVariable("id") Integer id) {
-        return sysServiceLogService.removeById(id);
+    @DeleteMapping
+    public R delete(@RequestParam("idList") List<Long> idList) {
+        return success(this.sysServiceLogService.removeByIds(idList));
     }
-
 }

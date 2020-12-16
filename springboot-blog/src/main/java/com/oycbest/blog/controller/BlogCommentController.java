@@ -1,27 +1,44 @@
 package com.oycbest.blog.controller;
 
-import com.oycbest.blog.domain.BlogComment;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.oycbest.blog.entity.BlogComment;
 import com.oycbest.blog.service.BlogCommentService;
 import org.springframework.web.bind.annotation.*;
-import org.apache.ibatis.annotations.Delete;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 评论表(BlogComment)表控制层
  *
  * @author oyc
- * @since 2020-12-16 00:02:35
+ * @since 2020-12-16 11:16:59
  */
 @RestController
-@RequestMapping("blogComment")
-public class BlogCommentController {
+@RequestMapping("comment")
+public class BlogCommentController extends ApiController {
     /**
      * 服务对象
      */
     @Resource
     private BlogCommentService blogCommentService;
+
+    /**
+     * 分页查询所有数据
+     *
+     * @param page        分页对象
+     * @param blogComment 查询实体
+     * @return 所有数据
+     */
+    @GetMapping
+    public R selectAll(Page<BlogComment> page, BlogComment blogComment) {
+        return success(this.blogCommentService.page(page, new QueryWrapper<>(blogComment)));
+    }
 
     /**
      * 通过主键查询单条数据
@@ -30,52 +47,40 @@ public class BlogCommentController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    public BlogComment selectOne(@PathVariable("id") Long id) {
-        return blogCommentService.getById(id);
+    public R selectOne(@PathVariable Serializable id) {
+        return success(this.blogCommentService.getById(id));
     }
 
-
     /**
-     * 列表数据
+     * 新增数据
      *
-     * @return 列表数据
+     * @param blogComment 实体对象
+     * @return 新增结果
      */
-    @GetMapping("list")
-    public List<BlogComment> list() {
-        return blogCommentService.list();
-    }
-
-    /**
-    * 修改数据
-    *
-    * @param blogComment 实例对象
-    * @return 实例对象
-    */
     @PostMapping
-    public Boolean save(BlogComment blogComment) {
-        return blogCommentService.save(blogComment);
+    public R insert(@RequestBody BlogComment blogComment) {
+        return success(this.blogCommentService.save(blogComment));
     }
 
     /**
-     * 新增或修改数据
+     * 修改数据
      *
-     * @param blogComment 实例对象
-     * @return 实例对象
+     * @param blogComment 实体对象
+     * @return 修改结果
      */
     @PutMapping
-    public Boolean saveOrUpdate(BlogComment blogComment) {
-        return blogCommentService.saveOrUpdate(blogComment);
+    public R update(@RequestBody BlogComment blogComment) {
+        return success(this.blogCommentService.updateById(blogComment));
     }
 
     /**
-     * 通过主键删除数据
+     * 删除数据
      *
-     * @param id 主键
-     * @return 是否成功
+     * @param idList 主键结合
+     * @return 删除结果
      */
-     @Delete("{id}")
-    public Boolean delete(@PathVariable("id")  Long id) {
-        return blogCommentService.removeById(id);
+    @DeleteMapping
+    public R delete(@RequestParam("idList") List<Long> idList) {
+        return success(this.blogCommentService.removeByIds(idList));
     }
-
 }

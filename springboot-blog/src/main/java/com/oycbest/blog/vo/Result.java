@@ -23,7 +23,7 @@ public class Result implements Serializable {
     /**
      * 响应业务状态
      */
-    private Integer status;
+    private long status;
 
     /**
      * 响应消息
@@ -34,42 +34,46 @@ public class Result implements Serializable {
      */
     private Object data;
 
-    public static Result build(Integer status, String msg, Object data) {
+    public static Result build(Long status, String msg, Object data) {
         return new Result(status, msg, data);
-    }
-
-    public static Result ok(Object data) {
-        return new Result(data);
     }
 
     public static Result ok() {
         return new Result(null);
     }
-
-    public static Result unAuth() {
-        return new Result(401, "请先登录", "");
+    public static Result ok(Object data) {
+        return new Result(data);
     }
 
-    public static Result error(String msg) {
-        return new Result(500, msg, "");
+
+    public static Result unAuth() {
+        return new Result(ResultCode.UNAUTHORIZED.getCode(), ResultCode.UNAUTHORIZED.getMessage(), "");
+    }
+
+    public static Result error() {
+        return new Result(ResultCode.FAILED.getCode(), ResultCode.FAILED.getMessage(), null);
+    }
+
+    public static Result error(Object msg) {
+        return new Result(ResultCode.FAILED.getCode(), ResultCode.FAILED.getMessage(), msg);
     }
 
     public Result() {
     }
 
     public static Result build(Integer status, String msg) {
-        return new Result(status, msg, null);
+        return new Result(ResultCode.UNAUTHORIZED.getCode(), msg, null);
     }
 
-    public Result(Integer status, String msg, Object data) {
+    public Result(Long status, String msg, Object data) {
         this.status = status;
         this.msg = msg;
         this.data = data;
     }
 
     public Result(Object data) {
-        this.status = 200;
-        this.msg = "OK";
+        this.status = ResultCode.SUCCESS.getCode();
+        this.msg = ResultCode.SUCCESS.getMessage();
         this.data = data;
     }
 
@@ -95,7 +99,7 @@ public class Result implements Serializable {
                     obj = MAPPER.readValue(data.asText(), clazz);
                 }
             }
-            return build(jsonNode.get("status").intValue(), jsonNode.get("msg").asText(), obj);
+            return build((long) jsonNode.get("status").intValue(), jsonNode.get("msg").asText(), obj);
         } catch (Exception e) {
             return null;
         }
@@ -133,7 +137,7 @@ public class Result implements Serializable {
                 obj = MAPPER.readValue(data.traverse(),
                         MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
             }
-            return build(jsonNode.get("status").intValue(), jsonNode.get("msg").asText(), obj);
+            return build((long) jsonNode.get("status").intValue(), jsonNode.get("msg").asText(), obj);
         } catch (Exception e) {
             return null;
         }
