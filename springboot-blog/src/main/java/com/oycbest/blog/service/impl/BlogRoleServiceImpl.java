@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.oycbest.blog.dao.BlogRoleDao;
 import com.oycbest.blog.entity.BlogRole;
 import com.oycbest.blog.service.BlogRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 角色信息表(BlogRole)表服务实现类
@@ -15,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service("blogRoleService")
 public class BlogRoleServiceImpl extends ServiceImpl<BlogRoleDao, BlogRole> implements BlogRoleService {
 
+    @Autowired
+    private BlogRoleDao blogRoleDao;
+
+    @Override
+    public List<BlogRole> selectByUserId(String userId) {
+        return blogRoleDao.selectByUserId(userId);
+    }
 }
