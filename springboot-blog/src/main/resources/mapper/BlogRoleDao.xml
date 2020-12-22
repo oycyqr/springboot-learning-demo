@@ -32,7 +32,11 @@
                update_time,
                remark
         from blog_role
-        where user_id = #{userId}
+        where role_id in (
+            select role_id
+            from blog_user_role
+            where user_id = #{userId}
+        )
     </select>
 
 </mapper>
