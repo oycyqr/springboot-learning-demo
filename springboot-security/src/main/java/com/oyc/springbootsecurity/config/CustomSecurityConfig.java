@@ -50,7 +50,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
                     // 拥有 "admin" 权限即可访问
                     //.antMatchers("/customer**").hasAuthority("admin")
                     // 拥有 "admin","user","customer" 其中一个权限即可访问
-                    .antMatchers("/customer**").hasAnyAuthority("admin","user","customer")
+                    .antMatchers("/customer**").hasAnyAuthority("sys:user:edit","sys:customer:edit")
                 .and()
                 //无权访问页面
                 .exceptionHandling().accessDeniedPage("/accessDenied.html")
