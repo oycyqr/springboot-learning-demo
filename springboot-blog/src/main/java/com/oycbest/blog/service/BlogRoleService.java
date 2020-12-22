@@ -12,6 +12,6 @@ import java.util.List;
  * @since 2020-12-16 11:17:04
  */
 public interface BlogRoleService extends IService<BlogRole> {
-    List<BlogRole> selectByUserId(String userId);
+    List<BlogRole> selectByUserId(Integer userId);
 
 }

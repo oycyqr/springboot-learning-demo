@@ -22,7 +22,7 @@ public class BlogRoleServiceImpl extends ServiceImpl<BlogRoleDao, BlogRole> impl
     private BlogRoleDao blogRoleDao;
 
     @Override
-    public List<BlogRole> selectByUserId(String userId) {
+    public List<BlogRole> selectByUserId(Integer userId) {
         return blogRoleDao.selectByUserId(userId);
     }
 }

@@ -2,6 +2,7 @@ package com.oycbest.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.oycbest.blog.entity.BlogRole;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface BlogRoleDao extends BaseMapper<BlogRole> {
      * @param userId 用户id
      * @return
      */
-    List<BlogRole> selectByUserId(String userId);
+    List<BlogRole> selectByUserId(@Param("userId") Integer userId);
 }

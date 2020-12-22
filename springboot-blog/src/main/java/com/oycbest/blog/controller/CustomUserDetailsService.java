@@ -46,7 +46,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         //从数据库获取用户对应角色或者权限标识
         //user --> user_role --> role
         //user --> user_permission --> permission
-        blogRoleService.selectByUserId(blogUser.getId());
+        List<BlogRole> roles = blogRoleService.selectByUserId(blogUser.getId());
+
 //        Set<Role> roleSet = user.getRoles();
 //        Set<Permission> permissionSet = user.getPermissions();
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -55,7 +56,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 //        //权限
 //        permissionSet.stream().forEach(p -> authorities.add(new SimpleGrantedAuthority(p.getPerms())));
 //        //角色
-//        roleSet.stream().forEach(r -> authorities.add(new SimpleGrantedAuthority(r.getRoleKey())));
+        roles.stream().forEach(r -> authorities.add(new SimpleGrantedAuthority(r.getRoleKey())));
         //封装用户信息，用于认证与密码校验
         return new User(blogUser.getAccount(), blogUser.getPassword(), authorities);
     }
