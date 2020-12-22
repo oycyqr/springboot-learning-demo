@@ -1,11 +1,18 @@
 package com.oycbest.blog.config;
 
 
+import com.oycbest.blog.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.annotation.Resource;
 
 /**
  * @ClassName: WebSecurityConfig
@@ -18,32 +25,40 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-   /* @Resource
-    private UserService<User> userService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(new PasswordEncoder());
-    }*/
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //允许基于HttpServletRequest使用限制访问
         http.authorizeRequests()
                 //不需要身份认证
-                .antMatchers("/", "/home", "/toLogin", "/index/**").permitAll()
+                .antMatchers("/", "/home", "/index/**").permitAll()
                 .antMatchers("/js/**", "/css/**", "/images/**", "/fronts/**", "/doc/**").permitAll()
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/user/**").hasAnyRole("USER")
-//                //.hasIpAddress()//读取配置权限配置
-//                .antMatchers("/**").access("hasRole('ADMIN')")
-                .anyRequest().permitAll()
+                .antMatchers("/admin/**").hasRole("admin")
+                .antMatchers("/user/**").hasAnyRole("admin,user")
+                .antMatchers("/aa/**").hasAuthority("aa")
+                .antMatchers("/customer/**").hasAnyAuthority("admin,user")
+
                 //自定义登录界面
-                //.and().formLogin().loginPage("/toLogin").loginProcessingUrl("/login").failureUrl("/toLogin?error").permitAll()
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .and().exceptionHandling().accessDeniedPage("/toLogin?deny")
-                .and().httpBasic()
-                .and().sessionManagement().invalidSessionUrl("/toLogin")
+                .and().formLogin().loginPage("/login.html")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .permitAll()
+                .and().
+                logout().logoutUrl("/logout").logoutSuccessUrl("/").permitAll()
+                .and().
+                authorizeRequests().anyRequest().authenticated()
                 .and().csrf().disable();
     }
 }
