@@ -1,10 +1,10 @@
 server:
-  port: 8888
+  port: 8889
   servlet:
-    context-path: /sso-client
+    context-path: /sso-client1
 cas:
   #后端服务地址
-  client-host-url: http://127.0.0.1:8888
+  client-host-url: http://127.0.0.1:8889
   #cas认证中心地址
   server-url-prefix: http://146.56.192.87:8080/cas
   #cas认证中心登录地址

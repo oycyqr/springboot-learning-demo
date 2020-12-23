@@ -1,6 +1,9 @@
 package com.oyc.sso.controller;
 
-import com.oyc.sso.util.CASUtil;
+import com.oyc.sso.util.CasUtil;
+import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.jasig.cas.client.util.AbstractCasFilter;
+import org.jasig.cas.client.validation.Assertion;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -21,8 +24,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class TestController {
 
-    @Value(value = "${sso.logout-url}")
-    private String logoutUrl = "";
+    @Value(value = "${cas.server-url-prefix}")
+    private String serverUrlPrefix = "";
 
     @Value(value = "${cas.client-host-url}")
     private String clientHostUrl = "";
@@ -30,10 +33,12 @@ public class TestController {
     @GetMapping("user")
     @ResponseBody
     public String user(HttpServletRequest request) {
-        String loginName = CASUtil.getAccountNameFromCas(request);
-        if (StringUtils.hasLength(loginName)) {
+        Assertion assertion = (Assertion) request.getSession().getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION);
+        String loginName = null;
+        if (assertion != null) {
+            AttributePrincipal principal = assertion.getPrincipal();
+            loginName = principal.getName();
             System.out.println("访问者:" + loginName);
-            request.getSession().setAttribute("loginName", loginName);
         }
         return "访问者:" + loginName;
     }
@@ -41,6 +46,6 @@ public class TestController {
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:" + logoutUrl + "?service=" + clientHostUrl+"/sso-client";
+        return "redirect:" + serverUrlPrefix + "/logout?service=" + clientHostUrl + "/sso-client/user";
     }
 }
