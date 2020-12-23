@@ -1,0 +1,11 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /sso-client
+cas:
+  client-host-url: http://127.0.0.1:8888
+  server-login-url: http://127.0.0.1:8080/sso/login
+  server-url-prefix: http://127.0.0.1:8080/sso
+  validation-type: cas3
+sso:
+  logout-url: http://127.0.0.1:8080/sso/logout
