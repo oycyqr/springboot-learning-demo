@@ -1,5 +1,6 @@
 package com.oyc.sso.controller;
 
+import com.oyc.sso.util.CASUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
