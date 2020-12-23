@@ -5,16 +5,17 @@
     <title>登录页面</title>
 </head>
 <body>
-
 <form action="/security/login" method="post">
     <label>
         用户名：<input name="username" type="text" value="oyc">
-    </label>
+    </label><br>
     <label>
         密  码：<input name="password" type="password" value="123">
-    </label>
+    </label><br>
+    <label>
+        <input type="checkbox" name="remember-me">记住登录状态？
+    </label><br>
     <button type="submit">登录</button>
 </form>
-
 </body>
 </html>
