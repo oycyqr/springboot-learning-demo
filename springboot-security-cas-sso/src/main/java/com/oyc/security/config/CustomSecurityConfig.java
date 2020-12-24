@@ -146,9 +146,8 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public LogoutFilter casLogoutFilter() {
-        LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(),
-                new SecurityContextLogoutHandler());
-        logoutFilter.setFilterProcessesUrl(casProperties.getCasServerLogoutUrl());
+        LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(),new SecurityContextLogoutHandler());
+        logoutFilter.setFilterProcessesUrl("/logout");
         return logoutFilter;
     }
 }
