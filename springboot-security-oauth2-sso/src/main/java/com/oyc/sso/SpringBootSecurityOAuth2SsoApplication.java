@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @ClassName: SpringBootSecurityOAuth2SsoApplication  
  * @Description: SpringBootSecurityOAuth2SsoApplication
  * @Author oyc 
- * @Date 2020年12月25日 9:34   
+ * @Date 2020年12月25日 9:56
  * @Version 1.0
  */
 @SpringBootApplication

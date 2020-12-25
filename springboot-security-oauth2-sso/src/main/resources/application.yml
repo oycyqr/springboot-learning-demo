@@ -1,0 +1,17 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /oauth-client
+security:
+  oauth2:
+    sso:
+      login-path: /login
+    client:
+      client-id: test
+      client-secret: test
+      access-token-uri: http://146.56.192.87:8080/cas/oauth/token
+      user-authorization-uri: http://146.56.192.87:8080/cas/oauth/authorize
+      client-authentication-scheme: form
+    resource:
+      jwt:
+        key-uri: http://146.56.192.87:8080/cas/oauth/token_key
