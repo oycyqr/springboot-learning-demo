@@ -24,6 +24,7 @@ public class CustomUserDetailsService implements AuthenticationUserDetailsServic
     @Override
     public UserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {
         System.out.println("当前的用户名是：" + token.getName());
+        //TODO 根据当前用户名获取相应权限
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
         //封装用户信息，用于认证与密码校验
         return new User(token.getName(), token.getName(), authorityList);

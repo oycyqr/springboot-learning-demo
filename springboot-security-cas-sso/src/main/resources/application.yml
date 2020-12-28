@@ -1,5 +1,5 @@
 server:
-  port: 8888
+  port: 8188
   servlet:
     context-path: /security-client
 
@@ -8,9 +8,12 @@ app:
     url: http://localhost:${server.port}${server.servlet.context-path}
 cas:
   server:
+    login: /login
+    logout: /logout
     #cas认证中心地址
     url: http://146.56.192.87:8080/cas
     #cas认证中心登录地址
-    login_url: ${cas.server.url}/login
+    login_url: ${cas.server.url}${cas.server.login}
     #cas认证中心logout地址
-    logout_url: ${cas.server.url}/logout?service=${app.server.url}
+    logout_url: ${cas.server.url}${cas.server.logout}?service=${app.server.url}
+

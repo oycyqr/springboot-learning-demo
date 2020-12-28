@@ -1,4 +1,4 @@
-package com.oyc.security.config;//package com.oyc.springbootsecurity.config;
+package com.oyc.security.config;
 
 import com.oyc.security.service.CustomUserDetailsService;
 import org.jasig.cas.client.session.SingleSignOutFilter;
@@ -88,7 +88,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public ServiceProperties serviceProperties() {
         ServiceProperties serviceProperties = new ServiceProperties();
-        serviceProperties.setService(casProperties.getAppServerUrl() + "/login");
+        serviceProperties.setService(casProperties.getAppServerUrl() + casProperties.getCasServerLogin());
         serviceProperties.setAuthenticateAllArtifacts(true);
         return serviceProperties;
     }
@@ -100,7 +100,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
     public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
         CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
         casAuthenticationFilter.setAuthenticationManager(authenticationManager());
-        casAuthenticationFilter.setFilterProcessesUrl("/login");
+        casAuthenticationFilter.setFilterProcessesUrl(casProperties.getCasServerLogin());
         return casAuthenticationFilter;
     }
 
@@ -148,7 +148,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public LogoutFilter casLogoutFilter() {
         LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(),new SecurityContextLogoutHandler());
-        logoutFilter.setFilterProcessesUrl("/logout");
+        logoutFilter.setFilterProcessesUrl(casProperties.getCasServerLogout());
         return logoutFilter;
     }
 }

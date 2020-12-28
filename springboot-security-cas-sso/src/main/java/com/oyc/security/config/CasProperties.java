@@ -24,6 +24,12 @@ public class CasProperties {
     @Value("${cas.server.logout_url}")
     private String casServerLogoutUrl;
 
+    @Value("${cas.server.logout}")
+    private String casServerLogout;
+
+    @Value("${cas.server.login}")
+    private String casServerLogin;
+
     @Value("${app.server.url}")
     private String appServerUrl;
 }

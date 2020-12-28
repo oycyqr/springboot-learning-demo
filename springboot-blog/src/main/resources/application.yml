@@ -3,12 +3,13 @@ server:
   servlet:
     context-path: /blog
 
+
 #### spring  ####
 spring:
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 127.0.0.1:9300
+      cluster-nodes: 146.56.192.87:9300
       repositories:
         enabled: true
   security:
@@ -70,4 +71,8 @@ mybatis-plus:
       db-type: mysql
   #刷新mapper 调试神器
   refresh: false
-
+logging:
+  level:
+    root: debug
+#  pattern:
+#    dateformat: yyyy-MM-dd HH:mm:ss.SSS

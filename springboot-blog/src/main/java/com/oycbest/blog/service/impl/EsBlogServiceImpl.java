@@ -50,6 +50,7 @@ public class EsBlogServiceImpl implements EsBlogService {
         blogSearchRepository.save(blog);
         logger.debug("saved");
     }
+
     @Override
     public void save(List<EsBlog> blogs) {
         blogSearchRepository.saveAll(blogs);
@@ -71,7 +72,7 @@ public class EsBlogServiceImpl implements EsBlogService {
 
     @Override
     public Page<EsBlog> getByKey(String key, Pageable pageable) {
-        if(StringUtils.isEmpty(key)){
+        if (StringUtils.isEmpty(key)) {
             return blogSearchRepository.findAll(pageable);
         }
         return blogSearchRepository.findByTitleOrContentLike(key, key, pageable);
@@ -92,6 +93,7 @@ public class EsBlogServiceImpl implements EsBlogService {
         Page<EsBlog> esBlogs = elasticsearchTemplate.queryForPage(searchQuery, EsBlog.class);
         return esBlogs;
     }
+
     /**
      * 根据搜索结果创建esdoc对象
      *
@@ -116,6 +118,7 @@ public class EsBlogServiceImpl implements EsBlogService {
         }
         return esBlog;
     }
+
     @Override
     public Page<EsBlog> queryForPage(String key, Pageable pageable) {
         // 如果输入的查询条件为空，则查询所有数据
@@ -150,7 +153,7 @@ public class EsBlogServiceImpl implements EsBlogService {
                     Map<String, HighlightField> hmap = searchHit.getHighlightFields();
                     chunk.add(createEsDoc(smap, hmap));
                 }
-                AggregatedPage<T> result = new AggregatedPageImpl<T>((List)chunk, pageable, response.getHits().getTotalHits());
+                AggregatedPage<T> result = new AggregatedPageImpl<T>((List) chunk, pageable, response.getHits().getTotalHits());
                 return result;
             }
 

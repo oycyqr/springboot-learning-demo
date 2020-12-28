@@ -36,12 +36,14 @@ public class EsBLogController {
     private EsBlogService searchService;
 
     @GetMapping
-    public String blog(HttpServletRequest request, Model model) {
+    @ResponseBody
+    public Page<EsBlog> blog(HttpServletRequest request, Model model) {
         Pageable pageable = getPageByRequest(request);
         Page<EsBlog> esBlogPage = searchService.getByKeyWord(null, pageable);
         model.addAttribute("blogContent", "blog/include");
         model.addAttribute("esBlogPage", esBlogPage);
-        return "blog/index";
+        return esBlogPage;
+       // return "blog/index";
     }
 
     /**
@@ -49,12 +51,14 @@ public class EsBLogController {
      * @return
      */
     @RequestMapping("search")
-    public String getByKey(HttpServletRequest request, String key, Model model) {
+    @ResponseBody
+    public Page<EsBlog> getByKey(HttpServletRequest request, String key, Model model) {
         Pageable pageable = getPageByRequest(request);
         Page<EsBlog> esBlogPage = searchService.queryForPage(key, pageable);
         model.addAttribute("blogContent", "blog/include");
         model.addAttribute("esBlogPage", esBlogPage);
-        return "blog/index::blogContent";
+        //return "blog/index::blogContent";
+        return esBlogPage;
     }
 
     @GetMapping("init")
@@ -62,10 +66,7 @@ public class EsBLogController {
     private String initBlog() {
         List<BlogArticleInfo> blogArticleInfos = articleInfoService.list();
         List<EsBlog> esBlogs = new ArrayList<>();
-        blogArticleInfos.forEach(article -> {
-                    esBlogs.add(new EsBlog(article.getId(), article.getTitle(), article.getSummary()));
-                }
-        );
+        blogArticleInfos.forEach(article ->  esBlogs.add(new EsBlog(article.getId(), article.getTitle(), article.getSummary())));
         searchService.save(esBlogs);
         return "init Success";
     }

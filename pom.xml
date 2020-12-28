@@ -33,6 +33,7 @@
         <module>springboot-swagger</module>
         <module>springboot-shiro</module>
         <module>springboot-ssm-blog</module>
+        <module>springboot-blog</module>
         <module>springboot-validated</module>
     </modules>
 
