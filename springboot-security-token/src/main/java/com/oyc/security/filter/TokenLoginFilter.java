@@ -1,6 +1,8 @@
 package com.oyc.security.filter;
 
 import com.oyc.security.handler.TokenManager;
+import com.oyc.security.util.ResponseUtil;
+import com.oyc.security.util.Result;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -57,7 +60,11 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
         User user = (User)auth.getPrincipal();
         String token = tokenManager.createToken(user.getUsername());
-        response.getWriter().println("token:" + token);
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("token",token);
+        map.put("user",user);
+        map.put("loginName",user.getUsername());
+        ResponseUtil.out(response, Result.ok(map));
     }
 
     /**
@@ -65,6 +72,6 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
      */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        response.getWriter().println("登录失败");
+        ResponseUtil.out(response, Result.error("登录失败"));
     }
 }

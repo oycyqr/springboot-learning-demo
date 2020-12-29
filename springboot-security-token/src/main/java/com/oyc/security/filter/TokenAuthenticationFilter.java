@@ -1,6 +1,8 @@
 package com.oyc.security.filter;
 
 import com.oyc.security.handler.TokenManager;
+import com.oyc.security.util.ResponseUtil;
+import com.oyc.security.util.Result;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,8 +36,8 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        logger.info("=================" + req.getRequestURI());
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        logger.info("=================" + request.getRequestURI());
         //不需要鉴权
        /* if (req.getRequestURI().indexOf("admin") == -1) {
             chain.doFilter(req, res);
@@ -43,16 +45,16 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
         }*/
         UsernamePasswordAuthenticationToken authentication = null;
         try {
-            authentication = getAuthentication(req);
+            authentication = getAuthentication(request);
         } catch (Exception e) {
-            res.getWriter().println(e.getMessage());
+            ResponseUtil.out(response, Result.error(e.getMessage()));
         }
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-            res.getWriter().println("鉴权失败");
+            ResponseUtil.out(response, Result.error("鉴权失败"));
         }
-        chain.doFilter(req, res);
+        chain.doFilter(request, response);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
@@ -73,8 +75,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
                 authorities.add(authority);
             }
             if (!StringUtils.isEmpty(userName)) {
-                return new UsernamePasswordAuthenticationToken(userName, token,
-                        authorities);
+                return new UsernamePasswordAuthenticationToken(userName, token, authorities);
             }
             return null;
         }

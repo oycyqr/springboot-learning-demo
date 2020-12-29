@@ -1,5 +1,7 @@
 package com.oyc.security.handler;
 
+import com.oyc.security.util.ResponseUtil;
+import com.oyc.security.util.Result;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -18,6 +20,6 @@ import java.io.IOException;
 public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.getWriter().println("未授权统一处理");
+        ResponseUtil.out(response, Result.error("未授权统一处理"));
     }
 }
