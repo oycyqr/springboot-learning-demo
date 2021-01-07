@@ -47,6 +47,16 @@ public class ActivityServiceImpl {
 
     /**
      * 启动流程
+     */
+    public ProcessInstance startProcesses() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("holiday");
+        System.out.println("流程启动成功，流程id:" + processInstance.getId());
+        System.out.println("流程启动成功，流程definitionName:" + processInstance.getProcessDefinitionName());
+        System.out.println("流程启动成功，流程businessKey:" + processInstance.getBusinessKey());
+        return processInstance;
+    }
+    /**
+     * 启动流程
      *
      * @param bizId 业务id
      */
@@ -58,12 +68,27 @@ public class ActivityServiceImpl {
     /**
      * <p>描述: 根据用户id查询待办任务列表</p>
      *
-     * @author 范相如
+     *
      * @date 2018年2月25日
      */
-    public List<Task> findTasksByUserId(String userId) {
-        List<Task> resultTask = taskService.createTaskQuery().processDefinitionKey("holiday").taskCandidateOrAssigned(userId).list();
-        return resultTask;
+    public List<Task> findTaskByUserId(String userId) {
+//        List<Task> resultTask = taskService.createTaskQuery().processDefinitionKey("holiday").taskCandidateOrAssigned(userId).list();
+        List<Task> taskList = taskService.createTaskQuery()//
+                .processDefinitionKey("holiday")//
+                .taskAssignee(userId)//只查询该任务负责人的任务
+                .list();
+        return taskList;
+    }
+
+    /**
+     * <p>描述:任务审批 	（通过/拒接） </p>
+     *
+     * @param taskId 任务id
+     *
+     * @date 2018年2月25日
+     */
+    public void completeTaskById(String taskId) {
+        taskService.complete(taskId);
     }
 
     /**
@@ -72,13 +97,12 @@ public class ActivityServiceImpl {
      * @param taskId 任务id
      * @param userId 用户id
      * @param result false OR true
-     * @author 范相如
+     *
      * @date 2018年2月25日
      */
     public void completeTask(String taskId, String userId, String result) {
         //获取流程实例
         taskService.claim(taskId, userId);
-
         Map<String, Object> vars = new HashMap<String, Object>();
         vars.put("sign", "true");
         taskService.complete(taskId, vars);
@@ -113,7 +137,7 @@ public class ActivityServiceImpl {
      *
      * @param processInstanceId
      * @throws Exception
-     * @author 范相如
+     *
      * @date 2018年2月25日
      */
     public void queryProImg(String processInstanceId) throws Exception {

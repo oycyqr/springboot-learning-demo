@@ -10,17 +10,19 @@ import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @ClassName ActivitiController
@@ -55,10 +57,13 @@ public class ActivitiController {
 
     @Resource
     private RepositoryService repositoryService;
+
     @Resource
     private ActivityServiceImpl activityService;
+
     @Autowired
     private TaskService taskService;
+
     @Autowired
     private HistoryService historyService;
 
@@ -66,55 +71,74 @@ public class ActivitiController {
      * 部署流程
      */
     @RequestMapping("initProcesses")
-    public void initProcesses() {
+    public Deployment initProcesses() {
         //部署对象
         Deployment deployment = repositoryService.createDeployment()
-                .addClasspathResource("processes/holiday.bpmn")// bpmn文件
-                .addClasspathResource("processes/holiday.png")// 图片文件
+                // bpmn文件
+                .addClasspathResource("processes/holiday.bpmn")
+                // 图片文件
+                .addClasspathResource("processes/holiday.png")
                 .name("请假申请流程")
                 .deploy();
         System.out.println("流程部署id:" + deployment.getId());
         System.out.println("流程部署名称:" + deployment.getName());
+        return deployment;
     }
 
-    //启动流程---215001
+    /**
+     * 启动流程
+     */
     @RequestMapping("startPro")
-    public void startPro(@Param("processesId") String processesId) {
-        activityService.startProcesses(processesId);
+    public ResponseEntity startPro() {
+        ProcessInstance processInstance = activityService.startProcesses();
+        Map map = new HashMap();
+        map.put("id",processInstance.getDeploymentId());
+        map.put("name",processInstance.getName());
+        map.put("processDefinitionId",processInstance.getProcessDefinitionId());
+        map.put("startUserId",processInstance.getStartUserId());
+        map.put("processDefinitionName",processInstance.getProcessDefinitionName());
+        return ResponseEntity.ok(map);
     }
 
-    //获取受理员任务列表
-    @RequestMapping("findTasksListByUserName")
-    public void findTasksListByUserName(@Param("userName") String userName) {
-        List<Task> lists = activityService.findTasksByUserId(userName);
-        System.out.println("任务列表：" + lists);//任务列表：[Task[id=5005, name=填写请假申请单]]
+    /**
+     * 获取待办任务列表
+     */
+    @RequestMapping("findTaskListByUserName")
+    public ResponseEntity findTaskListByUserName(@Param("userName") String userName) {
+        List<Task> taskList = activityService.findTaskByUserId(userName);
+        //任务列表：[Task[id=5005, name=填写请假申请单]]
+        System.out.println("任务列表：" + taskList);
+        List resultList = new ArrayList();
+        taskList.forEach(task -> {
+            Map map = new HashMap();
+            map.put("id",task.getId());
+            map.put("name",task.getName());
+            map.put("assignee",task.getAssignee());
+            map.put("delegationState",task.getDelegationState());
+            map.put("createTime",task.getCreateTime());
+            map.put("processDefinitionId",task.getProcessDefinitionId());
+            map.put("processInstanceId",task.getProcessInstanceId());
+            resultList.add(map);
+        });
+        return ResponseEntity.ok(resultList);
     }
 
-    //受理员受理数据
-    @RequestMapping("completeTasksForSL")
-    public void completeTasksForSL() {
-        activityService.completeTask("210028", "sly1", "true");//受理后，任务列表数据减少
-    }
-
-    //获取审批员任务列表
-    @RequestMapping("findTasksForSP")
-    public void findTasksForSP() {
-        List<Task> lists = activityService.findTasksByUserId("spy1");
-        System.out.println("任务列表：" + lists);//任务列表：[Task[id=220004, name=审批]]
-    }
-
-    //审批员通过审核
-    @RequestMapping("completeTask")
-    public void completeTasksForSP() {
-        activityService.completeTask("220004", "spy1", "true");//审批后，任务列表数据减少
+    /**
+     * 完成任务
+     */
+    @RequestMapping("completeTaskById")
+    public String completeTaskById(@RequestParam String taskId) {
+        //完成任务后，任务列表数据减少
+        activityService.completeTaskById(taskId);
+        return "任务完成";
     }
 
 
     //设置流程变量
     //设置流程变量【基本类型】
-    @RequestMapping("setTasksVar")
-    public void setTasksVar() {
-        List<Task> lists = activityService.findTasksByUserId("sly1");
+    @RequestMapping("setTaskVar")
+    public void setTaskVar() {
+        List<Task> lists = activityService.findTaskByUserId("sly1");
         for (Task task : lists) {//不知为何，变量保存成功，但数据表只有请假天数含有任务id，单获取流程变量时，根据任务id均可获取到（如下一测试）
             taskService.setVariable(task.getId(), "请假人", "sly1");
             taskService.setVariableLocal(task.getId(), "请假天数", 3);
@@ -123,9 +147,9 @@ public class ActivitiController {
     }
 
     //获取流程变量
-    @RequestMapping("getTasksVar")
-    public void getTasksVar() {
-        List<Task> lists = activityService.findTasksByUserId("sly1");
+    @RequestMapping("getTaskVar")
+    public void getTaskVar() {
+        List<Task> lists = activityService.findTaskByUserId("sly1");
         for (Task task : lists) {
             //获取流程变量【基本类型】
             String person = (String) taskService.getVariable(task.getId(), "请假人");
@@ -137,9 +161,9 @@ public class ActivitiController {
     }
 
     //设置流程变量【实体】
-    @RequestMapping("setTasksVarEntity")
-    public void setTasksVarEntity() {
-        List<Task> lists = activityService.findTasksByUserId("sly1");
+    @RequestMapping("setTaskVarEntity")
+    public void setTaskVarEntity() {
+        List<Task> lists = activityService.findTaskByUserId("sly1");
         for (Task task : lists) {
            /* Person p = new Person();
             p.setName("翠花");
@@ -153,9 +177,9 @@ public class ActivitiController {
     }
 
     //获取流程变量【实体】  实体必须序列化
-    @RequestMapping("getTasksVarEntity")
-    public void getTasksVarEntity() {
-        List<Task> lists = activityService.findTasksByUserId("sly1");
+    @RequestMapping("getTaskVarEntity")
+    public void getTaskVarEntity() {
+        List<Task> lists = activityService.findTaskByUserId("sly1");
         for (Task task : lists) {
             // 2.获取流程变量，使用javaBean类型
             Object variable = taskService.getVariable(task.getId(), "人员信息(添加固定版本)");
@@ -235,49 +259,47 @@ public class ActivitiController {
     @RequestMapping("findHistoricTasks")
     public void findHistoricTasks() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         //历史数据查询
-        List<HistoricTaskInstance> datas = historyService.createHistoricTaskInstanceQuery()
-                .finished().list();
+        List<HistoricTaskInstance> datas = historyService.createHistoricTaskInstanceQuery().finished().list();
         System.out.println("使用finished方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .processDefinitionId("processDefinitionId").list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().processDefinitionId("processDefinitionId").list();
         System.out.println("使用processDefinitionId方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .processDefinitionKey("testProcess").list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().processDefinitionKey("testProcess").list();
         System.out.println("使用processDefinitionKey方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .processDefinitionName("testProcess2").list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().processDefinitionName("testProcess2").list();
         System.out.println("使用processDefinitionName方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .processFinished().list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().processFinished().list();
         System.out.println("使用processFinished方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .processInstanceId("processInstanceId").list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().processInstanceId("processInstanceId").list();
         System.out.println("使用processInstanceId方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .processUnfinished().list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().processUnfinished().list();
         System.out.println("使用processUnfinished方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .taskAssignee("crazyit").list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().taskAssignee("crazyit").list();
         System.out.println("使用taskAssignee方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .taskAssigneeLike("%zy%").list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("%zy%").list();
         System.out.println("使用taskAssigneeLike方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .taskDefinitionKey("usertask1").list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().taskDefinitionKey("usertask1").list();
         System.out.println("使用taskDefinitionKey方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .taskDueAfter(sdf.parse("2020-10-11 06:00:00")).list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().taskDueAfter(sdf.parse("2020-10-11 06:00:00")).list();
         System.out.println("使用taskDueAfter方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .taskDueBefore(sdf.parse("2022-10-11 06:00:00")).list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().taskDueBefore(sdf.parse("2022-10-11 06:00:00")).list();
         System.out.println("使用taskDueBefore方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .taskDueDate(sdf.parse("2020-10-11 06:00:00")).list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().taskDueDate(sdf.parse("2020-10-11 06:00:00")).list();
         System.out.println("使用taskDueDate方法查询：" + datas.size());
-        datas = historyService.createHistoricTaskInstanceQuery()
-                .unfinished().list();
+
+        datas = historyService.createHistoricTaskInstanceQuery().unfinished().list();
         System.out.println("使用unfinished方法查询：" + datas.size());
     }
 
