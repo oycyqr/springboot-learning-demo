@@ -27,6 +27,7 @@ mybatis-plus:
   type-aliases-package: com.oycbest.activiti.domain
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
     cache-enabled: false
   global-config:
     db-config:
