@@ -67,11 +67,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-<dependency>
-    <groupId>org.activiti</groupId>
-    <artifactId>activiti-spring-boot-starter-basic</artifactId>
-    <version>6.0.0</version>
-</dependency>
+
+        <!--activiti工作流-->
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring-boot-starter-basic</artifactId>
+            <version>6.0.0</version>
+        </dependency>
 
     </dependencies>
 
