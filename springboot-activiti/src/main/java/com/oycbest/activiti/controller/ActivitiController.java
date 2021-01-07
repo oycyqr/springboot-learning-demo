@@ -92,11 +92,12 @@ public class ActivitiController {
     public ResponseEntity startPro() {
         ProcessInstance processInstance = activityService.startProcesses();
         Map map = new HashMap();
-        map.put("id",processInstance.getDeploymentId());
-        map.put("name",processInstance.getName());
-        map.put("processDefinitionId",processInstance.getProcessDefinitionId());
-        map.put("startUserId",processInstance.getStartUserId());
-        map.put("processDefinitionName",processInstance.getProcessDefinitionName());
+        map.put("id", processInstance.getId());
+        map.put("name", processInstance.getName());
+        map.put("deploymentId", processInstance.getDeploymentId());
+        map.put("processDefinitionId", processInstance.getProcessDefinitionId());
+        map.put("startUserId", processInstance.getStartUserId());
+        map.put("processDefinitionName", processInstance.getProcessDefinitionName());
         return ResponseEntity.ok(map);
     }
 
@@ -111,13 +112,13 @@ public class ActivitiController {
         List resultList = new ArrayList();
         taskList.forEach(task -> {
             Map map = new HashMap();
-            map.put("id",task.getId());
-            map.put("name",task.getName());
-            map.put("assignee",task.getAssignee());
-            map.put("delegationState",task.getDelegationState());
-            map.put("createTime",task.getCreateTime());
-            map.put("processDefinitionId",task.getProcessDefinitionId());
-            map.put("processInstanceId",task.getProcessInstanceId());
+            map.put("id", task.getId());
+            map.put("name", task.getName());
+            map.put("assignee", task.getAssignee());
+            map.put("delegationState", task.getDelegationState());
+            map.put("createTime", task.getCreateTime());
+            map.put("processDefinitionId", task.getProcessDefinitionId());
+            map.put("processInstanceId", task.getProcessInstanceId());
             resultList.add(map);
         });
         return ResponseEntity.ok(resultList);
@@ -281,22 +282,22 @@ public class ActivitiController {
         datas = historyService.createHistoricTaskInstanceQuery().processUnfinished().list();
         System.out.println("使用processUnfinished方法查询：" + datas.size());
 
-        datas = historyService.createHistoricTaskInstanceQuery().taskAssignee("crazyit").list();
+        datas = historyService.createHistoricTaskInstanceQuery().taskAssignee("zhangsan").list();
         System.out.println("使用taskAssignee方法查询：" + datas.size());
 
-        datas = historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("%zy%").list();
+        datas = historyService.createHistoricTaskInstanceQuery().taskAssigneeLike("%a%").list();
         System.out.println("使用taskAssigneeLike方法查询：" + datas.size());
 
         datas = historyService.createHistoricTaskInstanceQuery().taskDefinitionKey("usertask1").list();
         System.out.println("使用taskDefinitionKey方法查询：" + datas.size());
 
-        datas = historyService.createHistoricTaskInstanceQuery().taskDueAfter(sdf.parse("2020-10-11 06:00:00")).list();
+        datas = historyService.createHistoricTaskInstanceQuery().taskDueAfter(sdf.parse("2021-10-11 06:00:00")).list();
         System.out.println("使用taskDueAfter方法查询：" + datas.size());
 
-        datas = historyService.createHistoricTaskInstanceQuery().taskDueBefore(sdf.parse("2022-10-11 06:00:00")).list();
+        datas = historyService.createHistoricTaskInstanceQuery().taskDueBefore(sdf.parse("2021-10-11 06:00:00")).list();
         System.out.println("使用taskDueBefore方法查询：" + datas.size());
 
-        datas = historyService.createHistoricTaskInstanceQuery().taskDueDate(sdf.parse("2020-10-11 06:00:00")).list();
+        datas = historyService.createHistoricTaskInstanceQuery().taskDueDate(sdf.parse("2021-10-11 06:00:00")).list();
         System.out.println("使用taskDueDate方法查询：" + datas.size());
 
         datas = historyService.createHistoricTaskInstanceQuery().unfinished().list();
@@ -347,19 +348,22 @@ public class ActivitiController {
     @RequestMapping("findHistoricDetail")
     public void findHistoricDetail() {
         // 查询历史行为
-        HistoricActivityInstance act = historyService.createHistoricActivityInstanceQuery()
-                .activityName("First Task").finished().singleResult();
-        List<HistoricDetail> datas = historyService.createHistoricDetailQuery()
-                .activityInstanceId(act.getId()).list();
+        HistoricActivityInstance act = historyService.createHistoricActivityInstanceQuery().activityName("First Task").finished().singleResult();
+        List<HistoricDetail> datas = historyService.createHistoricDetailQuery().activityInstanceId(act.getId()).list();
         System.out.println("使用activityInstanceId方法查询：" + datas.size());
+
         datas = historyService.createHistoricDetailQuery().excludeTaskDetails().list();
         System.out.println("使用excludeTaskDetails方法查询：" + datas.size());
+
         datas = historyService.createHistoricDetailQuery().formProperties().list();
         System.out.println("使用formProperties方法查询：" + datas.size());
+
         datas = historyService.createHistoricDetailQuery().processInstanceId("processInstanceId").list();
         System.out.println("使用processInstanceId方法查询：" + datas.size());
+
         datas = historyService.createHistoricDetailQuery().taskId("taskId").list();
         System.out.println("使用taskId方法查询：" + datas.size());
+
         datas = historyService.createHistoricDetailQuery().variableUpdates().list();
         System.out.println("使用variableUpdates方法查询：" + datas.size());
     }

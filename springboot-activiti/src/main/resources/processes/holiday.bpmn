@@ -3,7 +3,7 @@
   <process id="holiday" isClosed="false" isExecutable="true" name="请假流程" processType="None">
     <startEvent id="_2" name="StartEvent"/>
     <userTask activiti:assignee="zhangsan" activiti:exclusive="true" id="_3" name="填写请假申请单"/>
-    <userTask activiti:assignee="lishi" activiti:exclusive="true" id="_4" name="部门经理审批"/>
+    <userTask activiti:assignee="lisi" activiti:exclusive="true" id="_4" name="部门经理审批"/>
     <userTask activiti:assignee="wangwu" activiti:exclusive="true" id="_5" name="总经理审批"/>
     <endEvent id="_6" name="EndEvent"/>
     <sequenceFlow id="_7" sourceRef="_2" targetRef="_3"/>
