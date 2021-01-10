@@ -11,6 +11,7 @@ spring:
     process-definition-location-prefix: classpath:/processes/
     process-definition-location-suffixes:
       -**.bpmn
+      -**.bpmn20.xml
     #保存历史数据级别设置为full最高级别，便于历史数据的追溯
     history-level: full
   datasource:
