@@ -1,5 +1,6 @@
-package com.oyc.security.config;
+package com.oyc.security.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -7,10 +8,11 @@ import org.springframework.stereotype.Component;
  * @ClassName: DefaultPasswordEncoder
  * @Description: DefaultPasswordEncoder
  * @Author oyc
- * @Date 2020/12/29 9:59
+ * @Date 2021/1/18 10:58
  * @Version 1.0
  */
 @Component
+@Slf4j
 public class DefaultPasswordEncoder extends BCryptPasswordEncoder {
 
     @Override
@@ -22,11 +24,11 @@ public class DefaultPasswordEncoder extends BCryptPasswordEncoder {
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         if (rawPassword == null) {
             throw new IllegalArgumentException("rawPassword cannot be null");
-        } else if (encodedPassword != null && encodedPassword.length() != 0) {
-            return encodedPassword.equals(rawPassword);
-        } else {
-            System.out.println("Empty encoded password");
-            return false;
         }
+        if (encodedPassword == null || encodedPassword.length() == 0) {
+            log.error("Empty encoded password");
+            throw new IllegalArgumentException("encodedPassword is null");
+        }
+        return encodedPassword.equals(rawPassword);
     }
 }

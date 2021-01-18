@@ -1,0 +1,17 @@
+POST http://127.0.0.1:8080/login?username=oyc&password=oyc
+Accept: */*
+Cache-Control: no-cache
+
+
+
+
+
+
+###
+
+GET http://127.0.0.1:8080/admin
+Accept: */*
+Cache-Control: no-cache
+token: eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJSyq9MVtJRKi1OLQrKz0kFCgT5-7jGO7r4evrpgJmhwa5BQBWpFQVKVoZmhoYGJkaGJha1AN2xZUlAAAAA.AJ69e8rynAlrS4pDKvbvgzRs3-m7Q5CcTZuDqxheijgYDVVmLzOrq2l_0T_-KXKeJus33jl3mGHrpzS7-DXjUQ
+
+

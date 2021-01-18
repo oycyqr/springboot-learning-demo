@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @ClassName: CommonController
- * @Description: CommonController
+ * @ClassName: TestController
+ * @Description: TestController
  * @Author oyc
- * @Date 2020/12/21 11:52
+ * @Date 2021/1/18 11:06
  * @Version 1.0
  */
 @RestController
-public class CommonController {
+public class TestController {
 
     @GetMapping(value = {"", "welcome"})
     public String welcome() {
@@ -39,8 +39,10 @@ public class CommonController {
     public String customer() {
         return "customer!!!";
     }
+
     /**
      * 方法执行前鉴权
+     *
      * @return
      */
     @GetMapping("roleAdmin")
@@ -51,6 +53,7 @@ public class CommonController {
 
     /**
      * 方法执行前鉴权
+     *
      * @return
      */
     @GetMapping("preAuthorize")
@@ -62,6 +65,7 @@ public class CommonController {
 
     /**
      * 方法执行完再鉴权
+     *
      * @return
      */
     @GetMapping("postAuthorize")

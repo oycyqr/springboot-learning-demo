@@ -25,9 +25,6 @@ public class ResponseUtil {
             writer = response.getWriter();
             mapper.writeValue(writer, result);
             writer.flush();
-           /* ServletOutputStream output = response.getOutputStream();
-            output.write(result.toString().getBytes());
-            output.flush();*/
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

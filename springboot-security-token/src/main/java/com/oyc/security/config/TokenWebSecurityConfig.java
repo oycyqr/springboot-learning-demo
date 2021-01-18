@@ -2,10 +2,8 @@ package com.oyc.security.config;
 
 import com.oyc.security.filter.TokenAuthenticationFilter;
 import com.oyc.security.filter.TokenLoginFilter;
-import com.oyc.security.handler.TokenLogoutHandler;
-import com.oyc.security.handler.TokenManager;
 import com.oyc.security.handler.UnauthorizedEntryPoint;
-import com.oyc.security.service.UserDetailsService;
+import com.oyc.security.util.DefaultPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,12 +12,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @ClassName: TokenWebSecurityConfig
  * @Description: TokenWebSecurityConfig
  * @Author oyc
- * @Date 2020/12/29 9:55
+ * @Date 2021/1/18 10:57
  * @Version 1.0
  */
 @Configuration
@@ -31,12 +30,6 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private DefaultPasswordEncoder defaultPasswordEncoder;
-
-    /**
-     * 密码管理工具类
-     */
-    @Autowired
-    private TokenManager tokenManager;
 
     /**
      * 用户服务类
@@ -52,13 +45,14 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling()
                 //未授权处理
                 .authenticationEntryPoint(new UnauthorizedEntryPoint())
-                .and().csrf().disable()
-                .authorizeRequests()
+                .and().authorizeRequests()
                 .anyRequest().authenticated()
-                .and().logout().logoutUrl("/logout")
-                .addLogoutHandler(new TokenLogoutHandler(tokenManager)).and()
-                .addFilter(new TokenLoginFilter(authenticationManager(), tokenManager))
-                .addFilter(new TokenAuthenticationFilter(authenticationManager(), tokenManager)).httpBasic();
+                .and().csrf().disable()
+                .logout().logoutUrl("/logout")
+                .and()
+                //.addLogoutHandler(new TokenLogoutHandler(tokenManager))
+                .addFilter(new TokenLoginFilter(authenticationManager()))
+                .addFilter(new TokenAuthenticationFilter(authenticationManager())).httpBasic();
     }
 
     /**
@@ -74,6 +68,6 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/api/**", "/swagger-ui.html/**");
+        web.ignoring().antMatchers("/index**", "/api/**", "/swagger-ui.html/**");
     }
 }

@@ -14,7 +14,7 @@ import java.io.IOException;
  * @ClassName: UnauthorizedEntryPoint
  * @Description: UnauthorizedEntryPoint
  * @Author oyc
- * @Date 2020/12/29 10:04
+ * @Date 2021/1/18 10:58
  * @Version 1.0
  */
 public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
