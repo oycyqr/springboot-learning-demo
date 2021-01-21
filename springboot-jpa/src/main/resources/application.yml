@@ -1,0 +1,74 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /jpa
+spring:
+  shardingsphere:
+    # 数据库
+    datasource:
+      # 数据库的别名
+      names: ds0
+      ds0: # 主库1
+        ###  数据源类别
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://146.56.192.87:3306/oyc?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+        username: oyc
+        password: 123456
+    sharding:
+      # 数据脱敏规则配置---start
+      encrypt-rule:
+        encryptors:
+          encryptor_MD5:
+            type: MD5
+          encryptor_aes:
+            # 加密、解密器的名字，内置的为MD5、aes、RC4。 可以自定义，
+            # 实现 org.apache.shardingsphere.encrypt.strategy.spi.Encryptor 或者 org.apache.shardingsphere.encrypt.strategy.spi.QueryAssistedEncryptor 这两个接口即可
+            type: aes
+            props:
+              aes.key.value: 123456
+        tables:
+          # tables
+          user_jpa:
+            columns:
+              # 逻辑列,就是写SQL里面的列，因为实体类的名字和数据库的加密列一致，所以这里都是name
+              name:
+                # 原文列
+                #plainColumn: name
+                # 密文列，用来存储密文数据
+                cipherColumn: name
+                # 加密器名字
+                encryptor: encryptor_aes
+              account:
+                # 原文列
+                #plainColumn: name
+                # 密文列，用来存储密文数据
+                cipherColumn: account
+                # 加密器名字
+                encryptor: encryptor_aes
+#              password1:
+#                # 原文列
+#                plainColumn: password1
+#                # 密文列，用来存储密文数据
+#                cipherColumn: aes_password
+#                # 加密器名字
+#                encryptor: encryptor_aes
+      # 数据脱敏规则配置---end
+    props:
+      # 打印SQL
+      sql.show: true
+      check:
+        table:
+          metadata: true
+          # 是否在启动时检查分表元数据一致性
+          enabled: true
+      # 查询-使用密文列
+      query.with.cipher.column: true
+  thymeleaf:
+    cache: false
+    charset: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    servlet:
+      content-type: text/html
+    suffix: .html

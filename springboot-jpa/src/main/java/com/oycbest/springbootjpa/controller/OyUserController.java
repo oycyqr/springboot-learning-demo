@@ -161,37 +161,37 @@ public class OyUserController {
         return "user";
     }
 
-/**
- * 查询用户列表2
- *
- * @return 用户列表
- */
-@GetMapping("listByKeyWord2")
-public String listByKeyWord2(ModelMap model, OyUser oyUser) {
-    Specification querySpeci = new Specification() {
-        @Override
-        public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-            List<Predicate> predicates = new ArrayList();
-            if (oyUser.getName() != null) {
-                predicates.add(criteriaBuilder.like(root.get("name"), "%" + oyUser.getName() + "%"));
+    /**
+     * 查询用户列表2
+     *
+     * @return 用户列表
+     */
+    @GetMapping("listByKeyWord2")
+    public String listByKeyWord2(ModelMap model, OyUser oyUser) {
+        Specification querySpeci = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList();
+                if (oyUser.getName() != null) {
+                    predicates.add(criteriaBuilder.like(root.get("name"), "%" + oyUser.getName() + "%"));
+                }
+                if (oyUser.getAccount() != null) {
+                    predicates.add(criteriaBuilder.like(root.get("account"), "%" + oyUser.getAccount() + "%"));
+                }
+                if (null != oyUser.getAge()) {
+                    predicates.add(criteriaBuilder.gt(root.get("age"), oyUser.getAge()));
+                }
+                if (null != oyUser.getSex()) {
+                    predicates.add(criteriaBuilder.equal(root.get("sex"), oyUser.getSex()));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
-            if (oyUser.getAccount() != null) {
-                predicates.add(criteriaBuilder.like(root.get("account"), "%" + oyUser.getAccount() + "%"));
-            }
-            if (null != oyUser.getAge()) {
-                predicates.add(criteriaBuilder.gt(root.get("age"), oyUser.getAge()));
-            }
-            if (null != oyUser.getSex()) {
-                predicates.add(criteriaBuilder.equal(root.get("sex"), oyUser.getSex()));
-            }
-            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-        }
-    };
-    Pageable pageable = PageRequest.of(0, 3);
-    Page<OyUser> userListPage = oyUserRepository.findAll(querySpeci, pageable);
-    model.put("users", userListPage.getContent());
-    return "user";
-}
+        };
+        Pageable pageable = PageRequest.of(0, 3);
+        Page<OyUser> userListPage = oyUserRepository.findAll(querySpeci, pageable);
+        model.put("users", userListPage.getContent());
+        return "user";
+    }
 
     /**
      * 编辑用户
@@ -278,6 +278,7 @@ public String listByKeyWord2(ModelMap model, OyUser oyUser) {
         if (user.getId() != null) {
             user.setCreateTime(new Date());
         }
+        oyUserRepository.save(user);
         return "redirect:/user/list";
     }
 
