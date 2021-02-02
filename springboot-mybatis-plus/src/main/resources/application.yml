@@ -1,32 +1,82 @@
 spring:
   datasource:
+     #a469408fff97d86f
+#    url: ib3WahyAm+ykppYtwIzmfV2okR3Ft9c0u4zmnmj5mDfhzvR4vlA2dIBCOLkvo6gzQYlyNxIMASQ23/yix9lLlkizAMU5hpKgrV5vbs6gaSEEDYlGyQtkLJSquV4N5nzlWvtoiiEzZ4P5XWpkadMBIGDiHwUKOf4QndLuzEW2EcDLL4tkWU9zZ/gdHemAE266
+#    username: S52Ob1/3YW3g7+iMMogsrw==
+#    password: WQs5me3mnnbiylPFK2magQ==
     url: jdbc:mysql://146.56.192.87:3306/oyc?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
     username: oyc
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     ###  数据源类别
     type: com.alibaba.druid.pool.DruidDataSource
-    ### 初始化大小，最小，最大
-    initialSize: 5
-    minIdle: 5
-    maxActive: 20
-    ### 配置获取连接等待超时的时间，单位是毫秒
-    maxWait: 60000
-    ### 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-    timeBetweenEvictionRunsMillis: 60000
-    ### 配置一个连接在池中最小生存的时间，单位是毫秒
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: SELECT 1 FROM DUAL
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    ### 打开PSCache，并且指定每个连接上PSCache的大小
-    poolPreparedStatements: true
-    maxPoolPreparedStatementPerConnectionSize: 20
-    ### 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-    filters: stat,wall,log4j
-    ### 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+    ## config druid
+    #连接池的设置
+    #初始化时建立物理连接的个数
+    druid:
+      initial-size: 5
+    #最小连接池数量
+      min-idle: 5
+    #最大连接池数量 maxIdle已经不再使用
+      max-active: 20
+    #获取连接时最大等待时间，单位毫秒
+      max-wait: 60000
+    #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+    #既作为检测的间隔时间又作为testWhileIdel执行的依据
+      time-between-eviction-runs-millis: 60000
+    #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      min-evictable-idle-time-millis: 30000
+    #用来检测连接是否有效的sql 必须是一个查询语句
+    #mysql中为 select 'x'
+    #oracle中为 select 1 from dual
+      validation-query: select 'x'
+    #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-borrow: false
+    #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false
+    #当数据库抛出不可恢复的异常时,抛弃该连接
+      exception-sorter: true
+    #是否缓存preparedStatement,mysql5.5+建议开启
+    #spring.datasource.druid.pool-prepared-statements: true
+    #当值大于0时poolPreparedStatements会自动修改为true
+      max-pool-prepared-statement-per-connection-size: 20
+    #配置扩展插件
+      filters: stat,wall
+    #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties:
+        druid.stat.mergeSql: true
+        druid.stat.slowSqlMillis: 500
+    #合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+    #设置访问druid监控页的账号和密码,默认没有
+    #spring.datasource.druid.stat-view-servlet.login-username: admin
+    #spring.datasource.druid.stat-view-servlet.login-password: admin
+
+#    ### 初始化大小，最小，最大
+#    initialSize: 5
+#    minIdle: 5
+#    maxActive: 20
+#    ### 配置获取连接等待超时的时间，单位是毫秒
+#    maxWait: 60000
+#    ### 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+#    timeBetweenEvictionRunsMillis: 60000
+#    ### 配置一个连接在池中最小生存的时间，单位是毫秒
+#    minEvictableIdleTimeMillis: 300000
+#    validationQuery: SELECT 1 FROM DUAL
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    ### 打开PSCache，并且指定每个连接上PSCache的大小
+#    poolPreparedStatements: true
+#    maxPoolPreparedStatementPerConnectionSize: 20
+#    ### 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+#    filters: stat,wall,log4j
+#    ### 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+#    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+
 
 #mybatis-plus
 # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
@@ -34,7 +84,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  type-aliases-package: com.oycbest.domain
+  type-aliases-package: com.oycbest.entity
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
@@ -48,8 +98,10 @@ mybatis-plus:
       #驼峰下划线转换
       column-underline: true
       #逻辑删除配置
-      logic-delete-value: 0
-      logic-not-delete-value: 1
+      logic-delete-field: flag  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
       db-type: mysql
       #刷新mapper 调试神器
       refresh: false

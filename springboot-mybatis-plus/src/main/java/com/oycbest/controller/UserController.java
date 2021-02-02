@@ -3,13 +3,16 @@ package com.oycbest.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.oycbest.domain.User;
+import com.oycbest.entity.User;
 import com.oycbest.service.UserService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * (SsmUser)表控制层
@@ -35,6 +38,18 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity selectOne(@PathVariable("id") Integer id) {
         return ResponseEntity.ok().body(userService.getById(id));
+    }
+
+    /**
+     * 通过reqMap查询 数据
+     *
+     * @param reqMap 主键
+     * @return 数据
+     */
+    @PostMapping("/list/map")
+    public ResponseEntity selectByMap(@RequestBody Map<String, Object> reqMap) {
+        Collection<User> users = userService.listByMap(reqMap);
+        return ResponseEntity.ok().body(users);
     }
 
     /**
@@ -71,7 +86,8 @@ public class UserController {
      */
     @PostMapping
     public ResponseEntity save(User user) {
-        return ResponseEntity.ok().body(userService.save(user));
+        boolean save = userService.saveBatch(Arrays.asList(user));
+        return ResponseEntity.ok().body(save);
     }
 
     /**
@@ -85,6 +101,17 @@ public class UserController {
         return ResponseEntity.ok().body(userService.saveOrUpdate(user));
     }
 
+    /**
+     * 修改数据
+     *
+     * @param user 实例对象
+     * @return 实例对象
+     */
+    @PutMapping("updateById")
+    public ResponseEntity updateById(User user) {
+        boolean b = userService.updateById(user);
+        return ResponseEntity.ok().body(b);
+    }
 
     /**
      * 通过主键删除数据

@@ -2,7 +2,7 @@ package com.oycbest.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.oycbest.domain.User;
+import com.oycbest.entity.User;
 
 /**
  * (SsmUser)表服务接口

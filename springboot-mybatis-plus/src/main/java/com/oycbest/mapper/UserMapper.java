@@ -1,7 +1,7 @@
 package com.oycbest.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.oycbest.domain.User;
+import com.oycbest.entity.User;
 
 /**
  * (SsmUser)表数据库访问层

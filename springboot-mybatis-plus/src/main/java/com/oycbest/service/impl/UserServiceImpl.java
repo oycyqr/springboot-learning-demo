@@ -1,7 +1,7 @@
 package com.oycbest.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.oycbest.domain.User;
+import com.oycbest.entity.User;
 import com.oycbest.mapper.UserMapper;
 import com.oycbest.service.UserService;
 import org.springframework.stereotype.Service;
