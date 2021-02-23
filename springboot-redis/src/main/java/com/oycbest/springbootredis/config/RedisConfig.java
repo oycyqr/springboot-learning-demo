@@ -3,6 +3,9 @@ package com.oycbest.springbootredis.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +23,16 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
+
+    @Bean
+    public RedissonClient redissonClient(){
+        Config config = new Config();
+        config.useSingleServer().setAddress("redis://146.56.192.87:6379")
+                //.setConnectionPoolSize(5)
+                .setPassword("oy12345678");
+        RedissonClient redissonClient = Redisson.create(config);
+        return redissonClient;
+    }
 
     /**
      * RedisTemplate相关配置

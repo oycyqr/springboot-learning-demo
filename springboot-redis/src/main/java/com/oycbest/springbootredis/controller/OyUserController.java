@@ -4,7 +4,6 @@ import com.oycbest.springbootredis.entity.OyUser;
 import com.oycbest.springbootredis.service.OyUserService;
 import com.oycbest.springbootredis.util.RedisUtil;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -44,15 +43,20 @@ public class OyUserController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    public Object selectOne(@PathVariable("id") Integer id) {
+    public OyUser selectOne(@PathVariable("id") Integer id) {
         // 先从缓存中查询用户，找不到再从数据库查询
-        Object user = redisTemplate.opsForHash().get(USER_KEY_HASH_PREFIX, USER_KEY_ONE_PREFIX + id);
+        Object user = redisTemplate.opsForHash().get(USER_KEY_HASH_PREFIX, id);
+        Object user1 = redisTemplate.opsForValue().get(USER_KEY_ONE_PREFIX + id);
         if (user == null) {
             // 从数据库查询并记录到缓存
             user = oyUserService.getUserById(id);
-            redisTemplate.opsForHash().put(USER_KEY_HASH_PREFIX, USER_KEY_ONE_PREFIX + id, user);
+            redisTemplate.opsForHash().put(USER_KEY_HASH_PREFIX, id, user);
+            redisTemplate.opsForValue().set(USER_KEY_ONE_PREFIX + id, user);
         }
-        return user;
+        if (user instanceof OyUser) {
+            return (OyUser) user;
+        }
+        return null;
     }
 
     /**

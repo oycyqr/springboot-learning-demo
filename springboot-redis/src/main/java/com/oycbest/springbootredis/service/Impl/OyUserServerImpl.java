@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author oyc
@@ -28,7 +29,8 @@ public class OyUserServerImpl implements OyUserService {
 
     @Override
     public OyUser getUserById(Integer userId) {
-        return oyUserRepository.getOne(userId);
+        Optional<OyUser> userOptional = oyUserRepository.findById(userId);
+        return userOptional.isPresent() ? userOptional.get() : null;
     }
 
     @Override
