@@ -1,4 +1,4 @@
-package com.oycbest.demo.jucdemo.collection;
+package com.oycbest.demo.collection;
 
 import java.util.ArrayList;
 import java.util.Arrays;

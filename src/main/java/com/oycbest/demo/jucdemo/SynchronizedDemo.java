@@ -23,6 +23,11 @@ public class SynchronizedDemo {
         if (ticket_count > 0) {
             int ticketNum = ticket_count;
             System.out.println(tempI + "==== " + Thread.currentThread().getName() + " buy ticket [ " + ticketNum + " ]");
+            try {
+                //Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             ticket_count--;
             System.out.println(tempI + "====" + Thread.currentThread().getName() + " buy ticket [ " + ticketNum + " ] done");
         } else {

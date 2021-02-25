@@ -18,15 +18,18 @@ public class SpringBeanLifeCycleTest {
     @Test
     public void test1(){
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringBeanLifeCycleTest.class);
-        System.out.println("容器创建完成");
-        applicationContext.getBean("cat");
-        Pig pig = (Pig) applicationContext.getBean("pig001");
-        System.out.println(pig.toString());
-        String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+        System.out.println("容器创建完成1*****************");
+        Cat cat = (Cat) applicationContext.getBean("cat");
+        System.out.println(cat.toString());
+        System.out.println("容器创建完成2*****************");
+
+        //Pig pig = (Pig) applicationContext.getBean("pig001");
+        //System.out.println(pig.toString());
+       /* String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
             System.out.println("************************* beanDefinitionName :" + beanDefinitionName);
         }
-
+        */
         applicationContext.close();
     }
 }

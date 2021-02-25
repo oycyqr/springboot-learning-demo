@@ -27,7 +27,7 @@ public class BlockingQueueDemo {
                 while (true){
                     int num = (int) (Math.random()*1000);
                     System.out.println(Thread.currentThread().getName() + " 生产:" + num);
-                    BlockingQueueDemo.arrayBlockingQueue1.put(num);
+                    arrayBlockingQueue1.put(num);
                     TimeUnit.MILLISECONDS.sleep(5000);
                 }
             } catch (Exception e) {
@@ -38,7 +38,7 @@ public class BlockingQueueDemo {
         new Thread(() -> {
             try {
                 while (true){
-                    System.out.println(Thread.currentThread().getName() + " 消费：" + BlockingQueueDemo.arrayBlockingQueue1.take());
+                    System.out.println(Thread.currentThread().getName() + " 消费：" + arrayBlockingQueue1.take());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

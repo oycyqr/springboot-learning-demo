@@ -2,7 +2,6 @@ package com.oycbest.demo.spring;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -11,7 +10,7 @@ import javax.annotation.PreDestroy;
  * @author: oyc
  * @date: 2020/8/7 14:24
  */
-@Component
+//@Component
 public class Car implements InitializingBean, DisposableBean {
 
     public Car() {

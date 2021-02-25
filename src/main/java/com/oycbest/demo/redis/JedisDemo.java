@@ -15,6 +15,10 @@ import java.util.Set;
 public class JedisDemo {
     private static JedisPool jedisPool = null;
 
+
+
+
+
     public static void main(String[] args) {
         System.out.println("Jedis Demo");
         Jedis jedis = new Jedis("146.56.192.87",6379,3000);

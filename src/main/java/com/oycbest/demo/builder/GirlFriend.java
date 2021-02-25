@@ -4,39 +4,27 @@ import java.util.*;
 
 public class GirlFriend {
 
-
     private String name;
-
 
     private int age;
 
-
     private int bust;
-
 
     private int waist;
 
-
     private int hips;
-
 
     private List<String> hobby;
 
-
     private String birthday;
-
 
     private String address;
 
-
     private String mobile;
-
 
     private String email;
 
-
     private String hairColor;
-
 
     private Map<String, String> gift;
 
@@ -135,8 +123,6 @@ public class GirlFriend {
     public void setGift(Map<String, String> gift) {
         this.gift = gift;
     }
-// 省略 getter & setter ...
-
 
     public static void main(String[] args) {
         GirlFriend myGirlFriend = new GirlFriend();
