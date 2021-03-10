@@ -50,19 +50,14 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
                 String key = request.getRemoteAddr() + ":" + request.getContextPath() + ":" + request.getServletPath();
 
                 // 已经访问的次数
-                Integer count = (Integer) redisTemplate.opsForValue().get(key);
+                Long count = redisTemplate.opsForValue().increment(key, 1);
                 System.out.println("已经访问的次数:" + count);
-                if (null == count || -1 == count) {
-                    redisTemplate.opsForValue().set(key, 1, seconds, TimeUnit.SECONDS);
+                if (count == 1) {
+                    redisTemplate.expire(key,seconds,TimeUnit.SECONDS);
                     return true;
                 }
 
-                if (count < maxCount) {
-                    redisTemplate.opsForValue().increment(key);
-                    return true;
-                }
-
-                if (count >= maxCount) {
+                if (count > maxCount) {
                     logger.warn("请求过于频繁请稍后再试");
                     render(response,"请求过于频繁请稍后再试");
                     return false;
